@@ -2,7 +2,7 @@
 
 ### 2.1 DRAM Row Buffer Fundamentals
 
-Modern DRAM organizes each bank around a *row buffer*, a wide SRAM latch that holds the most recently activated row. The latency of a memory access depends critically on the state of this row buffer when the request arrives. As illustrated in Figure X(a), three scenarios arise:
+Modern DRAM organizes each bank around a *row buffer*, an array of sense amplifiers that latches the most recently activated row. The latency of a memory access depends critically on the state of this row buffer when the request arrives. As illustrated in Figure X(a), three scenarios arise:
 
 - **Row buffer hit.** The requested data resides in the currently open row. The memory controller issues a column access command (CAS) directly, incurring only the column access latency tCAS. This is the fastest scenario.
 - **Row buffer miss (closed bank).** No row is currently open. The controller must first activate the target row (ACT), then issue the CAS. The total latency is tRCD + tCAS.
