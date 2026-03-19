@@ -49,45 +49,22 @@ To extract representative program phases, we profile each benchmark using the Si
 |                       | wrf                                    | ref                          |
 
 ### 4.3 Baselines
-We compare CRAFT against three prior adaptive row buffer management schemes, whose limitations are discussed in Section 2 and whose technical details are presented in Section 7.
+We compare CRAFT against three representative adaptive row buffer management schemes. A detailed discussion of these approaches is provided in Section 7.
 
 **ABP** [Awasthi+11] predicts the number of accesses a row will receive and keeps the row open until the predicted count is reached.
 
-**DYMPL** [Rafique+22] uses a perceptron model trained on memory access features to classify each page as open or close.
+**DYMPL** [Rafique+22] employs a perceptron model trained on memory access features to select the row buffer management policy for each request.
 
-**INTAP** [Intel06] adjusts a per-bank idle timeout based on a mistake counter that tracks incorrect precharge decisions.
+**INTAP** [Intel06] precharges each row upon expiration of a per-bank idle timeout and periodically adjusts the timeout through a mistake counter that increments on missed row buffer hits and decrements on row buffer conflicts.
 
 ### 4.4 Metrics
 
-We report the following metrics to evaluate both
-system-level performance and DRAM-level effectiveness of CRAFT.
+We report the following metrics to evaluate both system-level performance and DRAM-level effectiveness of CRAFT.
 
-**Instructions Per Cycle (IPC)** serves as the primary
-performance metric.
-We report per-benchmark IPC improvement relative to each
-baseline, as well as the geometric mean across all
-12 benchmarks.
+**Instructions Per Cycle (IPC)** serves as the primary performance metric. We report per-benchmark IPC improvement relative to each baseline.
 
-**Read Row Buffer Hit Rate** measures the fraction of
-read requests that find the target row already open in
-the row buffer.
-This metric directly reflects the quality of timeout
-decisions, as higher hit rates indicate that the policy
-successfully keeps rows open when temporal locality exists.
-We report read hit rates separately from write hit rates,
-since write requests are buffered in the write queue and
-their row buffer hits have minimal impact on processor stall time.
+**Read Row Buffer Hit Rate** is defined as the proportion of read requests served directly from the currently activated row without incurring an additional row activation. This metric captures the effectiveness of the row buffer management policy. Since write requests are considered complete once cached in the write buffer, their row buffer hit rates have negligible impact on observed performance. We therefore report read row buffer hit rates exclusively.
 
-**Average Read Latency** quantifies the mean DRAM service
-time for read requests, measured in DRAM clock cycles.
-Lower read latency correlates with higher IPC, as read
-requests lie on the critical path of dependent instruction
-chains.
+**Average Read Latency** quantifies the mean DRAM service time for read requests, measured in DRAM clock cycles. Lower read latency correlates with higher IPC, as read requests lie on the critical path of dependent memory request chains.
 
-**Timeout Precharge Accuracy** is defined as the fraction
-of timeout-initiated precharges that are classified as
-correct (i.e., the next access to the same bank targets a
-different row).
-This metric validates the effectiveness of the feedback
-loop in converging toward appropriate timeout values,
-independent of the resulting IPC impact.
+**Timeout Precharge Accuracy** is defined as the proportion of timeout-initiated precharges for which the subsequent access to the same bank targets a different row. A timeout-initiated precharge that satisfies this condition is classified as correct, since it avoids a subsequent  row conflict. This metric quantifies the adaptability of CRAFT to program phase changes.
