@@ -42,9 +42,9 @@ The simulation infrastructure and experimental data live in a sibling directory:
 
 - **语域**：使用正式学术英语，避免口语化、随意或对话式表达
 - **用词**：优先使用精确的技术术语，避免非正式词汇（如用 "parameter" 而非 "knob"；用 "lacks interpretability" 而非 "is a black box"；用 "approximately" 而非 "~" 在正文行文中）
-- **句式**：使用完整的从句结构，避免括号插入语；需要补充说明时，改用从句或独立句子
-- **禁止括号定义术语**：英文正文中禁止使用括号来解释或定义术语（如 "a wrong precharge (premature closure before ...)"）。术语应在首次出现时通过独立句子或从句自然引入，不得用括号内嵌释义
-- **禁止破折号和冒号引出解释**：英文正文中禁止使用 em dash（—）或冒号（:）来引出解释性内容，两者都属于非正式写法。需要引出解释时用句号断成独立句子，或改写为从句结构
+- **禁止从句**：英文正文中禁止使用任何形式的从句，包括关系从句（which/that/who 引导的定语从句）、状语从句（while/whereas/as/because/although 等引导）、以及分词从句（-ing/-ed 分词短语作修饰成分）。所有信息必须通过独立句子或并列谓语表达。需要补充说明时，用句号断成独立句子，不得使用从句结构
+- **禁止括号定义术语**：英文正文中禁止使用括号来解释或定义术语（如 "a wrong precharge (premature closure before ...)"）。术语应在首次出现时通过独立句子自然引入，不得用括号内嵌释义
+- **禁止破折号和冒号引出解释**：英文正文中禁止使用 em dash（—）或冒号（:）来引出解释性内容，两者都属于非正式写法。需要引出解释时用句号断成独立句子
 - **并列事实拆句**：当一个句子用 ", and" 连接两个独立的事实或论点时，应拆成两个独立句子。每句承载一个论点，避免句子过长、信息密度过高（如 "A reduces X, but B is consumed by Y, and each Z requires W" 应拆为两句）
 - **比较措辞**：讨论他人工作的局限性时措辞应客观、有分寸（如 "presents scalability challenges" 而非 "scales poorly"），避免贬义措辞
 - **与 CRAFT 的对比**：区分段落中与自身工作的比较应基于可量化的技术差异，语气保持客观中立
