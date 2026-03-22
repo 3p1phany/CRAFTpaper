@@ -1,7 +1,7 @@
 ## 5. Evaluation
 
 This section presents a comprehensive evaluation of CRAFT across
-four dimensions: system-level IPC performance (Section 5.1),
+four dimensions, namely system-level IPC performance (Section 5.1),
 DRAM-level behavioral analysis (Section 5.2), timeout adaptation
 behavior (Section 5.3), and an ablation study of individual
 design components (Section 5.4).
@@ -14,7 +14,7 @@ CRAFT achieves a geometric mean IPC improvement of
 7.73% over ABP, 3.10% over DYMPL, and 2.84% over INTAP
 across all 12 benchmarks.
 Notably, CRAFT outperforms every baseline on every
-benchmark, with individual improvements ranging from
+benchmark. Individual improvements range from
 1.61% to 12.20%.
 
 **Table 3: Per-Benchmark IPC Improvement of CRAFT over Baselines**
@@ -36,35 +36,35 @@ benchmark, with individual improvements ranging from
 | | **GEOMEAN** | **+7.73%** | **+3.10%** | **+2.84%** |
 
 Figure 5 presents the normalized IPC across all benchmarks
-and the geometric mean, with CRAFT normalized to 1.0.
+and the geometric mean. CRAFT is normalized to 1.0.
 The consistent gap between CRAFT and all three baselines
-across diverse workload categories confirms that the
-improvement is not confined to a specific access pattern
-but generalizes across graph traversal, graph analysis,
-and scientific computing workloads.
+spans diverse workload categories. The improvement is not
+confined to a specific access pattern and generalizes across
+graph traversal, graph analysis, and scientific computing workloads.
 
 <img src="figures/output/normalized_ipc.png" alt="Normalized IPC" width="90%">
 
 **Figure 5: Normalized IPC across 12 benchmarks (CRAFT = 1.0).
-CRAFT consistently outperforms all three baselines, with geometric
-mean improvements of 7.2%, 3.0%, and 2.8% over ABP, DYMPL, and
+CRAFT consistently outperforms all three baselines. The geometric
+mean improvements are 7.2%, 3.0%, and 2.8% over ABP, DYMPL, and
 INTAP, respectively.**
 
 **Graph traversal workloads.**
-The graph traversal benchmarks—CF, PageRank, BFSCC, and
-Components-Shortcut—exhibit the largest improvements over ABP
+The graph traversal benchmarks, namely CF, PageRank, BFSCC, and
+Components-Shortcut, exhibit the largest improvements over ABP
 (7.1% to 12.2%).
 These algorithms undergo pronounced phase transitions between
-exploration and convergence stages, causing abrupt shifts in
-row-level locality.
+exploration and convergence stages. Such transitions cause
+abrupt shifts in row-level locality.
 CRAFT's exponential backoff mechanism enables rapid adaptation
-to such transitions: on roadNet-CA inputs, timeout values converge
+to such transitions. On roadNet-CA inputs, timeout values converge
 to the High range (2000–3200 cycles) for 85–92% of the
-execution, correctly maintaining row buffers open during
+execution and correctly keep row buffers open during
 high-locality convergence phases.
 ABP's per-row prediction table, by contrast, stores stale
-access counts that become misleading after phase transitions,
-resulting in the largest performance gap among all baselines.
+access counts. These counts become misleading after phase
+transitions and result in the largest performance gap among
+all baselines.
 
 **Graph analysis workloads.**
 Triangle enumeration and Radii exhibit mixed locality patterns
@@ -73,10 +73,10 @@ CRAFT's per-bank adaptation captures this heterogeneity
 precisely.
 For example, on CF/higgs, the timeout distribution is nearly
 uniform across the Low, Mid, and High ranges (35.7%, 38.0%, and
-26.3%, respectively), reflecting the diverse row reuse patterns
-across different banks within a single execution.
+26.3%, respectively). This distribution reflects the diverse
+row reuse patterns across different banks within a single execution.
 Global or coarse-grained adaptive schemes cannot achieve this
-level of differentiation, as they apply a single policy decision
+level of differentiation. They apply a single policy decision
 across all banks.
 
 **Scientific computing workloads.**
@@ -86,28 +86,29 @@ CRAFT correctly identifies the dominant high-locality phases
 and converges timeout values to the High range for 75% and
 57% of the execution on sphinx3 and wrf, respectively.
 The improvement over ABP is particularly pronounced on sphinx3
-(+10.28%), where ABP's prediction table thrashes under the
-alternating computational and data-access phases characteristic
-of speech recognition workloads.
+(+10.28%). Speech recognition workloads alternate between
+computational and data-access phases. ABP's prediction table
+thrashes under these alternating phases.
 
 
 ### 5.2 DRAM-Level Analysis
 
 To understand the source of CRAFT's IPC improvement, we
-examine two DRAM-level metrics—read row buffer hit rate and
-average read latency—and demonstrate a clear causal chain
+examine two DRAM-level metrics, namely read row buffer hit rate
+and average read latency. We demonstrate a clear causal chain
 from hit rate improvement through latency reduction to IPC gain.
 
 #### 5.2.1 Read Row Buffer Hit Rate
 
 Table 4 reports the read row buffer hit rate for CRAFT
 and all three baselines across the 12 benchmarks.
-CRAFT achieves the highest read hit rate on every benchmark,
-surpassing the best-performing baseline by an average of
+CRAFT achieves the highest read hit rate on every benchmark
+and surpasses the best-performing baseline by an average of
 5.62 percentage points.
 The improvements are most pronounced on workloads with strong
-but phase-varying row locality: CF/roadNet-CA (+9.25 pp),
-PageRank/roadNet-CA (+9.12 pp), and sphinx3 (+7.76 pp).
+but phase-varying row locality. CF/roadNet-CA (+9.25 pp),
+PageRank/roadNet-CA (+9.12 pp), and sphinx3 (+7.76 pp)
+exhibit the largest gains.
 
 **Table 4: Read Row Buffer Hit Rate (%)**
 
@@ -128,25 +129,26 @@ PageRank/roadNet-CA (+9.12 pp), and sphinx3 (+7.76 pp).
 | | **Average** | | | | | **+5.62 pp** |
 
 In contrast, write row buffer hit rates are nearly identical
-across all four policies (differences within one percentage point),
-confirming that the performance advantage of CRAFT originates
-entirely from the read path.
-This observation is consistent with CRAFT's cost-driven design:
-the read/write cost differentiation (RW) enhancement applies
-stronger de-escalation on read conflicts, effectively keeping
+across all four policies. Differences remain within one
+percentage point. The performance advantage of CRAFT therefore
+originates entirely from the read path.
+This observation is consistent with CRAFT's cost-driven design.
+The read/write cost differentiation (RW) enhancement applies
+stronger de-escalation on read conflicts and effectively keeps
 row buffers open longer for read-dominant access streams.
 
 #### 5.2.2 Average Read Latency
 
 Table 5 reports the average read latency in DRAM clock cycles.
-CRAFT achieves the lowest read latency on all 12 benchmarks,
-with an average reduction of 2.74% compared to the
+CRAFT achieves the lowest read latency on all 12 benchmarks.
+The average reduction is 2.74% compared to the
 best-performing baseline.
-The latency improvements are largest on benchmarks where
-read hit rate improvements are also largest
-(sphinx3: −5.86%, CF/roadNet-CA: −5.66%, PageRank/roadNet-CA:
-−5.29%), consistent with the expectation that additional row
-buffer hits eliminate the precharge and activation overhead.
+The latency improvements are largest on benchmarks with the
+largest read hit rate improvements. Sphinx3 (−5.86%),
+CF/roadNet-CA (−5.66%), and PageRank/roadNet-CA (−5.29%)
+show the most significant reductions. This pattern is expected.
+Additional row buffer hits eliminate the precharge and
+activation overhead.
 
 **Table 5: Average Read Latency (DRAM Cycles)**
 
@@ -168,12 +170,12 @@ buffer hits eliminate the precharge and activation overhead.
 
 #### 5.2.3 Causal Chain: Hit Rate to IPC
 
-Figure 6 juxtaposes the three metrics—read hit rate
-improvement, read latency reduction, and IPC gain over
-the best baseline—across all 12 benchmarks.
+Figure 6 juxtaposes three metrics across all 12 benchmarks,
+namely read hit rate improvement, read latency reduction,
+and IPC gain over the best baseline.
 The three metrics exhibit a consistent directional
-relationship: higher read hit rates translate to lower read
-latencies, which in turn translate to higher IPC.
+relationship. Higher read hit rates translate to lower read
+latencies. Lower read latencies in turn translate to higher IPC.
 On average, a 5.62 pp improvement in read hit rate yields
 a 2.74% reduction in read latency and a 2.48% improvement
 in IPC.
@@ -186,35 +188,35 @@ over the best baseline. (b) Corresponding read latency reduction.
 (c) Resulting IPC improvement. The three metrics are directionally
 consistent across all 12 benchmarks.**
 
-The amplification ratio from hit rate to IPC is sublinear
-because IPC is influenced by multiple factors beyond DRAM
-latency, including cache hit rates, branch prediction accuracy,
+The amplification ratio from hit rate to IPC is sublinear.
+IPC is influenced by multiple factors beyond DRAM
+latency, such as cache hit rates, branch prediction accuracy,
 and instruction-level parallelism.
 Nevertheless, for the memory-intensive benchmarks in our
 evaluation suite, the DRAM read path constitutes a significant
-performance bottleneck, and the causal chain confirms that
-CRAFT's IPC gains are attributable to improved row buffer
-management at the DRAM level.
+performance bottleneck. The causal chain attributes
+CRAFT's IPC gains to improved row buffer management at the
+DRAM level.
 
 
 ### 5.3 Timeout Behavior Analysis
 
 This section examines the internal behavior of CRAFT's
-feedback loop through two complementary lenses: timeout
-precharge accuracy and timeout value distribution.
+feedback loop through two complementary lenses, namely
+timeout precharge accuracy and timeout value distribution.
 
 #### 5.3.1 Timeout Precharge Accuracy
 
 Across the 12 selected benchmarks, CRAFT achieves an aggregate
-timeout precharge accuracy of 84.7%—that is, 84.7% of all
+timeout precharge accuracy of 84.7%. In other words, 84.7% of all
 timeout-initiated precharges correctly anticipate that the next
 access to the same bank will target a different row.
 Over the full set of 62 benchmarks, the aggregate accuracy
 rises to 89.5%.
-This substantially exceeds the 50% random baseline, confirming
-that the feedback loop converges timeout values to levels that
-meaningfully distinguish rows likely to be reaccessed from those
-that will not.
+This substantially exceeds the 50% random baseline. The feedback
+loop converges timeout values to effective levels. These levels
+meaningfully distinguish rows likely to be reaccessed from
+rows likely to remain idle.
 
 An instructive finding emerges from the benchmarks with the
 lowest accuracy.
@@ -222,23 +224,24 @@ The roadNet-CA workloads (PageRank/roadNet-CA at 32.8%,
 Triangle/roadNet-CA at 35.3%, CF/roadNet-CA at 47.4%) exhibit
 accuracy below 50%, yet they achieve the largest IPC improvements
 (+1.89% to +5.79% over the best baseline).
-This seemingly paradoxical result arises because low accuracy
-in these cases reflects a systematic bias toward escalation:
-wrong precharges outnumber correct ones, causing the feedback
-loop to progressively increase timeout values.
-The loop thereby learns that these workloads require long
-timeouts—effectively converging toward an open-page policy—
-and the resulting high read hit rates deliver substantial
+This seemingly paradoxical result has a specific explanation.
+Low accuracy in these cases reflects a systematic bias toward
+escalation. Wrong precharges outnumber correct ones. The feedback
+loop progressively increases timeout values as a result.
+The loop thereby learns these workloads require long
+timeouts and effectively converges toward an open-page policy.
+The resulting high read hit rates deliver substantial
 performance gains.
-This demonstrates that the self-correcting nature of the
-feedback loop remains effective even when the majority of
-individual timeout decisions are retrospectively incorrect.
+This demonstrates the self-correcting nature of the
+feedback loop. The majority of individual timeout decisions
+may be retrospectively incorrect, yet the overall adaptation
+direction remains beneficial.
 
 #### 5.3.2 Timeout Distribution
 
 Figure 7 presents the timeout value distribution for each
-benchmark, categorized into three ranges: Low [50, 800),
-Mid [800, 2000), and High [2000, 3200].
+benchmark. The values fall into three ranges, namely
+Low [50, 800), Mid [800, 2000), and High [2000, 3200].
 Three distinct adaptation patterns emerge.
 
 <img src="figures/output/timeout_distribution.png" alt="Timeout distribution" width="80%">
@@ -250,45 +253,46 @@ any explicit mode selection.**
 
 **Aggressive Close.**
 PageRank/higgs concentrates 96.9% of timeout observations
-in the Low range, with 33.5% falling below 100 cycles.
+in the Low range. 33.5% of observations fall below 100 cycles.
 The higgs graph's irregular power-law degree distribution
 yields poor row-level locality for PageRank's vertex-centric
-iterations, and CRAFT responds by aggressively reducing timeout
+iterations. CRAFT responds by aggressively reducing timeout
 values to minimize conflict penalties.
 Components-Shortcut/pokec exhibits a similar pattern
-(Low: 73.5%) due to the short-lived exploratory accesses
-characteristic of connected component algorithms.
+(Low: 73.5%). The short-lived exploratory accesses of
+connected component algorithms drive this behavior.
 
 **Balanced.**
 CF/higgs distributes timeout values relatively uniformly
-across the three ranges (Low: 35.7%, Mid: 38.0%, High: 26.3%),
-reflecting pronounced inter-bank heterogeneity.
+across the three ranges (Low: 35.7%, Mid: 38.0%, High: 26.3%).
+This distribution reflects pronounced inter-bank heterogeneity.
 Within a single execution, some banks serve dense matrix rows
-with high reuse (driving their timeout to the High range),
-while others handle sparse vector operations with frequent
-row conflicts (driving their timeout to the Low range).
+with high reuse and drive their timeout to the High range.
+Others handle sparse vector operations with frequent
+row conflicts and drive their timeout to the Low range.
 CRAFT's per-bank adaptation captures this intra-workload
-diversity, which global policies cannot differentiate.
+diversity. Global policies cannot achieve this level of
+differentiation.
 
 **Keep Open.**
 The roadNet-CA benchmarks (Triangle-Counting: 92.0%,
 PageRank: 90.9%, CF: 85.2%) concentrate timeout values
 overwhelmingly in the High range.
 The road network graph's spatially ordered vertex numbering
-produces strong row-level locality, and CRAFT's exponential
+produces strong row-level locality. CRAFT's exponential
 backoff mechanism rapidly elevates timeout values to the
 upper bound after observing consecutive wrong precharges.
 
 A particularly revealing comparison is PageRank on two
-different inputs: roadNet-CA yields 90.9% in the High range,
-whereas higgs yields 96.9% in the Low range.
+different inputs. RoadNet-CA yields 90.9% in the High range.
+Higgs yields 96.9% in the Low range.
 This demonstrates that CRAFT's adaptation is driven by the
-runtime row-level access pattern—a joint function of
-algorithm and input data—rather than by the algorithm identity
+runtime row-level access pattern, a joint function of
+algorithm and input data, rather than by the algorithm identity
 alone.
 Importantly, all three adaptation modes produce positive
-IPC improvements over every baseline, confirming that CRAFT
-is genuinely adaptive rather than biased toward any single
+IPC improvements over every baseline. CRAFT is genuinely
+adaptive rather than biased toward any single
 static policy.
 
 
@@ -308,40 +312,40 @@ INTAP for three CRAFT variants.
 | ALL | PRECHARGE + PR + QDSD | +0.789% | +0.136 pp |
 
 **The core feedback loop is the dominant contributor.**
-The BASE variant, which implements only the cost-asymmetric
-step sizes and exponential backoff, already achieves 76%
+The BASE variant implements only the cost-asymmetric
+step sizes and exponential backoff. It already achieves 76%
 of the final GEOMEAN improvement (0.653% out of 0.861%).
 This confirms that the precharge outcome cost asymmetry
 provides a sufficiently rich feedback signal for effective
 timeout adaptation, even without additional refinements.
 
 **Precharge-path refinements provide complementary gains.**
-Adding the three precharge-path enhancements—Right Streak
-de-escalation (RS), Read/Write cost differentiation (RW),
-and Streak Decay (SD)—yields an additional 0.208 pp
-improvement over BASE.
-RW is the strongest individual enhancement, contributing
+The PRECHARGE variant adds three precharge-path enhancements,
+namely Right Streak de-escalation (RS), Read/Write cost
+differentiation (RW), and Streak Decay (SD). These enhancements
+yield an additional 0.208 pp improvement over BASE.
+RW is the strongest individual enhancement. It contributes
 the most wins (49 out of 62 benchmarks) and the highest
 single-enhancement GEOMEAN (+0.775%).
-The three enhancements synergize effectively: PRECHARGE
-(+0.861%) exceeds the sum of any pairwise combination,
-with RS and SD preventing timeout stagnation while RW
-adjusts the step magnitudes based on command type.
+The three enhancements synergize effectively. PRECHARGE
+(+0.861%) exceeds the sum of any pairwise combination.
+RS and SD prevent timeout stagnation. RW adjusts the step
+magnitudes based on command type.
 
 **Conflict-path signals are detrimental.**
 Adding phase reset (PR) and queue-depth-scaled de-escalation
 (QDSD) to the PRECHARGE configuration reduces the GEOMEAN
 by 0.072 pp (from +0.861% to +0.789%).
 These conflict-path signals attempt to extract additional
-information from conflict events—specifically, the execution
-phase at which the conflict occurs and the current command
+information from conflict events. Specifically, they capture
+the execution phase of the conflict and the current command
 queue depth.
 However, this information interferes with the adaptation
-rhythm established by the core feedback loop: phase resets
-undo progress accumulated during stable phases, and
-queue-depth scaling introduces a second adaptation signal
-that can conflict with the cost-driven adjustments.
-This result validates the design principle that the three-way
+rhythm of the core feedback loop. Phase resets undo progress
+from stable phases. Queue-depth scaling introduces a second
+adaptation signal and can conflict with the cost-driven
+adjustments.
+This result validates a key design principle. The three-way
 classification of precharge outcomes (right, wrong, conflict)
-encodes sufficient feedback information, and further
+encodes sufficient feedback information. Further
 decomposition of conflict events yields diminishing returns.
