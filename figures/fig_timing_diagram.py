@@ -1,175 +1,298 @@
 #!/usr/bin/env python3
 """
-Fig: DRAM Row Buffer Access Scenarios and Timeout-Based Precharge Outcomes.
+Fig 4: DRAM Row Buffer Access Scenarios and Timeout-Based Precharge Outcomes.
 
-Top: Three access scenarios (hit, miss/closed, conflict) with timing.
-Bottom: Three timeout precharge outcomes (right, wrong, conflict).
+Panel (a): Three access scenarios (hit, miss/closed, conflict) with timing.
+Panel (b): Three timeout precharge outcomes (right, wrong, conflict) with
+           previous-CAS context, row buffer state labels, and penalty annotations.
 """
 
 from common import *
-import matplotlib.patches as mpatches
-from matplotlib.patches import FancyArrowPatch
 
 setup_style()
 
-# ── Timing parameters (DDR5-4800, in cycles) ──
+# ── Timing parameters (DDR5-4800, in cycles) ──────────────────
 tCAS = 40
 tRCD = 40
 tRP  = 40
 
-# Colors
-C_HIT     = '#4CAF50'   # green
-C_MISS    = '#FF9800'   # orange
-C_CONFLICT= '#F44336'   # red
-C_PRE     = '#90A4AE'   # gray-blue
-C_ACT     = '#42A5F5'   # blue
-C_CAS     = '#66BB6A'   # green
-C_IDLE    = '#E0E0E0'   # light gray
-C_TIMEOUT = '#7E57C2'   # purple
-C_RIGHT   = COLORS['craft']
-C_WRONG   = COLORS['closed_page']
-C_TCONFLICT = COLORS['intap']
+# ── Palette ───────────────────────────────────────────────────
+C_PRE   = COLORS['abp']          # slate gray  — precharge command
+C_ACT   = COLORS['open_page']    # steel blue  — activate command
+C_CAS   = COLORS['craft']        # forest green — CAS command
+C_IDLE  = '#EBEBEB'              # light gray  — idle period
+C_TMOUT = COLORS['intap']        # medium purple — timeout marker
+C_WRONG = COLORS['closed_page']  # brick red   — wrong precharge
+C_TCONF = COLORS['dympl']        # sandy orange — conflict outcome
 
-fig, axes = plt.subplots(2, 1, figsize=(10, 5.2), gridspec_kw={'height_ratios': [1, 1.15]})
+# Dark text variants
+CD = COLORS_DARK
 
-# ═══════════════════════════════════════════════════════════════════
-# Panel (a): Three access scenarios
-# ═══════════════════════════════════════════════════════════════════
-ax = axes[0]
-ax.set_xlim(-5, 165)
-ax.set_ylim(-0.5, 3.5)
-ax.axis('off')
-ax.set_title('(a) DRAM Row Buffer Access Latency', fontsize=11, fontweight='bold', pad=8)
+bar_h = 0.52
 
-row_y = [2.6, 1.4, 0.2]
-labels_left = ['Row Buffer Hit', 'Row Buffer Miss\n(Closed Bank)', 'Row Buffer Conflict\n(Wrong Row Open)']
-bar_h = 0.6
+# ── Figure layout ─────────────────────────────────────────────
+fig, (ax_a, ax_b) = plt.subplots(
+    2, 1, figsize=(10, 10.5),
+    gridspec_kw={'height_ratios': [1, 2.4], 'hspace': 0.25})
 
-for i, (y, label) in enumerate(zip(row_y, labels_left)):
-    ax.text(-3, y + bar_h/2, label, ha='right', va='center', fontsize=8.5, fontweight='bold')
+# ── Helpers ───────────────────────────────────────────────────
 
-# Row 0: Hit — just CAS
-x0 = 5
-ax.barh(row_y[0], tCAS, height=bar_h, left=x0, color=C_CAS, edgecolor='white', linewidth=0.5)
-ax.text(x0 + tCAS/2, row_y[0] + bar_h/2, f'CAS ({tCAS} cyc)', ha='center', va='center', fontsize=8, color='white', fontweight='bold')
-# total
-ax.annotate('', xy=(x0 + tCAS + 2, row_y[0] + bar_h + 0.15), xytext=(x0 - 1, row_y[0] + bar_h + 0.15),
-            arrowprops=dict(arrowstyle='<->', color='#333', lw=1.2))
-ax.text(x0 + tCAS/2, row_y[0] + bar_h + 0.35, f'Total: {tCAS} cycles', ha='center', va='bottom', fontsize=7.5, fontweight='bold', color=C_HIT)
+def cmd(ax, y, x, w, label, color, fs=8):
+    """Draw a colored command block with centered label."""
+    ax.barh(y, w, height=bar_h, left=x,
+            color=color, edgecolor='white', linewidth=0.5)
+    ax.text(x + w / 2, y, label, ha='center', va='center',
+            fontsize=fs, color='white', fontweight='bold')
+    return x + w
 
-# Row 1: Miss (closed) — ACT + CAS
-x0 = 5
-ax.barh(row_y[1], tRCD, height=bar_h, left=x0, color=C_ACT, edgecolor='white', linewidth=0.5)
-ax.text(x0 + tRCD/2, row_y[1] + bar_h/2, f'ACT ({tRCD})', ha='center', va='center', fontsize=8, color='white', fontweight='bold')
-ax.barh(row_y[1], tCAS, height=bar_h, left=x0 + tRCD, color=C_CAS, edgecolor='white', linewidth=0.5)
-ax.text(x0 + tRCD + tCAS/2, row_y[1] + bar_h/2, f'CAS ({tCAS})', ha='center', va='center', fontsize=8, color='white', fontweight='bold')
-total = tRCD + tCAS
-ax.annotate('', xy=(x0 + total + 2, row_y[1] + bar_h + 0.15), xytext=(x0 - 1, row_y[1] + bar_h + 0.15),
-            arrowprops=dict(arrowstyle='<->', color='#333', lw=1.2))
-ax.text(x0 + total/2, row_y[1] + bar_h + 0.35, f'Total: {total} cycles', ha='center', va='bottom', fontsize=7.5, fontweight='bold', color='#E65100')
+def idle_block(ax, y, x, w, fs=7.5):
+    """Draw a light-gray idle period block."""
+    ax.barh(y, w, height=bar_h, left=x,
+            color=C_IDLE, edgecolor='#aaa', linewidth=0.5)
+    ax.text(x + w / 2, y, 'idle', ha='center', va='center',
+            fontsize=fs, color='#777')
+    return x + w
 
-# Row 2: Conflict — PRE + ACT + CAS
-x0 = 5
-ax.barh(row_y[2], tRP, height=bar_h, left=x0, color=C_PRE, edgecolor='white', linewidth=0.5)
-ax.text(x0 + tRP/2, row_y[2] + bar_h/2, f'PRE ({tRP})', ha='center', va='center', fontsize=8, color='white', fontweight='bold')
-ax.barh(row_y[2], tRCD, height=bar_h, left=x0 + tRP, color=C_ACT, edgecolor='white', linewidth=0.5)
-ax.text(x0 + tRP + tRCD/2, row_y[2] + bar_h/2, f'ACT ({tRCD})', ha='center', va='center', fontsize=8, color='white', fontweight='bold')
-ax.barh(row_y[2], tCAS, height=bar_h, left=x0 + tRP + tRCD, color=C_CAS, edgecolor='white', linewidth=0.5)
-ax.text(x0 + tRP + tRCD + tCAS/2, row_y[2] + bar_h/2, f'CAS ({tCAS})', ha='center', va='center', fontsize=8, color='white', fontweight='bold')
-total = tRP + tRCD + tCAS
-ax.annotate('', xy=(x0 + total + 2, row_y[2] + bar_h + 0.15), xytext=(x0 - 1, row_y[2] + bar_h + 0.15),
-            arrowprops=dict(arrowstyle='<->', color='#333', lw=1.2))
-ax.text(x0 + total/2, row_y[2] + bar_h + 0.35, f'Total: {total} cycles', ha='center', va='bottom', fontsize=7.5, fontweight='bold', color=C_CONFLICT)
+def closed_gap(ax, y, x, w):
+    """Draw a dashed-border gap representing closed bank state."""
+    ax.barh(y, w, height=bar_h, left=x,
+            color='#F7F7F7', edgecolor='#bbb', linewidth=0.5,
+            linestyle='--')
+    return x + w
 
-# ═══════════════════════════════════════════════════════════════════
-# Panel (b): Three timeout precharge outcomes
-# ═══════════════════════════════════════════════════════════════════
-ax2 = axes[1]
-ax2.set_xlim(-5, 165)
-ax2.set_ylim(-0.5, 3.8)
-ax2.axis('off')
-ax2.set_title('(b) Timeout-Based Speculative Precharge Outcomes', fontsize=11, fontweight='bold', pad=8)
+def padding_block(ax, y, x, w):
+    """Draw a hatched padding block to equalize bar lengths."""
+    ax.barh(y, w, height=bar_h, left=x,
+            facecolor='#F8F8F8', edgecolor='#bbb', linewidth=0.5,
+            hatch='////')
+    return x + w
 
-row_y2 = [2.8, 1.5, 0.2]
-outcome_labels = [
-    'Right Precharge\n(different row arrives)',
-    'Wrong Precharge\n(same row reopened)',
-    'Conflict\n(on-demand PRE before\ntimeout expires)'
+def bracket_above(ax, xl, xr, y, label, color):
+    """Draw a measurement bracket above the bar with label."""
+    ya = y + bar_h / 2 + 0.16
+    tick = 0.10
+    ax.annotate('', xy=(xr, ya), xytext=(xl, ya),
+                arrowprops=dict(arrowstyle='<->', color='#444', lw=0.9))
+    for xp in (xl, xr):
+        ax.plot([xp, xp], [ya - tick, ya + tick], color='#444', lw=0.9)
+    ax.text((xl + xr) / 2, ya + 0.08, label, ha='center', va='bottom',
+            fontsize=7.5, fontweight='bold', color=color)
+
+def bracket_below(ax, xl, xr, y, label, color):
+    """Draw a penalty bracket below the bar with label."""
+    yb = y - bar_h / 2 - 0.10
+    ax.annotate('', xy=(xr, yb), xytext=(xl, yb),
+                arrowprops=dict(arrowstyle='<->', color=color, lw=1.1))
+    ax.text((xl + xr) / 2, yb - 0.12, label, ha='center', va='top',
+            fontsize=7, fontweight='bold', color=color)
+
+def timeout_mark(ax, x, y):
+    """Draw a dashed timeout marker across the bar."""
+    bot = y - bar_h * 0.55
+    top = y + bar_h * 0.55
+    ax.plot([x, x], [bot, top], color=C_TMOUT,
+            linewidth=1.5, linestyle='--', zorder=5)
+    ax.plot(x, top + 0.06, marker='v', color=C_TMOUT,
+            markersize=5, zorder=5, clip_on=False)
+    ax.text(x, top + 0.16, 'timeout', ha='center', va='bottom',
+            fontsize=6.5, color=C_TMOUT, fontweight='bold')
+
+def req_arrow(ax, x, y, label, color='#333'):
+    """Draw a request-arrival arrow above the bar."""
+    ax.annotate(label,
+                xy=(x, y + bar_h / 2 + 0.03),
+                xytext=(x + 20, y + bar_h / 2 + 0.55),
+                fontsize=6.5, ha='center', fontweight='bold', color=color,
+                arrowprops=dict(arrowstyle='->', color=color, lw=0.9))
+
+def state_label(ax, x, y, label, color='#666'):
+    """Place a row-buffer state label below the bar."""
+    ax.text(x, y - bar_h / 2 - 0.20, label, ha='center', va='top',
+            fontsize=6, fontstyle='italic', color=color)
+
+
+def cas_mark(ax, x, y):
+    """Draw a CAS command marker (dashed line with triangle, like timeout)."""
+    bot = y - bar_h * 0.55
+    top = y + bar_h * 0.55
+    ax.plot([x, x], [bot, top], color=C_CAS,
+            linewidth=1.5, linestyle='--', zorder=5)
+    ax.plot(x, top + 0.06, marker='v', color=C_CAS,
+            markersize=5, zorder=5, clip_on=False)
+    ax.text(x, top + 0.16, 'CAS', ha='center', va='bottom',
+            fontsize=6.5, color=CD['craft'], fontweight='bold')
+
+
+def req_mark(ax, x, y, label, color='#333'):
+    """Draw a request-arrival marker (dashed line with triangle, like timeout)."""
+    bot = y - bar_h * 0.55
+    top = y + bar_h * 0.55
+    ax.plot([x, x], [bot, top], color=color,
+            linewidth=1.5, linestyle='--', zorder=5)
+    ax.plot(x, top + 0.06, marker='v', color=color,
+            markersize=5, zorder=5, clip_on=False)
+    ax.text(x, top + 0.16, label, ha='center', va='bottom',
+            fontsize=6.5, color=color, fontweight='bold')
+
+
+def ghost_timeout_mark(ax, x, y):
+    """Draw a faint dashed line showing where timeout would have occurred."""
+    bot = y - bar_h * 0.55
+    top = y + bar_h * 0.55
+    ax.plot([x, x], [bot, top], color=C_TMOUT,
+            linewidth=1.2, linestyle=':', alpha=0.5, zorder=5)
+
+
+# ═══════════════════════════════════════════════════════════════
+# Panel (a): Three Access Scenarios
+# ═══════════════════════════════════════════════════════════════
+ax_a.set_xlim(-5, 175)
+ax_a.set_ylim(-0.8, 4.5)
+ax_a.axis('off')
+ax_a.set_title('(a) Row Buffer Access Latency',
+               fontsize=11, fontweight='bold', pad=10)
+
+ys_a = [3.2, 1.8, 0.4]
+labels_a = ['Row Buffer Hit',
+            'Row Buffer Miss\n(Closed Bank)',
+            'Row Buffer Conflict\n(Wrong Row Open)']
+x0 = 8
+
+for y, lbl in zip(ys_a, labels_a):
+    ax_a.text(x0 - 3, y, lbl, ha='right', va='center',
+              fontsize=8.5, fontweight='bold')
+
+# Hit: tCAS only
+cmd(ax_a, ys_a[0], x0, tCAS, 'tCAS', C_CAS)
+bracket_above(ax_a, x0, x0 + tCAS, ys_a[0], 'Total: tCAS', CD['craft'])
+
+# Miss: tRCD + tCAS
+cmd(ax_a, ys_a[1], x0, tRCD, 'tRCD', C_ACT)
+cmd(ax_a, ys_a[1], x0 + tRCD, tCAS, 'tCAS', C_CAS)
+bracket_above(ax_a, x0, x0 + tRCD + tCAS, ys_a[1],
+              'Total: tRCD + tCAS', CD['dympl'])
+
+# Conflict: tRP + tRCD + tCAS
+cmd(ax_a, ys_a[2], x0, tRP, 'tRP', C_PRE)
+cmd(ax_a, ys_a[2], x0 + tRP, tRCD, 'tRCD', C_ACT)
+cmd(ax_a, ys_a[2], x0 + tRP + tRCD, tCAS, 'tCAS', C_CAS)
+bracket_above(ax_a, x0, x0 + tRP + tRCD + tCAS, ys_a[2],
+              'Total: tRP + tRCD + tCAS', CD['closed_page'])
+
+
+# ═══════════════════════════════════════════════════════════════
+# Panel (b): Four Timeout Precharge Outcomes
+# ═══════════════════════════════════════════════════════════════
+ax_b.set_xlim(-5, 210)
+ax_b.set_ylim(-1.0, 10.0)
+ax_b.axis('off')
+ax_b.set_title('(b) Timeout-Based Speculative Precharge Outcomes',
+               fontsize=11, fontweight='bold', pad=10)
+
+ys_b = [8.2, 6.0, 3.8, 1.6]
+labels_b = ['Right Precharge',
+            'Wrong Precharge',
+            'Conflict',
+            'Row Buffer Hit']
+
+for y, lbl in zip(ys_b, labels_b):
+    ax_b.text(-3, y, lbl, ha='right', va='center',
+              fontsize=9, fontweight='bold')
+
+# Shared reference positions
+x0      = 5
+tmx_pos = x0 + 36                         # standard timeout position: 41
+gap_w   = 10                               # closed-bank gap width
+x_end   = x0 + 36 + tRP + gap_w + tRCD    # bar end reference: 131
+
+# ── Right Precharge ──────────────────────────────────────────
+y = ys_b[0]
+x = x0
+cas_mark(ax_b, x, y)
+idle_w = tmx_pos - x0                                       # 36
+x = idle_block(ax_b, y, x, idle_w)                          # 5 → 41
+timeout_mark(ax_b, x, y)                                    # at 41
+x = cmd(ax_b, y, x, tRP, 'PRE', C_PRE, fs=7)              # 41 → 81
+closed_start = x
+x = closed_gap(ax_b, y, x, gap_w)                           # 81 → 91
+req_mark(ax_b, closed_start + gap_w / 2, y, 'Req. (diff row)')
+x = cmd(ax_b, y, x, tRCD, 'ACT', C_ACT, fs=7)             # 91 → 131
+cas_mark(ax_b, x, y)
+ax_b.text(x + 8, y, 'Penalty: 0', ha='left', va='center',
+          fontsize=8, fontweight='bold', color=CD['craft'])
+state_label(ax_b, x0 + idle_w / 2, y, 'Row A open')
+state_label(ax_b, closed_start + gap_w / 2, y, 'closed', '#999')
+state_label(ax_b, closed_start + gap_w + tRCD / 2, y, 'Row B open')
+
+# ── Wrong Precharge ──────────────────────────────────────────
+y = ys_b[1]
+x = x0
+cas_mark(ax_b, x, y)
+x = idle_block(ax_b, y, x, idle_w)                          # 5 → 41
+timeout_mark(ax_b, x, y)                                    # at 41
+x = cmd(ax_b, y, x, tRP, 'PRE', C_PRE, fs=7)              # 41 → 81
+closed_start = x
+x = closed_gap(ax_b, y, x, gap_w)                           # 81 → 91
+req_mark(ax_b, closed_start + gap_w / 2, y, 'Req. (same row)', C_WRONG)
+act_end = cmd(ax_b, y, x, tRCD, 'ACT', C_ACT, fs=7)       # 91 → 131
+cas_mark(ax_b, act_end, y)
+ax_b.text(act_end + 8, y, 'Penalty: tRCD', ha='left', va='center',
+          fontsize=8, fontweight='bold', color=CD['closed_page'])
+state_label(ax_b, x0 + idle_w / 2, y, 'Row A open')
+state_label(ax_b, closed_start + gap_w / 2, y, 'closed', '#999')
+state_label(ax_b, closed_start + gap_w + tRCD / 2, y,
+            'Row A  (reopened)', CD['closed_page'])
+
+# ── Conflict ─────────────────────────────────────────────────
+y = ys_b[2]
+x = x0
+cas_mark(ax_b, x, y)
+conflict_idle = 16                                           # shorter idle
+x = idle_block(ax_b, y, x, conflict_idle)                   # 5 → 21
+req_mark(ax_b, x, y, 'Req. (diff row)', C_TCONF)           # at 21
+pre_start = x
+# PRE block — shift label to left half to avoid collision with timeout marker
+ax_b.barh(y, tRP, height=bar_h, left=pre_start,
+          color=C_PRE, edgecolor='white', linewidth=0.5)
+ax_b.text((pre_start + tmx_pos) / 2, y, 'PRE',
+          ha='center', va='center',
+          fontsize=7, color='white', fontweight='bold')
+x = pre_start + tRP                                         # 61
+timeout_mark(ax_b, tmx_pos, y)                              # at 41, over PRE block
+x = cmd(ax_b, y, x, tRCD, 'ACT', C_ACT, fs=7)             # 61 → 101
+cas_mark(ax_b, x, y)                                        # at 101
+# Hatched padding to equalize bar length
+padding_block(ax_b, y, x, x_end - x)                        # 101 → 131
+ax_b.text(x_end + 8, y, 'Penalty: tRP + tRCD', ha='left', va='center',
+          fontsize=8, fontweight='bold', color=CD['dympl'])
+state_label(ax_b, x0 + conflict_idle / 2, y, 'Row A open')
+state_label(ax_b, pre_start + tRP + tRCD / 2, y, 'Row B open')
+
+# ── Row Buffer Hit (request arrives before timeout) ──────────
+y = ys_b[3]
+x = x0
+cas_mark(ax_b, x, y)
+hit_idle = 16                                                # same spacing as Conflict
+x = idle_block(ax_b, y, x, hit_idle)                        # 5 → 21
+req_mark(ax_b, x, y, 'Req. (same row)', C_CAS)             # at 21
+# Hatched padding to equalize bar length
+padding_block(ax_b, y, x, x_end - x)                        # 21 → 131
+# Timeout marker — same style as other three scenarios
+timeout_mark(ax_b, tmx_pos, y)                               # at 41
+ax_b.text(x_end + 8, y, 'Penalty: 0', ha='left', va='center',
+          fontsize=8, fontweight='bold', color=CD['craft'])
+state_label(ax_b, x0 + hit_idle / 2, y, 'Row A open')
+
+# ── Command legend ────────────────────────────────────────────
+from matplotlib.patches import Patch
+legend_patches = [
+    Patch(facecolor=C_PRE, edgecolor='white', label='PRE (precharge)'),
+    Patch(facecolor=C_ACT, edgecolor='white', label='ACT (activate)'),
+    Patch(facecolor=C_CAS, edgecolor='white', label='CAS (column access)'),
+    Patch(facecolor=C_IDLE, edgecolor='#aaa', label='Idle'),
 ]
+ax_a.legend(handles=legend_patches, loc='upper right',
+            fontsize=8, framealpha=0.9, edgecolor='#ccc',
+            ncol=4, columnspacing=1.0, handlelength=1.2)
 
-for i, (y, label) in enumerate(zip(row_y2, outcome_labels)):
-    ax2.text(-3, y + bar_h/2, label, ha='right', va='center', fontsize=8.5, fontweight='bold')
-
-# Right precharge: idle -> timeout fires -> PRE -> new row ACT -> CAS (correct speculation)
-x0 = 5
-idle_w = 25
-ax2.barh(row_y2[0], idle_w, height=bar_h, left=x0, color=C_IDLE, edgecolor='#999', linewidth=0.5)
-ax2.text(x0 + idle_w/2, row_y2[0] + bar_h/2, 'Idle', ha='center', va='center', fontsize=8, color='#666')
-# timeout fires
-ax2.axvline(x=x0+idle_w, ymin=0.72, ymax=0.92, color=C_TIMEOUT, linewidth=1.5, linestyle='--')
-ax2.text(x0+idle_w, row_y2[0] + bar_h + 0.35, 'Timeout\nexpires', ha='center', va='bottom', fontsize=7, color=C_TIMEOUT, fontweight='bold')
-# PRE
-pre_x = x0 + idle_w
-ax2.barh(row_y2[0], tRP, height=bar_h, left=pre_x, color=C_PRE, edgecolor='white', linewidth=0.5)
-ax2.text(pre_x + tRP/2, row_y2[0] + bar_h/2, 'PRE', ha='center', va='center', fontsize=8, color='white', fontweight='bold')
-# New request to different row -> ACT + CAS (saves PRE time)
-diff_x = pre_x + tRP
-ax2.barh(row_y2[0], tRCD, height=bar_h, left=diff_x, color=C_ACT, edgecolor='white', linewidth=0.5)
-ax2.text(diff_x + tRCD/2, row_y2[0] + bar_h/2, 'ACT', ha='center', va='center', fontsize=8, color='white', fontweight='bold')
-ax2.barh(row_y2[0], tCAS, height=bar_h, left=diff_x + tRCD, color=C_CAS, edgecolor='white', linewidth=0.5)
-ax2.text(diff_x + tRCD + tCAS/2, row_y2[0] + bar_h/2, 'CAS', ha='center', va='center', fontsize=8, color='white', fontweight='bold')
-# Result annotation
-ax2.text(diff_x + tRCD + tCAS + 5, row_y2[0] + bar_h/2, 'Penalty: 0', ha='left', va='center',
-         fontsize=8, fontweight='bold', color=C_RIGHT)
-
-# Wrong precharge: idle -> timeout fires -> PRE -> same row ACT -> CAS (unnecessary PRE+ACT)
-x0 = 5
-ax2.barh(row_y2[1], idle_w, height=bar_h, left=x0, color=C_IDLE, edgecolor='#999', linewidth=0.5)
-ax2.text(x0 + idle_w/2, row_y2[1] + bar_h/2, 'Idle', ha='center', va='center', fontsize=8, color='#666')
-ax2.axvline(x=x0+idle_w, ymin=0.36, ymax=0.56, color=C_TIMEOUT, linewidth=1.5, linestyle='--')
-ax2.text(x0+idle_w, row_y2[1] + bar_h + 0.35, 'Timeout\nexpires', ha='center', va='bottom', fontsize=7, color=C_TIMEOUT, fontweight='bold')
-pre_x = x0 + idle_w
-ax2.barh(row_y2[1], tRP, height=bar_h, left=pre_x, color=C_PRE, edgecolor='white', linewidth=0.5)
-ax2.text(pre_x + tRP/2, row_y2[1] + bar_h/2, 'PRE', ha='center', va='center', fontsize=8, color='white', fontweight='bold')
-same_x = pre_x + tRP
-ax2.barh(row_y2[1], tRCD, height=bar_h, left=same_x, color=C_ACT, edgecolor='white', linewidth=0.5)
-ax2.text(same_x + tRCD/2, row_y2[1] + bar_h/2, 'ACT', ha='center', va='center', fontsize=8, color='white', fontweight='bold')
-ax2.barh(row_y2[1], tCAS, height=bar_h, left=same_x + tRCD, color=C_CAS, edgecolor='white', linewidth=0.5)
-ax2.text(same_x + tRCD + tCAS/2, row_y2[1] + bar_h/2, 'CAS', ha='center', va='center', fontsize=8, color='white', fontweight='bold')
-# Highlight penalty
-penalty_start = pre_x
-penalty_end = same_x + tRCD
-ax2.annotate('', xy=(penalty_end, row_y2[1] - 0.15), xytext=(penalty_start, row_y2[1] - 0.15),
-            arrowprops=dict(arrowstyle='<->', color=C_WRONG, lw=1.2))
-ax2.text((penalty_start + penalty_end)/2, row_y2[1] - 0.35, f'Penalty: tRP + tRCD = {tRP+tRCD} cyc',
-         ha='center', va='top', fontsize=7.5, fontweight='bold', color=C_WRONG)
-
-# Conflict: request arrives before timeout -> on-demand PRE + ACT + CAS
-x0 = 5
-short_idle = 12
-ax2.barh(row_y2[2], short_idle, height=bar_h, left=x0, color=C_IDLE, edgecolor='#999', linewidth=0.5)
-ax2.text(x0 + short_idle/2, row_y2[2] + bar_h/2, 'Idle', ha='center', va='center', fontsize=7.5, color='#666')
-# Request arrives (before timeout)
-req_x = x0 + short_idle
-ax2.annotate('Request\n(diff. row)', xy=(req_x, row_y2[2] + bar_h + 0.05),
-             xytext=(req_x, row_y2[2] + bar_h + 0.65),
-             fontsize=7, ha='center', fontweight='bold', color='#333',
-             arrowprops=dict(arrowstyle='->', color='#333', lw=1.0))
-# On-demand PRE
-ax2.barh(row_y2[2], tRP, height=bar_h, left=req_x, color=C_PRE, edgecolor='white', linewidth=0.5)
-ax2.text(req_x + tRP/2, row_y2[2] + bar_h/2, 'PRE', ha='center', va='center', fontsize=8, color='white', fontweight='bold')
-act_x = req_x + tRP
-ax2.barh(row_y2[2], tRCD, height=bar_h, left=act_x, color=C_ACT, edgecolor='white', linewidth=0.5)
-ax2.text(act_x + tRCD/2, row_y2[2] + bar_h/2, 'ACT', ha='center', va='center', fontsize=8, color='white', fontweight='bold')
-ax2.barh(row_y2[2], tCAS, height=bar_h, left=act_x + tRCD, color=C_CAS, edgecolor='white', linewidth=0.5)
-ax2.text(act_x + tRCD + tCAS/2, row_y2[2] + bar_h/2, 'CAS', ha='center', va='center', fontsize=8, color='white', fontweight='bold')
-# Highlight penalty (only tRP is the penalty vs. right precharge)
-penalty_start2 = req_x
-penalty_end2 = req_x + tRP
-ax2.annotate('', xy=(penalty_end2, row_y2[2] - 0.15), xytext=(penalty_start2, row_y2[2] - 0.15),
-            arrowprops=dict(arrowstyle='<->', color=C_TCONFLICT, lw=1.2))
-ax2.text((penalty_start2 + penalty_end2)/2, row_y2[2] - 0.35, f'Penalty: tRP = {tRP} cyc (vs. right precharge)',
-         ha='center', va='top', fontsize=7.5, fontweight='bold', color=C_TCONFLICT)
-
-plt.tight_layout()
 savefig(fig, 'timing_diagram')

@@ -12,9 +12,9 @@ import matplotlib.patches as mpatches, matplotlib.patheffects as pe
 
 setup_style()
 
-fig, ax = plt.subplots(figsize=(10, 3.8))
+fig, ax = plt.subplots(figsize=(10, 3.2))
 ax.set_xlim(-0.5, 10.5)
-ax.set_ylim(-1.8, 3.8)
+ax.set_ylim(-0.1, 3.8)
 ax.axis('off')
 
 # ── Spectrum bar ──────────────────────────────────────────────────
@@ -39,7 +39,7 @@ rect = Rectangle((0.5, bar_y - bar_h/2), 9.5, bar_h,
 ax.add_patch(rect)
 
 # ── Endpoint labels ───────────────────────────────────────────────
-ax.text(0.5, bar_y + bar_h/2 + 0.15, 'Closed-Page', ha='center', va='bottom',
+ax.text(0.5, bar_y + bar_h/2 + 0.15, 'Close-Page', ha='center', va='bottom',
         fontsize=11, fontweight='bold', color=COLORS['closed_page'])
 ax.text(0.5, bar_y - bar_h/2 - 0.1, 'timeout = 0', ha='center', va='top',
         fontsize=9, color='#666', fontstyle='italic')
@@ -59,10 +59,10 @@ ax.text(5.25, bar_y - bar_h/2 - 0.75, 'Increasing Timeout Value',
 # Positions along the spectrum (0-10 scale)
 strategies = [
     # (x_pos, label, sublabel, color, y_offset)
-    (1.5,  'INTAP\n(fixed step)', '~200 B/ch', COLORS['intap'], 0),
-    (5.25, 'CRAFT\n(cost-asymmetric\nadaptive)', '140 B/ch', COLORS['craft'], 0.3),
-    (7.0,  'DYMPL\n(perceptron)', '3.39 KB/ch', COLORS['dympl'], 0),
-    (8.5,  'ABP\n(per-row\npredictor)', '~20 KB/ch', COLORS['abp'], 0),
+    (1.5,  'INTAP (fixed step)', '~200 B/ch', COLORS['intap'], 0),
+    (4.5,  'CRAFT (cost-asymmetric adaptive)', '140 B/ch', COLORS['craft'], 0),
+    (7.0,  'DYMPL (perceptron)', '3.39 KB/ch', COLORS['dympl'], 0),
+    (8.8,  'ABP (per-row predictor)', '~20 KB/ch', COLORS['abp'], 0),
 ]
 
 marker_base_y = bar_y + bar_h/2 + 0.6
@@ -80,33 +80,19 @@ for x, label, sublabel, color, y_off in strategies:
             fontsize=8.5, fontweight='bold', color=color,
             path_effects=[pe.withStroke(linewidth=2.5, foreground='white')])
 
-# Hardware cost below
+# Hardware cost above
 for x, label, sublabel, color, y_off in strategies:
     my = marker_base_y + y_off
     if sublabel:
-        # Find label text height (approximate)
-        n_lines = label.count('\n') + 1
-        ax.text(x, my + 0.15 + n_lines * 0.22, sublabel, ha='center', va='bottom',
-                fontsize=7.5, color='#555', fontstyle='italic',
-                bbox=dict(boxstyle='round,pad=0.15', facecolor='#f5f5f5',
-                           edgecolor='#ccc', linewidth=0.5))
-
-# ── Adaptive range bracket for CRAFT ─────────────────────────────
-craft_lo = 1.8
-craft_hi = 8.8
-bracket_y = bar_y - bar_h/2 - 1.2
-ax.annotate('', xy=(craft_hi, bracket_y), xytext=(craft_lo, bracket_y),
-            arrowprops=dict(arrowstyle='<->', color=COLORS['craft'], lw=1.8))
-ax.text((craft_lo + craft_hi)/2, bracket_y - 0.15,
-        'CRAFT adaptive range [50, 3200] cycles',
-        ha='center', va='top', fontsize=9, fontweight='bold',
-        color=COLORS_DARK['craft'])
+        ax.text(x, my + 0.15 + 0.30, sublabel, ha='center', va='bottom',
+                fontsize=8.5, fontweight='bold', color=color,
+                path_effects=[pe.withStroke(linewidth=2.5, foreground='white')])
 
 # ── Trade-off labels at bottom ────────────────────────────────────
-bottom_y = -1.5
-ax.text(0.5, bottom_y, 'Maximizes\nbank-level parallelism', ha='center', va='center',
+bottom_y = bar_y - bar_h/2 - 0.85
+ax.text(0.5, bottom_y, 'Pessimistic on row buffer locality', ha='center', va='center',
         fontsize=8, color=COLORS_DARK['closed_page'], fontstyle='italic')
-ax.text(10.0, bottom_y, 'Maximizes\nrow buffer reuse', ha='center', va='center',
+ax.text(10.0, bottom_y, 'Opportunistic on row buffer locality', ha='center', va='center',
         fontsize=8, color=COLORS_DARK['open_page'], fontstyle='italic')
 
 plt.tight_layout()

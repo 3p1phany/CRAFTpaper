@@ -44,28 +44,17 @@ b3 = ax.bar(x, high, bar_w, bottom=[l+m for l, m in zip(low, mid)],
             label='High [2000, 3200]', color=color_high,
             edgecolor='white', linewidth=0.5)
 
-# Percentage labels on dominant segment
-for i in range(n):
-    vals = [low[i], mid[i], high[i]]
-    bottoms = [0, low[i], low[i]+mid[i]]
-    max_idx = vals.index(max(vals))
-    if vals[max_idx] >= 15:  # only label if segment is large enough
-        y_pos = bottoms[max_idx] + vals[max_idx] / 2
-        ax.text(i, y_pos, f'{vals[max_idx]:.0f}%',
-                ha='center', va='center', fontsize=7, fontweight='bold',
-                color='white')
-
 ax.set_ylabel('Distribution (%)', fontsize=11)
 ax.set_xticks(x)
 ax.set_xticklabels(labels_raw, rotation=35, ha='right', fontsize=9)
-ax.set_ylim(0, 105)
+ax.set_ylim(0, 112)
 
 # Region annotations
-ax.annotate('Aggressive\nClose', xy=(1, 102), fontsize=8, ha='center',
+ax.annotate('Aggressive Close', xy=(1, 105), fontsize=8, ha='center',
             fontstyle='italic', color=COLORS_DARK['closed_page'])
-ax.annotate('Balanced', xy=(4, 102), fontsize=8, ha='center',
+ax.annotate('Mixed', xy=(4, 105), fontsize=8, ha='center',
             fontstyle='italic', color=COLORS_DARK['dympl'])
-ax.annotate('Keep Open', xy=(9, 102), fontsize=8, ha='center',
+ax.annotate('Keep Open', xy=(9, 105), fontsize=8, ha='center',
             fontstyle='italic', color=COLORS_DARK['open_page'])
 
 # Separator lines

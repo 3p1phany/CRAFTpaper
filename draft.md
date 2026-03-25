@@ -276,16 +276,6 @@ Per-bank 状态：
 | 8 | PR/roadNet-CA  | 79.15 | 83.58   | -5.29%           |
 |   | **平均** |       |         | **-2.74%** |
 
-**5.2.3 因果链（关键图表）**
-
-**数据来源**：`/root/data/smartPRE/docs/analysis/row_buffer_hit_rate_analysis.md` Section 6
-
-**Figure: 因果链三列对比图**（Read HR 提升 → 延迟降低 → IPC 提升）
-
-- 三组柱状图并列，12 个 benchmark
-- 数据：平均 +5.62pp read HR → -2.74% latency → +2.48% IPC
-- 论证：IPC 提升完全可归因于 DRAM 层面的 row buffer 命中率提升
-
 ### 5.3 Timeout Behavior Analysis（0.5 page）
 
 **5.3.1 Timeout Accuracy**

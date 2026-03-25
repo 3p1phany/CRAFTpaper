@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Figure: Normalized IPC bar chart (CRAFT = 1.0) for top-12 benchmarks."""
+"""Figure: Average read latency bar chart for top-12 benchmarks."""
 
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -7,7 +7,7 @@ from common import *
 
 setup_style()
 
-# ── data (from craft_final_evaluation.md, Normalized IPC table) ──────────
+# ── data (from craft_final_evaluation.md, Average Read Latency table) ────
 benchmarks = [
     'ligra/CF/roadNet-CA',
     'ligra/CF/higgs',
@@ -23,23 +23,24 @@ benchmarks = [
     'ligra/Radii/higgs',
 ]
 
-# Normalized IPC values (CRAFT = 1.0)
-abp   = [0.8913, 0.9288, 0.9247, 0.9335, 0.9067, 0.9626, 0.9249, 0.8963, 0.9261, 0.9243, 0.9219, 0.9480]
-dympl = [0.9450, 0.9464, 0.9641, 0.9723, 0.9747, 0.9699, 0.9804, 0.9736, 0.9729, 0.9838, 0.9809, 0.9842]
-intap = [0.9452, 0.9699, 0.9721, 0.9494, 0.9636, 0.9802, 0.9648, 0.9814, 0.9829, 0.9830, 0.9840, 0.9806]
-craft = [1.0] * 12
+# Average read latency in DRAM cycles
+craft = [95.32, 107.86, 111.80, 90.99, 82.31, 109.56, 124.94, 79.15, 89.70, 134.11, 112.85, 96.51]
+abp   = [111.47, 116.80, 119.71, 101.30, 104.28, 113.56, 133.72, 98.78, 94.89, 148.35, 115.68, 107.06]
+dympl = [104.99, 115.43, 115.73, 95.41, 87.43, 114.27, 128.34, 83.75, 94.80, 137.52, 113.44, 100.19]
+intap = [101.04, 109.88, 112.97, 94.28, 88.41, 110.05, 128.32, 83.58, 90.83, 137.86, 113.10, 99.21]
 
-# Compute GEOMEAN
-abp_geo   = math.exp(sum(math.log(v) for v in abp)   / len(abp))
-dympl_geo = math.exp(sum(math.log(v) for v in dympl) / len(dympl))
-intap_geo = math.exp(sum(math.log(v) for v in intap) / len(intap))
+# Compute arithmetic mean
+craft_avg = sum(craft) / len(craft)
+abp_avg   = sum(abp)   / len(abp)
+dympl_avg = sum(dympl)  / len(dympl)
+intap_avg = sum(intap)  / len(intap)
 
-abp.append(abp_geo)
-dympl.append(dympl_geo)
-intap.append(intap_geo)
-craft.append(1.0)
+craft.append(craft_avg)
+abp.append(abp_avg)
+dympl.append(dympl_avg)
+intap.append(intap_avg)
 
-labels = [short_name(b) for b in benchmarks] + ['GEOMEAN']
+labels = [short_name(b) for b in benchmarks] + ['AVG']
 n = len(labels)
 x = np.arange(n)
 
@@ -53,24 +54,22 @@ colors   = [COLORS['abp'], COLORS['dympl'], COLORS['intap'], COLORS['craft']]
 
 for i, (p, vals, c) in enumerate(zip(policies, values, colors)):
     offset = (i - 1.5) * bar_w
-    bars = ax.bar(x + offset, vals, bar_w,
-                  label=p, color=c, edgecolor='white', linewidth=0.5)
+    ax.bar(x + offset, vals, bar_w,
+           label=p, color=c, edgecolor='white', linewidth=0.5)
 
 # Axis styling
-ymin = 0.86
-ax.set_ylim(ymin, 1.02)
-ax.set_yticks(np.arange(ymin, 1.021, 0.02))
-ax.yaxis.set_minor_locator(mticker.MultipleLocator(0.01))
+ymin = 70
+ymax = 160
+ax.set_ylim(ymin, ymax)
+ax.set_yticks(np.arange(ymin, ymax + 1, 10))
+ax.yaxis.set_minor_locator(mticker.MultipleLocator(5))
 
-ax.set_ylabel('Normalized IPC (CRAFT = 1.0)', fontsize=11)
+ax.set_ylabel('Average Read Latency (DRAM Cycles)', fontsize=11)
 ax.set_xticks(x)
 ax.set_xticklabels(labels, rotation=35, ha='right', fontsize=9)
 
-# GEOMEAN separator
+# AVG separator
 ax.axvline(x=n - 1.5, color='gray', linestyle='--', linewidth=0.8)
-
-# Reference line at 1.0
-ax.axhline(y=1.0, color='black', linestyle='-', linewidth=0.6, zorder=0)
 
 ax.legend(loc='upper center', ncol=4, fontsize=10,
           framealpha=0.9, edgecolor='gray', fancybox=False,
@@ -79,4 +78,4 @@ ax.grid(axis='y', linestyle=':', alpha=0.3)
 ax.set_xlim(-0.6, n - 0.4)
 
 fig.tight_layout()
-savefig(fig, 'normalized_ipc')
+savefig(fig, 'read_latency')

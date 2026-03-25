@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Figure: Normalized IPC bar chart (CRAFT = 1.0) for top-12 benchmarks."""
+"""Figure: Read Row Buffer Hit Rate (%) grouped bar chart for top-12 benchmarks."""
 
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -7,7 +7,7 @@ from common import *
 
 setup_style()
 
-# ── data (from craft_final_evaluation.md, Normalized IPC table) ──────────
+# ── data (from craft_final_evaluation.md, Read Row Buffer Hit Rate table) ─
 benchmarks = [
     'ligra/CF/roadNet-CA',
     'ligra/CF/higgs',
@@ -23,23 +23,24 @@ benchmarks = [
     'ligra/Radii/higgs',
 ]
 
-# Normalized IPC values (CRAFT = 1.0)
-abp   = [0.8913, 0.9288, 0.9247, 0.9335, 0.9067, 0.9626, 0.9249, 0.8963, 0.9261, 0.9243, 0.9219, 0.9480]
-dympl = [0.9450, 0.9464, 0.9641, 0.9723, 0.9747, 0.9699, 0.9804, 0.9736, 0.9729, 0.9838, 0.9809, 0.9842]
-intap = [0.9452, 0.9699, 0.9721, 0.9494, 0.9636, 0.9802, 0.9648, 0.9814, 0.9829, 0.9830, 0.9840, 0.9806]
-craft = [1.0] * 12
+# Read Row Buffer Hit Rate (%)
+craft = [91.15, 71.30, 34.46, 82.03, 87.85, 62.64, 89.44, 83.97, 90.17, 93.21, 36.90, 72.88]
+abp   = [72.13, 60.81, 25.13, 63.80, 53.21, 55.96, 70.89, 47.47, 78.59, 65.85, 26.78, 52.64]
+dympl = [81.90, 63.29, 29.16, 75.20, 80.09, 56.60, 84.09, 74.83, 84.48, 88.23, 31.98, 66.20]
+intap = [81.56, 64.86, 32.87, 74.96, 76.17, 58.48, 80.46, 74.85, 86.71, 86.93, 35.08, 66.17]
 
-# Compute GEOMEAN
-abp_geo   = math.exp(sum(math.log(v) for v in abp)   / len(abp))
-dympl_geo = math.exp(sum(math.log(v) for v in dympl) / len(dympl))
-intap_geo = math.exp(sum(math.log(v) for v in intap) / len(intap))
+# Compute averages
+craft_avg = sum(craft) / len(craft)
+abp_avg   = sum(abp)   / len(abp)
+dympl_avg = sum(dympl)  / len(dympl)
+intap_avg = sum(intap)  / len(intap)
 
-abp.append(abp_geo)
-dympl.append(dympl_geo)
-intap.append(intap_geo)
-craft.append(1.0)
+craft.append(craft_avg)
+abp.append(abp_avg)
+dympl.append(dympl_avg)
+intap.append(intap_avg)
 
-labels = [short_name(b) for b in benchmarks] + ['GEOMEAN']
+labels = [short_name(b) for b in benchmarks] + ['Average']
 n = len(labels)
 x = np.arange(n)
 
@@ -53,24 +54,20 @@ colors   = [COLORS['abp'], COLORS['dympl'], COLORS['intap'], COLORS['craft']]
 
 for i, (p, vals, c) in enumerate(zip(policies, values, colors)):
     offset = (i - 1.5) * bar_w
-    bars = ax.bar(x + offset, vals, bar_w,
-                  label=p, color=c, edgecolor='white', linewidth=0.5)
+    ax.bar(x + offset, vals, bar_w,
+           label=p, color=c, edgecolor='white', linewidth=0.5)
 
 # Axis styling
-ymin = 0.86
-ax.set_ylim(ymin, 1.02)
-ax.set_yticks(np.arange(ymin, 1.021, 0.02))
-ax.yaxis.set_minor_locator(mticker.MultipleLocator(0.01))
+ax.set_ylim(0, 105)
+ax.set_yticks(np.arange(0, 101, 20))
+ax.yaxis.set_minor_locator(mticker.MultipleLocator(10))
 
-ax.set_ylabel('Normalized IPC (CRAFT = 1.0)', fontsize=11)
+ax.set_ylabel('Read Row Buffer Hit Rate (%)', fontsize=11)
 ax.set_xticks(x)
 ax.set_xticklabels(labels, rotation=35, ha='right', fontsize=9)
 
-# GEOMEAN separator
+# Average separator
 ax.axvline(x=n - 1.5, color='gray', linestyle='--', linewidth=0.8)
-
-# Reference line at 1.0
-ax.axhline(y=1.0, color='black', linestyle='-', linewidth=0.6, zorder=0)
 
 ax.legend(loc='upper center', ncol=4, fontsize=10,
           framealpha=0.9, edgecolor='gray', fancybox=False,
@@ -79,4 +76,4 @@ ax.grid(axis='y', linestyle=':', alpha=0.3)
 ax.set_xlim(-0.6, n - 0.4)
 
 fig.tight_layout()
-savefig(fig, 'normalized_ipc')
+savefig(fig, 'read_rbhr')
