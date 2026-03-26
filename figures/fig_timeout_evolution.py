@@ -143,8 +143,8 @@ def load_epoch_series_all(bench_path, slices):
 # ── load manifest ────────────────────────────────────────────────────────
 manifest = load_manifest()
 
-# ── plot ──────────────────────────────────────────────────────────────────
-fig, axes = plt.subplots(1, 3, figsize=(14, 3.2), sharey=True)
+# ── plot (vertical stack for LNCS single-column) ─────────────────────────
+fig, axes = plt.subplots(3, 1, figsize=(LNCS_TEXT_WIDTH, 5.5), sharey=True)
 
 for ax, (bench, title) in zip(axes, BENCHMARKS):
     slices = manifest.get(bench, [('0', 1.0)])
@@ -158,13 +158,16 @@ for ax, (bench, title) in zip(axes, BENCHMARKS):
                     [l + m + h for l, m, h in zip(lows, mids, highs)],
                     color=COLOR_HIGH, alpha=0.85, linewidth=0)
 
-    ax.set_title(title, fontsize=10, fontweight='bold')
+    ax.set_title(title, fontsize=8, fontweight='bold')
     ax.set_xlim(0, 100)
     ax.set_ylim(0, 100)
-    ax.set_xlabel('Execution Progress (%)', fontsize=9)
+    ax.set_xlabel('Execution Progress (%)', fontsize=7)
+    ax.tick_params(labelsize=6)
     ax.grid(axis='y', linestyle=':', alpha=0.3)
 
-axes[0].set_ylabel('Timeout Distribution (%)', fontsize=10)
+axes[0].set_ylabel('Timeout Dist. (%)', fontsize=7)
+axes[1].set_ylabel('Timeout Dist. (%)', fontsize=7)
+axes[2].set_ylabel('Timeout Dist. (%)', fontsize=7)
 
 # Shared legend
 from matplotlib.patches import Patch
@@ -173,9 +176,9 @@ legend_elements = [
     Patch(facecolor=COLOR_MID, label='Mid [800, 2 000)'),
     Patch(facecolor=COLOR_HIGH, label='High [2 000, 3 200]'),
 ]
-fig.legend(handles=legend_elements, loc='upper center', ncol=3, fontsize=9,
+fig.legend(handles=legend_elements, loc='upper center', ncol=3, fontsize=7,
            framealpha=0.9, edgecolor='gray', fancybox=False,
-           bbox_to_anchor=(0.5, 1.08))
+           bbox_to_anchor=(0.5, 1.03))
 
-fig.tight_layout(rect=[0, 0, 1, 0.95])
+fig.tight_layout(rect=[0, 0, 1, 0.96])
 savefig(fig, 'timeout_evolution')

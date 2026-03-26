@@ -71,20 +71,6 @@ ax.bar(x - bar_w/2, open_norm, bar_w,
 ax.bar(x + bar_w/2, close_norm, bar_w,
        label='Close-Page', color=c_close, edgecolor='white', linewidth=0.5, zorder=3)
 
-ax.axhline(y=1.0, color='#333333', linestyle='-', linewidth=0.6, alpha=0.5, zorder=2)
-
-# Loss annotations
-for i in range(n):
-    o, c = open_norm[i], close_norm[i]
-    if c > o and (1 - o) * 100 >= 2:
-        ax.text(x[i] - bar_w/2, o - 0.01, f'-{(1-o)*100:.0f}%',
-                ha='center', va='top', fontsize=5.5,
-                color=COLORS_DARK['open_page'], fontweight='bold')
-    elif o > c and (1 - c) * 100 >= 3:
-        ax.text(x[i] + bar_w/2, c - 0.01, f'-{(1-c)*100:.0f}%',
-                ha='center', va='top', fontsize=5.5,
-                color=COLORS_DARK['closed_page'], fontweight='bold')
-
 # Region divider
 if transition_idx is not None:
     ax.axvline(x=transition_idx - 0.5, color='#666666', linestyle='--',

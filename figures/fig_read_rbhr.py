@@ -45,9 +45,9 @@ n = len(labels)
 x = np.arange(n)
 
 # ── plot ─────────────────────────────────────────────────────────────────
-fig, ax = plt.subplots(figsize=(14, 4.5))
+fig, ax = plt.subplots(figsize=(LNCS_TEXT_WIDTH, 3.5))
 
-bar_w = 0.19
+bar_w = 0.17
 policies = ['ABP', 'DYMPL', 'INTAP', 'CRAFT']
 values   = [abp, dympl, intap, craft]
 colors   = [COLORS['abp'], COLORS['dympl'], COLORS['intap'], COLORS['craft']]
@@ -62,18 +62,19 @@ ax.set_ylim(0, 105)
 ax.set_yticks(np.arange(0, 101, 20))
 ax.yaxis.set_minor_locator(mticker.MultipleLocator(10))
 
-ax.set_ylabel('Read Row Buffer Hit Rate (%)', fontsize=11)
+ax.set_ylabel('Read Row Buffer Hit Rate (%)', fontsize=8)
 ax.set_xticks(x)
-ax.set_xticklabels(labels, rotation=35, ha='right', fontsize=9)
+ax.set_xticklabels(labels, rotation=90, ha='center', fontsize=6)
 
 # Average separator
 ax.axvline(x=n - 1.5, color='gray', linestyle='--', linewidth=0.8)
 
-ax.legend(loc='upper center', ncol=4, fontsize=10,
+ax.legend(loc='upper center', ncol=4, fontsize=7,
           framealpha=0.9, edgecolor='gray', fancybox=False,
-          bbox_to_anchor=(0.5, 1.12))
+          bbox_to_anchor=(0.5, 1.15))
 ax.grid(axis='y', linestyle=':', alpha=0.3)
 ax.set_xlim(-0.6, n - 0.4)
+ax.tick_params(axis='y', labelsize=6)
 
 fig.tight_layout()
 savefig(fig, 'read_rbhr')

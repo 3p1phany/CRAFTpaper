@@ -44,7 +44,7 @@ for acc in accuracy:
         bar_colors.append(COLORS['craft'])         # forest green for normal
 
 # ── plot ─────────────────────────────────────────────────────────────────
-fig, ax1 = plt.subplots(figsize=(12, 4.5))
+fig, ax1 = plt.subplots(figsize=(LNCS_TEXT_WIDTH, 3.5))
 
 # Accuracy bars
 bars = ax1.bar(x, accuracy, 0.55,
@@ -52,53 +52,54 @@ bars = ax1.bar(x, accuracy, 0.55,
 
 # 50% reference line
 ax1.axhline(y=50, color='gray', linestyle='--', linewidth=0.8, alpha=0.6)
-ax1.text(n - 0.4, 51.5, '50%', fontsize=8, color='gray',
+ax1.text(n - 0.4, 51.5, '50%', fontsize=6, color='gray',
          ha='right', va='bottom')
 
 # Left axis styling
-ax1.set_ylabel('Timeout Precharge Accuracy (%)', fontsize=11)
+ax1.set_ylabel('Timeout Precharge Accuracy (%)', fontsize=8)
 ax1.set_ylim(0, 105)
 ax1.set_yticks(np.arange(0, 101, 20))
+ax1.tick_params(axis='y', labelsize=6)
 
 ax1.set_xticks(x)
-ax1.set_xticklabels(labels, rotation=35, ha='right', fontsize=9)
+ax1.set_xticklabels(labels, rotation=90, ha='center', fontsize=6)
 ax1.grid(axis='y', linestyle=':', alpha=0.3)
 ax1.set_xlim(-0.6, n - 0.4)
 
 # IPC improvement on secondary axis
 ax2 = ax1.twinx()
 ax2.plot(x, ipc_impr, 's-', color=COLORS_DARK['open_page'],
-         markersize=6, linewidth=1.2, markerfacecolor=COLORS['open_page'],
-         markeredgecolor=COLORS_DARK['open_page'], markeredgewidth=0.8,
+         markersize=4, linewidth=1.0, markerfacecolor=COLORS['open_page'],
+         markeredgecolor=COLORS_DARK['open_page'], markeredgewidth=0.6,
          zorder=5)
 
 # Annotate IPC values
 for i, (xi, yi) in enumerate(zip(x, ipc_impr)):
     ax2.annotate(f'+{yi:.1f}%', (xi, yi),
-                 textcoords='offset points', xytext=(0, 8),
-                 fontsize=7, fontweight='bold',
+                 textcoords='offset points', xytext=(0, 6),
+                 fontsize=5.5, fontweight='bold',
                  color=COLORS_DARK['open_page'], ha='center')
 
-ax2.set_ylabel('IPC Improvement (%)', fontsize=11,
+ax2.set_ylabel('IPC Improvement (%)', fontsize=8,
                color=COLORS_DARK['open_page'])
 ax2.set_ylim(0, 8)
-ax2.tick_params(axis='y', labelcolor=COLORS_DARK['open_page'])
+ax2.tick_params(axis='y', labelcolor=COLORS_DARK['open_page'], labelsize=6)
 
 # Legend
 from matplotlib.patches import Patch
 from matplotlib.lines import Line2D
 legend_elements = [
     Patch(facecolor=COLORS['closed_page'], edgecolor='white',
-          label='Accuracy < 50%'),
+          label='Acc. < 50%'),
     Patch(facecolor=COLORS['craft'], edgecolor='white',
-          label='Accuracy ≥ 50%'),
+          label='Acc. ≥ 50%'),
     Line2D([0], [0], marker='s', color=COLORS_DARK['open_page'],
            markerfacecolor=COLORS['open_page'],
            markeredgecolor=COLORS_DARK['open_page'],
-           markersize=6, linewidth=1.2,
-           label='IPC Improvement'),
+           markersize=4, linewidth=1.0,
+           label='IPC Impr.'),
 ]
-ax1.legend(handles=legend_elements, loc='upper left', ncol=3, fontsize=9,
+ax1.legend(handles=legend_elements, loc='upper left', ncol=3, fontsize=6,
            framealpha=0.9, edgecolor='gray', fancybox=False)
 
 fig.tight_layout()

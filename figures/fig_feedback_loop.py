@@ -11,10 +11,13 @@ from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
 from matplotlib.path import Path as MPath
 
 setup_style()
-fig, ax = plt.subplots(figsize=(7.5, 5.6))
+fig, ax = plt.subplots(figsize=(LNCS_TEXT_WIDTH, 3.6))
 ax.set_xlim(-1.0, 8.0)
 ax.set_ylim(-0.3, 5.6)
 ax.axis('off')
+
+# Scale factor for fonts (proportional to width reduction)
+_sf = LNCS_TEXT_WIDTH / 7.5
 
 # ── Colors ────────────────────────────────────────────────────────────────
 C_W  = '#C0504D'       # Wrong  — brick red
@@ -60,9 +63,9 @@ bot_top = bot_y + bh / 2          # top edge of outcome boxes
 # ── TOP: Per-Bank Timeout Counter ─────────────────────────────────────────
 rbox(top_cx, top_cy, top_w, top_h, C_BB, C_B, lw=1.8)
 ax.text(top_cx, top_cy + 0.15, 'Per-Bank Timeout Counter',
-        fontsize=11, fontweight='bold', ha='center', va='center', color='#222')
+        fontsize=8, fontweight='bold', ha='center', va='center', color='#222')
 ax.text(top_cx, top_cy - 0.2, 'timeout  [50, 3200] cycles   init = 200',
-        fontsize=8.5, ha='center', va='center', color=C_G, fontstyle='italic')
+        fontsize=6, ha='center', va='center', color=C_G, fontstyle='italic')
 
 # ── Arrow: Timeout → Classify (straight down) ────────────────────────────
 ortho_arrow(
@@ -73,9 +76,9 @@ ortho_arrow(
 # ── MIDDLE: Classify Outcome (with "timeout expires" inside) ─────────────
 rbox(mid_cx, mid_cy, mid_w, mid_h, '#F5F5F5', '#888', lw=1.0)
 ax.text(mid_cx, mid_cy + 0.14, 'Timeout Expires',
-        fontsize=8, color=C_G, ha='center', va='center', fontstyle='italic')
+        fontsize=5.5, color=C_G, ha='center', va='center', fontstyle='italic')
 ax.text(mid_cx, mid_cy - 0.14, 'Classify Precharge Outcome',
-        fontsize=10, fontweight='bold', ha='center', va='center', color='#333')
+        fontsize=7, fontweight='bold', ha='center', va='center', color='#333')
 
 # ── Arrows: Classify → three outcome boxes (right-angle tree) ────────────
 junction_y = 2.65
@@ -109,54 +112,54 @@ ortho_arrow(
 # ── WRONG ─────────────────────────────────────────────────────────────────
 rbox(wx, bot_y, bw, bh, C_WB, C_W, lw=1.5)
 ax.text(wx, 1.82, 'WRONG',
-        fontsize=11, fontweight='bold', color=C_W, ha='center')
+        fontsize=7.5, fontweight='bold', color=C_W, ha='center')
 ax.text(wx, 1.55, 'new_row = prev_row',
-        fontsize=7.5, color=C_G, ha='center')
+        fontsize=5, color=C_G, ha='center')
 ax.text(wx, 1.28, 'Penalty: tRP + tRCD',
-        fontsize=8, fontweight='bold', color='#444', ha='center')
+        fontsize=5.5, fontweight='bold', color='#444', ha='center')
 ax.plot([wx - bw * 0.35, wx + bw * 0.35], [1.08, 1.08],
         color=C_W, lw=0.6, alpha=0.4)
 ax.text(wx, 0.85, 'ESCALATE',
-        fontsize=9.5, fontweight='bold', color=C_W, ha='center')
+        fontsize=6.5, fontweight='bold', color=C_W, ha='center')
 ax.text(wx, 0.55, r'timeout += B $\cdot$ 2$^{streak}$',
-        fontsize=8, color='#333', ha='center')
+        fontsize=5.5, color='#333', ha='center')
 ax.text(wx, 0.25, '(exponential backoff)',
-        fontsize=7, color=C_G, ha='center', fontstyle='italic')
+        fontsize=5, color=C_G, ha='center', fontstyle='italic')
 
 # ── RIGHT ─────────────────────────────────────────────────────────────────
 rx = bot_xs[1]
 rbox(rx, bot_y, bw, bh, C_RB, C_R, lw=1.5)
 ax.text(rx, 1.82, 'RIGHT',
-        fontsize=11, fontweight='bold', color=C_R, ha='center')
+        fontsize=7.5, fontweight='bold', color=C_R, ha='center')
 ax.text(rx, 1.55, u'new_row \u2260 prev_row',
-        fontsize=7.5, color=C_G, ha='center')
+        fontsize=5, color=C_G, ha='center')
 ax.text(rx, 1.28, 'Saved: tRP',
-        fontsize=8, fontweight='bold', color='#444', ha='center')
+        fontsize=5.5, fontweight='bold', color='#444', ha='center')
 ax.plot([rx - bw * 0.35, rx + bw * 0.35], [1.08, 1.08],
         color=C_R, lw=0.6, alpha=0.4)
 ax.text(rx, 0.85, 'NO CHANGE',
-        fontsize=9.5, fontweight='bold', color=C_R, ha='center')
+        fontsize=6.5, fontweight='bold', color=C_R, ha='center')
 ax.text(rx, 0.55, 'right_streak++',
-        fontsize=8.5, color='#333', ha='center')
+        fontsize=5.5, color='#333', ha='center')
 ax.text(rx, 0.25, '(timeout confirmed)',
-        fontsize=7, color=C_G, ha='center', fontstyle='italic')
+        fontsize=5, color=C_G, ha='center', fontstyle='italic')
 
 # ── CONFLICT ──────────────────────────────────────────────────────────────
 rbox(ccx, bot_y, bw, bh, C_CB, C_C, lw=1.5)
 ax.text(ccx, 1.82, 'CONFLICT',
-        fontsize=11, fontweight='bold', color=C_C, ha='center')
+        fontsize=7.5, fontweight='bold', color=C_C, ha='center')
 ax.text(ccx, 1.55, 'on-demand precharge',
-        fontsize=7.5, color=C_G, ha='center')
+        fontsize=5, color=C_G, ha='center')
 ax.text(ccx, 1.28, 'Penalty: tRP',
-        fontsize=8, fontweight='bold', color='#444', ha='center')
+        fontsize=5.5, fontweight='bold', color='#444', ha='center')
 ax.plot([ccx - bw * 0.35, ccx + bw * 0.35], [1.08, 1.08],
         color=C_C, lw=0.6, alpha=0.4)
 ax.text(ccx, 0.85, 'DE-ESCALATE',
-        fontsize=9.5, fontweight='bold', color=C_C, ha='center')
+        fontsize=6.5, fontweight='bold', color=C_C, ha='center')
 ax.text(ccx, 0.55, r'timeout $-$= B $\cdot \frac{tRP}{tRP+tRCD}$',
-        fontsize=8, color='#333', ha='center')
+        fontsize=5.5, color='#333', ha='center')
 ax.text(ccx, 0.25, '(cost-proportional)',
-        fontsize=7, color=C_G, ha='center', fontstyle='italic')
+        fontsize=5, color=C_G, ha='center', fontstyle='italic')
 
 # ── Feedback arrows (right-angle, native path) ───────────────────────────
 fb_lw, fb_ms = 2.2, 14

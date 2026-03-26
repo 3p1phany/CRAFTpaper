@@ -32,12 +32,12 @@ bar_h = 0.52
 
 # ── Figure layout ─────────────────────────────────────────────
 fig, (ax_a, ax_b) = plt.subplots(
-    2, 1, figsize=(10, 10.5),
-    gridspec_kw={'height_ratios': [1, 2.4], 'hspace': 0.25})
+    2, 1, figsize=(LNCS_TEXT_WIDTH, 6.5),
+    gridspec_kw={'height_ratios': [1, 2.4], 'hspace': 0.35})
 
 # ── Helpers ───────────────────────────────────────────────────
 
-def cmd(ax, y, x, w, label, color, fs=8):
+def cmd(ax, y, x, w, label, color, fs=6):
     """Draw a colored command block with centered label."""
     ax.barh(y, w, height=bar_h, left=x,
             color=color, edgecolor='white', linewidth=0.5)
@@ -45,7 +45,7 @@ def cmd(ax, y, x, w, label, color, fs=8):
             fontsize=fs, color='white', fontweight='bold')
     return x + w
 
-def idle_block(ax, y, x, w, fs=7.5):
+def idle_block(ax, y, x, w, fs=5.5):
     """Draw a light-gray idle period block."""
     ax.barh(y, w, height=bar_h, left=x,
             color=C_IDLE, edgecolor='#aaa', linewidth=0.5)
@@ -76,7 +76,7 @@ def bracket_above(ax, xl, xr, y, label, color):
     for xp in (xl, xr):
         ax.plot([xp, xp], [ya - tick, ya + tick], color='#444', lw=0.9)
     ax.text((xl + xr) / 2, ya + 0.08, label, ha='center', va='bottom',
-            fontsize=7.5, fontweight='bold', color=color)
+            fontsize=5.5, fontweight='bold', color=color)
 
 def bracket_below(ax, xl, xr, y, label, color):
     """Draw a penalty bracket below the bar with label."""
@@ -84,31 +84,31 @@ def bracket_below(ax, xl, xr, y, label, color):
     ax.annotate('', xy=(xr, yb), xytext=(xl, yb),
                 arrowprops=dict(arrowstyle='<->', color=color, lw=1.1))
     ax.text((xl + xr) / 2, yb - 0.12, label, ha='center', va='top',
-            fontsize=7, fontweight='bold', color=color)
+            fontsize=5, fontweight='bold', color=color)
 
 def timeout_mark(ax, x, y):
     """Draw a dashed timeout marker across the bar."""
     bot = y - bar_h * 0.55
     top = y + bar_h * 0.55
     ax.plot([x, x], [bot, top], color=C_TMOUT,
-            linewidth=1.5, linestyle='--', zorder=5)
+            linewidth=1.2, linestyle='--', zorder=5)
     ax.plot(x, top + 0.06, marker='v', color=C_TMOUT,
-            markersize=5, zorder=5, clip_on=False)
+            markersize=4, zorder=5, clip_on=False)
     ax.text(x, top + 0.16, 'timeout', ha='center', va='bottom',
-            fontsize=6.5, color=C_TMOUT, fontweight='bold')
+            fontsize=5, color=C_TMOUT, fontweight='bold')
 
 def req_arrow(ax, x, y, label, color='#333'):
     """Draw a request-arrival arrow above the bar."""
     ax.annotate(label,
                 xy=(x, y + bar_h / 2 + 0.03),
                 xytext=(x + 20, y + bar_h / 2 + 0.55),
-                fontsize=6.5, ha='center', fontweight='bold', color=color,
-                arrowprops=dict(arrowstyle='->', color=color, lw=0.9))
+                fontsize=5, ha='center', fontweight='bold', color=color,
+                arrowprops=dict(arrowstyle='->', color=color, lw=0.7))
 
 def state_label(ax, x, y, label, color='#666'):
     """Place a row-buffer state label below the bar."""
     ax.text(x, y - bar_h / 2 - 0.20, label, ha='center', va='top',
-            fontsize=6, fontstyle='italic', color=color)
+            fontsize=4.5, fontstyle='italic', color=color)
 
 
 def cas_mark(ax, x, y):
@@ -116,11 +116,11 @@ def cas_mark(ax, x, y):
     bot = y - bar_h * 0.55
     top = y + bar_h * 0.55
     ax.plot([x, x], [bot, top], color=C_CAS,
-            linewidth=1.5, linestyle='--', zorder=5)
+            linewidth=1.2, linestyle='--', zorder=5)
     ax.plot(x, top + 0.06, marker='v', color=C_CAS,
-            markersize=5, zorder=5, clip_on=False)
+            markersize=4, zorder=5, clip_on=False)
     ax.text(x, top + 0.16, 'CAS', ha='center', va='bottom',
-            fontsize=6.5, color=CD['craft'], fontweight='bold')
+            fontsize=5, color=CD['craft'], fontweight='bold')
 
 
 def req_mark(ax, x, y, label, color='#333'):
@@ -128,11 +128,11 @@ def req_mark(ax, x, y, label, color='#333'):
     bot = y - bar_h * 0.55
     top = y + bar_h * 0.55
     ax.plot([x, x], [bot, top], color=color,
-            linewidth=1.5, linestyle='--', zorder=5)
+            linewidth=1.2, linestyle='--', zorder=5)
     ax.plot(x, top + 0.06, marker='v', color=color,
-            markersize=5, zorder=5, clip_on=False)
+            markersize=4, zorder=5, clip_on=False)
     ax.text(x, top + 0.16, label, ha='center', va='bottom',
-            fontsize=6.5, color=color, fontweight='bold')
+            fontsize=5, color=color, fontweight='bold')
 
 
 def ghost_timeout_mark(ax, x, y):
@@ -150,7 +150,7 @@ ax_a.set_xlim(-5, 175)
 ax_a.set_ylim(-0.8, 4.5)
 ax_a.axis('off')
 ax_a.set_title('(a) Row Buffer Access Latency',
-               fontsize=11, fontweight='bold', pad=10)
+               fontsize=8, fontweight='bold', pad=8)
 
 ys_a = [3.2, 1.8, 0.4]
 labels_a = ['Row Buffer Hit',
@@ -160,7 +160,7 @@ x0 = 8
 
 for y, lbl in zip(ys_a, labels_a):
     ax_a.text(x0 - 3, y, lbl, ha='right', va='center',
-              fontsize=8.5, fontweight='bold')
+              fontsize=6, fontweight='bold')
 
 # Hit: tCAS only
 cmd(ax_a, ys_a[0], x0, tCAS, 'tCAS', C_CAS)
@@ -187,7 +187,7 @@ ax_b.set_xlim(-5, 210)
 ax_b.set_ylim(-1.0, 10.0)
 ax_b.axis('off')
 ax_b.set_title('(b) Timeout-Based Speculative Precharge Outcomes',
-               fontsize=11, fontweight='bold', pad=10)
+               fontsize=8, fontweight='bold', pad=8)
 
 ys_b = [8.2, 6.0, 3.8, 1.6]
 labels_b = ['Right Precharge',
@@ -197,7 +197,7 @@ labels_b = ['Right Precharge',
 
 for y, lbl in zip(ys_b, labels_b):
     ax_b.text(-3, y, lbl, ha='right', va='center',
-              fontsize=9, fontweight='bold')
+              fontsize=6, fontweight='bold')
 
 # Shared reference positions
 x0      = 5
@@ -219,7 +219,7 @@ req_mark(ax_b, closed_start + gap_w / 2, y, 'Req. (diff row)')
 x = cmd(ax_b, y, x, tRCD, 'ACT', C_ACT, fs=7)             # 91 → 131
 cas_mark(ax_b, x, y)
 ax_b.text(x + 8, y, 'Penalty: 0', ha='left', va='center',
-          fontsize=8, fontweight='bold', color=CD['craft'])
+          fontsize=6, fontweight='bold', color=CD['craft'])
 state_label(ax_b, x0 + idle_w / 2, y, 'Row A open')
 state_label(ax_b, closed_start + gap_w / 2, y, 'closed', '#999')
 state_label(ax_b, closed_start + gap_w + tRCD / 2, y, 'Row B open')
@@ -237,7 +237,7 @@ req_mark(ax_b, closed_start + gap_w / 2, y, 'Req. (same row)', C_WRONG)
 act_end = cmd(ax_b, y, x, tRCD, 'ACT', C_ACT, fs=7)       # 91 → 131
 cas_mark(ax_b, act_end, y)
 ax_b.text(act_end + 8, y, 'Penalty: tRCD', ha='left', va='center',
-          fontsize=8, fontweight='bold', color=CD['closed_page'])
+          fontsize=6, fontweight='bold', color=CD['closed_page'])
 state_label(ax_b, x0 + idle_w / 2, y, 'Row A open')
 state_label(ax_b, closed_start + gap_w / 2, y, 'closed', '#999')
 state_label(ax_b, closed_start + gap_w + tRCD / 2, y,
@@ -256,7 +256,7 @@ ax_b.barh(y, tRP, height=bar_h, left=pre_start,
           color=C_PRE, edgecolor='white', linewidth=0.5)
 ax_b.text((pre_start + tmx_pos) / 2, y, 'PRE',
           ha='center', va='center',
-          fontsize=7, color='white', fontweight='bold')
+          fontsize=5.5, color='white', fontweight='bold')
 x = pre_start + tRP                                         # 61
 timeout_mark(ax_b, tmx_pos, y)                              # at 41, over PRE block
 x = cmd(ax_b, y, x, tRCD, 'ACT', C_ACT, fs=7)             # 61 → 101
@@ -264,7 +264,7 @@ cas_mark(ax_b, x, y)                                        # at 101
 # Hatched padding to equalize bar length
 padding_block(ax_b, y, x, x_end - x)                        # 101 → 131
 ax_b.text(x_end + 8, y, 'Penalty: tRP + tRCD', ha='left', va='center',
-          fontsize=8, fontweight='bold', color=CD['dympl'])
+          fontsize=6, fontweight='bold', color=CD['dympl'])
 state_label(ax_b, x0 + conflict_idle / 2, y, 'Row A open')
 state_label(ax_b, pre_start + tRP + tRCD / 2, y, 'Row B open')
 
@@ -280,7 +280,7 @@ padding_block(ax_b, y, x, x_end - x)                        # 21 → 131
 # Timeout marker — same style as other three scenarios
 timeout_mark(ax_b, tmx_pos, y)                               # at 41
 ax_b.text(x_end + 8, y, 'Penalty: 0', ha='left', va='center',
-          fontsize=8, fontweight='bold', color=CD['craft'])
+          fontsize=6, fontweight='bold', color=CD['craft'])
 state_label(ax_b, x0 + hit_idle / 2, y, 'Row A open')
 
 # ── Command legend ────────────────────────────────────────────
@@ -292,7 +292,7 @@ legend_patches = [
     Patch(facecolor=C_IDLE, edgecolor='#aaa', label='Idle'),
 ]
 ax_a.legend(handles=legend_patches, loc='upper right',
-            fontsize=8, framealpha=0.9, edgecolor='#ccc',
-            ncol=4, columnspacing=1.0, handlelength=1.2)
+            fontsize=5.5, framealpha=0.9, edgecolor='#ccc',
+            ncol=4, columnspacing=0.8, handlelength=1.0)
 
 savefig(fig, 'timing_diagram')

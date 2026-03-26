@@ -22,6 +22,9 @@ import numpy as np
 RESULTS_DIR = '/root/data/smartPRE/champsim-la/results'
 OUTPUT_DIR  = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'output')
 
+# ── LNCS template dimensions ─────────────────────────────────────────────
+LNCS_TEXT_WIDTH = 4.803   # inches (12.2 cm)
+
 # ── palette ───────────────────────────────────────────────────────────────
 # Colorblind-friendly, grayscale-distinguishable, print-safe.
 

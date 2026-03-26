@@ -6,9 +6,17 @@ This repository contains the draft and materials for the research paper **"CRAFT
 
 CRAFT is a lightweight, feedback-driven DRAM row buffer management scheme that uses the cost asymmetry of precharge outcomes (right/wrong/conflict) to adaptively adjust timeout values per bank, achieving superior IPC with only 140 B/channel hardware overhead.
 
+## ⚠️ 当前编辑规则
+
+**所有论文内容的编辑和修改必须在 `craft_appt.md` 中进行。** 这是最终整合的论文文件。不要去单独的 section 文件（如 `background.md`、`design.md`、`intro.md` 等）中修改内容，那些文件仅作为历史参考保留。
+
 ## Repository Structure
 
-论文每个大章节有一个独立的 markdown 文件，这样每个文件可以聚焦一个章节的内容：
+论文最终整合文件：
+
+- `craft_appt.md` — **当前主文件**，所有编辑在此进行
+
+以下为历史分章节文件（仅供参考，不再直接编辑）：
 
 - `draft.md` — 完整论文大纲（保留作为总览参考）
 - `intro.md` — Section 1: Introduction
@@ -41,15 +49,17 @@ The simulation infrastructure and experimental data live in a sibling directory:
 本论文目标发表于计算机体系结构顶级会议（ISCA / MICRO / HPCA / ASPLOS），英文正文必须采用正式学术写作风格：
 
 - **语域**：使用正式学术英语，避免口语化、随意或对话式表达
-- **用词**：优先使用精确的技术术语，避免非正式词汇（如用 "parameter" 而非 "knob"；用 "lacks interpretability" 而非 "is a black box"；用 "approximately" 而非 "~" 在正文行文中）
-- **禁止从句**：英文正文中禁止使用任何形式的从句，包括关系从句（which/that/who 引导的定语从句）、状语从句（while/whereas/as/because/although 等引导）、以及分词从句（-ing/-ed 分词短语作修饰成分）。所有信息必须通过独立句子或并列谓语表达。需要补充说明时，用句号断成独立句子，不得使用从句结构
+- **用词**：优先使用精确的技术术语，避免非正式词汇（如用 "parameter" 而非 "knob"；用 "lacks interpretability" 而非 "is a black box"；用 "approximately" 而非 "~" 在正文行文中）。禁止使用过于口语化或戏剧化的动词（如 "destroy"、"kill"、"blow up"），应使用正式的学术替代词（如 "eliminate"、"negate"、"forfeit"）
+- **从句使用**：从句（关系从句、状语从句、分词从句）可以使用，但应避免滥用。优先使用独立句子或并列谓语表达，必要时可使用从句保持行文流畅。避免在一个句子中嵌套多层从句
 - **禁止括号定义术语**：英文正文中禁止使用括号来解释或定义术语（如 "a wrong precharge (premature closure before ...)"）。术语应在首次出现时通过独立句子自然引入，不得用括号内嵌释义
 - **禁止破折号和冒号引出解释**：英文正文中禁止使用 em dash（—）或冒号（:）来引出解释性内容，两者都属于非正式写法。需要引出解释时用句号断成独立句子
+- **禁止自创术语**：不得在论文中自创未经定义的术语（如 "cost-blind feedback"）。所有术语必须使用已有文献中的标准表达，或在首次出现时通过独立句子明确定义
 - **并列事实拆句**：当一个句子用 ", and" 连接两个独立的事实或论点时，应拆成两个独立句子。每句承载一个论点，避免句子过长、信息密度过高（如 "A reduces X, but B is consumed by Y, and each Z requires W" 应拆为两句）
 - **比较措辞**：讨论他人工作的局限性时措辞应客观、有分寸（如 "presents scalability challenges" 而非 "scales poorly"），避免贬义措辞
 - **与 CRAFT 的对比**：区分段落中与自身工作的比较应基于可量化的技术差异，语气保持客观中立
 - **数字与单位**：十以内的数字在正文中拼写（如 "seven features"），技术参数保持数字形式（如 "512-entry"）；单位与数字之间加空格（如 "140 B per channel"）
 - **引用格式**：使用 "Awasthi et al. [Awasthi+11] proposed..." 而非 "[11] proposes..."，保持过去时态描述已有工作
+- **句间衔接**：句子与句子之间必须有清晰的逻辑联系，避免写成孤立事实的罗列。衔接手段包括：指示代词回指（"this overhead", "such behavior"）、对比连接（"by contrast"）、因果/条件从句、句尾信息与下句句首的承接等。每个句子应从上一句自然推进，而非突然跳转到新的事实。润色时如果发现原文句间割裂，必须主动修复衔接关系
 
 ## Key Baselines
 

@@ -1,0 +1,42 @@
+\begin{thebibliography}{1}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\providecommand{\doi}[1]{https://doi.org/#1}
+
+\bibitem{Awasthi11}
+Awasthi, M., Nellans, D.W., Sudan, K., Balasubramonian, R., Davis, A.: Handling
+  the problems and opportunities posed by multiple on-chip memory controllers.
+  In: Proceedings of the 19th international conference on Parallel
+  architectures and compilation techniques. pp. 319--330 (2010)
+
+\bibitem{Intel06}
+Dodd, J.M.: Adaptive page management (Jul~11 2006), uS Patent 7,076,617
+
+\bibitem{Hennessy19}
+Hennessy, J.L., Patterson, D.A.: A new golden age for computer architecture.
+  Communications of the ACM  \textbf{62}(2),  48--60 (2019)
+
+\bibitem{Jacob07}
+Jacob, B., Wang, D., Ng, S.: Memory systems: cache, DRAM, disk. Morgan Kaufmann
+  (2010)
+
+\bibitem{Mutlu13}
+Mutlu, O.: Memory scaling: A systems architecture perspective. In: 2013 5th
+  IEEE International Memory Workshop. pp. 21--25. IEEE (2013)
+
+\bibitem{Rafique22}
+Rafique, M.M., Lin, W.T., Ramanathan, A., Manohar, R.: Dympl: Dynamic
+  multi-feature page management policy using perceptron learning. In:
+  Proceedings of the International Symposium on Memory Systems (2022)
+
+\bibitem{Wulf95}
+Wulf, W.A., McKee, S.A.: Hitting the memory wall: Implications of the obvious.
+  ACM SIGARCH computer architecture news  \textbf{23}(1),  20--24 (1995)
+
+\bibitem{Zhang00}
+Zhang, Z., Zhu, Z., Zhang, X.: A permutation-based page interleaving scheme to
+  reduce row-buffer conflicts and exploit data locality. In: Proceedings of the
+  33rd annual ACM/IEEE international symposium on Microarchitecture. pp. 32--41
+  (2000)
+
+\end{thebibliography}

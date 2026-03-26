@@ -48,7 +48,7 @@ for key, label in benchmarks:
 # ── plot bar chart ───────────────────────────────────────────────────────
 setup_style()
 
-fig, axes = plt.subplots(3, 1, figsize=(4.8, 4.5), sharex=True)
+fig, axes = plt.subplots(3, 1, figsize=(LNCS_TEXT_WIDTH, 4.5), sharex=True)
 
 bar_colors = ['#4472C4', '#ED7D31', '#7030A0']
 bank_ids = np.arange(NUM_BANKS)

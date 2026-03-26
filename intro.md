@@ -32,9 +32,9 @@ This lack of cost awareness limits the convergence behavior of INTAP's feedback 
 
 This paper presents CRAFT (**C**ost-driven **R**ow-buffer **A**daptive **F**eedback driven **T**imeout), a lightweight, feedback-driven row buffer management scheme. CRAFT builds on the observation that the three possible outcomes of a timeout-based speculative precharge, namely *right*, *wrong*, and *conflict*, carry inherently asymmetric performance costs.
 A right precharge closes the row before a request to a different row arrives, incurring no wasted latency.
-A wrong precharge closes the row prematurely, necessitating a re-activation when the same row is accessed again.
-A conflict arises when the timeout is set too long and the open row blocks an arriving request to a different row. This incurs both precharge and activation penalties.
-Because conflicts carry a higher penalty than wrong precharges, CRAFT uses this cost asymmetry to drive differentiated timeout adjustments. Wrong precharges escalate the timeout value through exponentially increasing steps to preserve row locality. Conflicts de-escalate the timeout value with a smaller, cost-proportional step. This simple feedback mechanism requires no prediction tables, feature extraction, or learned models.
+A wrong precharge renders the precharge command unnecessary. The subsequent access targets the same row and would have been served at zero additional latency. The controller must instead reactivate the row and waste both tRP and tRCD cycles.
+A conflict involves a different target row. The activation cost is unavoidable regardless of the timeout decision. A correctly timed precharge would have overlapped the tRP latency with idle bank cycles. Only this overlap opportunity is lost.
+Because a wrong precharge imposes a substantially higher penalty than a conflict, CRAFT uses this cost asymmetry to drive differentiated timeout adjustments. Wrong precharges escalate the timeout through exponentially increasing steps. Conflicts de-escalate the timeout with a smaller, cost-proportional step. This simple feedback mechanism requires no prediction tables, feature extraction, or learned models.
 With only 140 bytes of state storage per channel, CRAFT outperforms all three baselines. CRAFT achieves geometric mean IPC improvements of 7.73%, 3.10%, and 2.84% over ABP, DYMPL, and INTAP, respectively, across 12 memory-intensive benchmarks.
 
 The contributions of this paper are as follows:

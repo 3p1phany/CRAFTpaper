@@ -12,7 +12,7 @@ import matplotlib.patches as mpatches, matplotlib.patheffects as pe
 
 setup_style()
 
-fig, ax = plt.subplots(figsize=(10, 3.2))
+fig, ax = plt.subplots(figsize=(LNCS_TEXT_WIDTH, 2.2))
 ax.set_xlim(-0.5, 10.5)
 ax.set_ylim(-0.1, 3.8)
 ax.axis('off')
@@ -40,20 +40,20 @@ ax.add_patch(rect)
 
 # ── Endpoint labels ───────────────────────────────────────────────
 ax.text(0.5, bar_y + bar_h/2 + 0.15, 'Close-Page', ha='center', va='bottom',
-        fontsize=11, fontweight='bold', color=COLORS['closed_page'])
+        fontsize=7, fontweight='bold', color=COLORS['closed_page'])
 ax.text(0.5, bar_y - bar_h/2 - 0.1, 'timeout = 0', ha='center', va='top',
-        fontsize=9, color='#666', fontstyle='italic')
+        fontsize=6, color='#666', fontstyle='italic')
 
 ax.text(10.0, bar_y + bar_h/2 + 0.15, 'Open-Page', ha='center', va='bottom',
-        fontsize=11, fontweight='bold', color=COLORS['open_page'])
+        fontsize=7, fontweight='bold', color=COLORS['open_page'])
 ax.text(10.0, bar_y - bar_h/2 - 0.1, r'timeout $\rightarrow \infty$', ha='center', va='top',
-        fontsize=9, color='#666', fontstyle='italic')
+        fontsize=6, color='#666', fontstyle='italic')
 
 # ── Arrow showing timeout direction ──────────────────────────────
 ax.annotate('', xy=(9.3, bar_y - bar_h/2 - 0.55), xytext=(1.2, bar_y - bar_h/2 - 0.55),
-            arrowprops=dict(arrowstyle='->', color='#555', lw=1.5))
+            arrowprops=dict(arrowstyle='->', color='#555', lw=1.2))
 ax.text(5.25, bar_y - bar_h/2 - 0.75, 'Increasing Timeout Value',
-        ha='center', va='top', fontsize=9.5, color='#555', fontstyle='italic')
+        ha='center', va='top', fontsize=6, color='#555', fontstyle='italic')
 
 # ── Strategy markers ─────────────────────────────────────────────
 # Positions along the spectrum (0-10 scale)
@@ -73,27 +73,27 @@ for x, label, sublabel, color, y_off in strategies:
     ax.plot([x, x], [bar_y + bar_h/2, my], color=color, linewidth=1.2,
             linestyle='--', alpha=0.6, zorder=4)
     # Diamond marker
-    ax.plot(x, my, marker='D', markersize=8, color=color, zorder=6,
-            markeredgecolor='white', markeredgewidth=0.8)
+    ax.plot(x, my, marker='D', markersize=6, color=color, zorder=6,
+            markeredgecolor='white', markeredgewidth=0.6)
     # Label
     ax.text(x, my + 0.15, label, ha='center', va='bottom',
-            fontsize=8.5, fontweight='bold', color=color,
-            path_effects=[pe.withStroke(linewidth=2.5, foreground='white')])
+            fontsize=5.5, fontweight='bold', color=color,
+            path_effects=[pe.withStroke(linewidth=2, foreground='white')])
 
 # Hardware cost above
 for x, label, sublabel, color, y_off in strategies:
     my = marker_base_y + y_off
     if sublabel:
         ax.text(x, my + 0.15 + 0.30, sublabel, ha='center', va='bottom',
-                fontsize=8.5, fontweight='bold', color=color,
-                path_effects=[pe.withStroke(linewidth=2.5, foreground='white')])
+                fontsize=5.5, fontweight='bold', color=color,
+                path_effects=[pe.withStroke(linewidth=2, foreground='white')])
 
 # ── Trade-off labels at bottom ────────────────────────────────────
 bottom_y = bar_y - bar_h/2 - 0.85
-ax.text(0.5, bottom_y, 'Pessimistic on row buffer locality', ha='center', va='center',
-        fontsize=8, color=COLORS_DARK['closed_page'], fontstyle='italic')
-ax.text(10.0, bottom_y, 'Opportunistic on row buffer locality', ha='center', va='center',
-        fontsize=8, color=COLORS_DARK['open_page'], fontstyle='italic')
+ax.text(0.5, bottom_y, 'Pessimistic on\nrow buffer locality', ha='center', va='center',
+        fontsize=5, color=COLORS_DARK['closed_page'], fontstyle='italic')
+ax.text(10.0, bottom_y, 'Opportunistic on\nrow buffer locality', ha='center', va='center',
+        fontsize=5, color=COLORS_DARK['open_page'], fontstyle='italic')
 
 plt.tight_layout()
 savefig(fig, 'policy_spectrum')

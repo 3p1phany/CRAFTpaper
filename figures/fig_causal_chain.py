@@ -32,13 +32,13 @@ labels = [short_name(b) for b in benchmarks]
 n = len(labels)
 x = np.arange(n)
 
-# ── three-panel figure ───────────────────────────────────────────────────
-fig, axes = plt.subplots(1, 3, figsize=(14, 4), sharey=False)
+# ── three-panel figure (vertical stack for LNCS single-column) ───────────
+fig, axes = plt.subplots(3, 1, figsize=(LNCS_TEXT_WIDTH, 7.0), sharey=False)
 
 panel_data = [
-    (read_hr, 'Read Hit Rate\nImprovement (pp)', '#4472C4', '+{:.1f}'),
-    (latency, 'Read Latency\nReduction (%)',     '#C0504D', '-{:.1f}'),
-    (ipc,     'IPC\nImprovement (%)',             COLORS['craft'], '+{:.1f}'),
+    (read_hr, 'Read HR Improvement (pp)', '#4472C4', '+{:.1f}'),
+    (latency, 'Read Latency Reduction (%)', '#C0504D', '-{:.1f}'),
+    (ipc,     'IPC Improvement (%)',         COLORS['craft'], '+{:.1f}'),
 ]
 
 panel_titles = [
@@ -47,32 +47,35 @@ panel_titles = [
     '(c) IPC vs. Best Baseline',
 ]
 
+# Add arrow annotations between panels
+arrow_positions = [0.68, 0.37]
+
 for ax, (data, ylabel, color, fmt), title in zip(axes, panel_data, panel_titles):
     bars = ax.bar(x, data, 0.65, color=color, edgecolor='white', linewidth=0.5)
 
     # Value annotations
     for xi, val in zip(x, data):
         ax.text(xi, val + 0.15, fmt.format(val),
-                ha='center', va='bottom', fontsize=6.5, fontweight='bold',
+                ha='center', va='bottom', fontsize=5, fontweight='bold',
                 color=color)
 
     # Averages
     avg = sum(data) / len(data)
     ax.axhline(y=avg, color='black', linestyle='--', linewidth=0.8, alpha=0.5)
     ax.text(n - 0.5, avg + 0.15, f'avg {fmt.format(avg)}',
-            ha='right', va='bottom', fontsize=7, fontstyle='italic')
+            ha='right', va='bottom', fontsize=5.5, fontstyle='italic')
 
-    ax.set_ylabel(ylabel, fontsize=10)
+    ax.set_ylabel(ylabel, fontsize=7)
     ax.set_xticks(x)
-    ax.set_xticklabels(labels, rotation=45, ha='right', fontsize=7.5)
-    ax.set_title(title, fontsize=10, fontweight='bold')
+    ax.set_xticklabels(labels, rotation=90, ha='center', fontsize=5.5)
+    ax.set_title(title, fontsize=8, fontweight='bold')
+    ax.tick_params(axis='y', labelsize=6)
     ax.grid(axis='y', linestyle=':', alpha=0.3)
     ax.set_xlim(-0.5, n - 0.5)
 
-# Add arrow annotations between panels
-for i in range(2):
-    fig.text(0.355 + i * 0.31, 0.92, r'$\rightarrow$', fontsize=18,
+for y_pos in arrow_positions:
+    fig.text(0.5, y_pos, r'$\Downarrow$', fontsize=14,
              ha='center', va='center', fontweight='bold')
 
-fig.tight_layout(rect=[0, 0, 1, 0.95])
+fig.tight_layout(rect=[0, 0, 1, 0.98], h_pad=2.5)
 savefig(fig, 'causal_chain')
