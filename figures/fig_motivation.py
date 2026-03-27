@@ -56,8 +56,7 @@ transition_idx = next(
 
 # ── plot ──────────────────────────────────────────────────────────────────
 setup_style()
-plt.rcParams.update({'font.size': 8})
-fig, ax = plt.subplots(figsize=(4.803, 3.0))
+fig, ax = plt.subplots(figsize=(LNCS_TEXT_WIDTH, 3.0))
 
 n = len(labels)
 x = np.arange(n)
@@ -67,38 +66,39 @@ c_open  = COLORS['open_page']
 c_close = COLORS['closed_page']
 
 ax.bar(x - bar_w/2, open_norm, bar_w,
-       label='Open-Page', color=c_open, edgecolor='white', linewidth=0.5, zorder=3)
+       label='Open-Page', color=c_open, hatch=HATCHES['open_page'],
+       edgecolor='black', linewidth=0.8, zorder=3)
 ax.bar(x + bar_w/2, close_norm, bar_w,
-       label='Close-Page', color=c_close, edgecolor='white', linewidth=0.5, zorder=3)
+       label='Close-Page', color=c_close, hatch=HATCHES['closed_page'],
+       edgecolor='black', linewidth=0.8, zorder=3)
 
 # Region divider
 if transition_idx is not None:
     ax.axvline(x=transition_idx - 0.5, color='#666666', linestyle='--',
                linewidth=0.8, alpha=0.5, zorder=1)
     ax.text((transition_idx - 1) / 2, 1.055,
-            'Close-Page Preferred', ha='center', va='top', fontsize=6,
+            'Close-Page Preferred', ha='center', va='top', fontsize=FONT_ANNOT,
             color=c_close, fontweight='bold', fontstyle='italic', alpha=0.7)
     ax.text((transition_idx + n - 1) / 2, 1.055,
-            'Open-Page Preferred', ha='center', va='top', fontsize=6,
+            'Open-Page Preferred', ha='center', va='top', fontsize=FONT_ANNOT,
             color=c_open, fontweight='bold', fontstyle='italic', alpha=0.7)
 
 # ── x-axis ───────────────────────────────────────────────────────────────
 ax.set_xticks(x)
-ax.set_xticklabels(labels, rotation=90, ha='center', fontsize=6)
+ax.set_xticklabels(labels, rotation=90, ha='center')
 
 # ── y-axis & styling ─────────────────────────────────────────────────────
 ax.set_ylim(0.65, 1.06)
 ax.yaxis.set_major_locator(mticker.MultipleLocator(0.1))
 ax.yaxis.set_minor_locator(mticker.MultipleLocator(0.05))
-ax.set_ylabel('Normalized IPC', fontsize=8)
+ax.set_ylabel('Normalized IPC')
 ax.set_xlim(-0.6, n - 0.4)
-ax.tick_params(axis='y', labelsize=7)
 ax.grid(axis='y', linestyle=':', alpha=0.3, zorder=0)
 
 plt.tight_layout()
 fig.subplots_adjust(top=0.88)
 handles, leg_labels = ax.get_legend_handles_labels()
 fig.legend(handles, leg_labels, loc='upper center', ncol=2,
-           fontsize=7, frameon=False)
+           fontsize=FONT_LEGEND, frameon=False)
 
 savefig(fig, 'motivation_open_vs_close')

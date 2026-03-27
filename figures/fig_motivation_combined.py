@@ -12,7 +12,6 @@ from common import *
 import matplotlib.gridspec as gridspec
 
 setup_style()
-plt.rcParams.update({'font.size': 7})
 
 # ══════════════════════════════════════════════════════════════════════════
 # Data for (a): Open-Page vs Close-Page
@@ -112,10 +111,10 @@ def load_rbh(rel_path):
 
 
 # ══════════════════════════════════════════════════════════════════════════
-# Figure layout: (a) on top, (b) 2×2 on bottom
+# Figure layout: (a) on top, (b) 2×2 on bottom — compact
 # ══════════════════════════════════════════════════════════════════════════
-fig = plt.figure(figsize=(LNCS_TEXT_WIDTH, 6.4))
-gs = gridspec.GridSpec(2, 1, height_ratios=[2.2, 3.2], hspace=0.55)
+fig = plt.figure(figsize=(LNCS_TEXT_WIDTH, 4.0))
+gs = gridspec.GridSpec(2, 1, height_ratios=[1.6, 2.8], hspace=0.55)
 
 # ── (a) Bar chart ────────────────────────────────────────────────────────
 ax_a = fig.add_subplot(gs[0])
@@ -128,72 +127,74 @@ c_open  = COLORS['open_page']
 c_close = COLORS['closed_page']
 
 ax_a.bar(x - bar_w/2, open_norm, bar_w,
-         label='Open-Page', color=c_open, edgecolor='white', linewidth=0.5, zorder=3)
+         label='Open-Page', color=c_open, hatch=HATCHES['open_page'],
+         edgecolor='black', linewidth=0.8, zorder=3)
 ax_a.bar(x + bar_w/2, close_norm, bar_w,
-         label='Close-Page', color=c_close, edgecolor='white', linewidth=0.5, zorder=3)
+         label='Close-Page', color=c_close, hatch=HATCHES['closed_page'],
+         edgecolor='black', linewidth=0.8, zorder=3)
 
 # Region divider
 if transition_idx is not None:
     ax_a.axvline(x=transition_idx - 0.5, color='#666666', linestyle='--',
                  linewidth=0.8, alpha=0.5, zorder=1)
-    ax_a.text((transition_idx - 1) / 2, 1.055,
-              'Close-Page Preferred', ha='center', va='top', fontsize=5.5,
-              color=c_close, fontweight='bold', fontstyle='italic', alpha=0.7)
-    ax_a.text((transition_idx + n - 1) / 2, 1.055,
-              'Open-Page Preferred', ha='center', va='top', fontsize=5.5,
-              color=c_open, fontweight='bold', fontstyle='italic', alpha=0.7)
 
 ax_a.set_xticks(x)
-ax_a.set_xticklabels(labels_a, rotation=90, ha='center', fontsize=5.5)
+ax_a.set_xticklabels(labels_a, rotation=35, ha='right')
 ax_a.set_ylim(0.65, 1.06)
 ax_a.yaxis.set_major_locator(mticker.MultipleLocator(0.1))
 ax_a.yaxis.set_minor_locator(mticker.MultipleLocator(0.05))
-ax_a.set_ylabel('Normalized IPC', fontsize=7)
+ax_a.set_ylabel('Normalized IPC')
 ax_a.set_xlim(-0.6, n - 0.4)
-ax_a.tick_params(axis='y', labelsize=6)
 ax_a.grid(axis='y', linestyle=':', alpha=0.3, zorder=0)
 
 handles, leg_labels = ax_a.get_legend_handles_labels()
 ax_a.legend(handles, leg_labels, loc='upper center', ncol=2,
-            fontsize=6, frameon=False, bbox_to_anchor=(0.5, 1.15))
+            fontsize=FONT_ANNOT, frameon=False, bbox_to_anchor=(0.5, 1.18))
 
-ax_a.text(-0.08, 1.15, '(a)', transform=ax_a.transAxes,
-          fontsize=8, fontweight='bold', va='top')
+ax_a.text(-0.08, 1.18, '(a)', transform=ax_a.transAxes,
+          fontsize=FONT_TITLE, fontweight='bold', va='top')
 
 # ── (b) 2×2 phase RBH ───────────────────────────────────────────────────
 gs_b = gridspec.GridSpecFromSubplotSpec(2, 2, subplot_spec=gs[1],
-                                        hspace=0.45, wspace=0.35)
+                                        hspace=0.5, wspace=0.3)
 axes_b = np.array([[fig.add_subplot(gs_b[i, j]) for j in range(2)]
                     for i in range(2)])
 
-for ax, cfg in zip(axes_b.flat, BENCHMARKS_B):
+phase_colors = [COLORS['open_page'], COLORS['closed_page'],
+                COLORS['craft'], COLORS['dympl']]
+phase_styles = ['-', '--', '-.', ':']
+
+for ax, cfg, pcol, pls in zip(axes_b.flat, BENCHMARKS_B, phase_colors, phase_styles):
     epochs, rbh = load_rbh(cfg['path'])
 
-    ax.plot(epochs, rbh, color=COLORS['open_page'], linewidth=0.8)
-    ax.fill_between(epochs, rbh, alpha=0.12, color=COLORS['open_page'])
+    ax.plot(epochs, rbh, color=pcol, linewidth=1.0, linestyle=pls)
+    ax.fill_between(epochs, rbh, alpha=0.18, color=pcol)
 
     ax.set_ylim(-2, 105)
-    ax.tick_params(labelsize=6)
     ax.yaxis.set_major_locator(mticker.MultipleLocator(25))
     ax.grid(axis='y', linestyle=':', alpha=0.3)
-    ax.set_title(cfg['title'], fontsize=7, pad=3)
+    ax.set_title(cfg['title'], fontsize=FONT_TICK, pad=3)
 
     for arr in cfg['arrows']:
         ax.annotate(arr['text'], xy=arr['xy'], xytext=arr['xytext'],
-                    fontsize=5.5, ha='center', va='center',
-                    color=COLORS_DARK['open_page'], fontweight='bold',
-                    arrowprops=dict(arrowstyle='->', color='#888888',
+                    fontsize=FONT_DETAIL, ha='center', va='center',
+                    color='#333333', fontweight='bold',
+                    arrowprops=dict(arrowstyle='->', color='#666666',
                                    lw=0.6),
                     annotation_clip=False)
 
 # Shared axis labels
 for ax in axes_b[1]:
-    ax.set_xlabel('Epoch', fontsize=7)
-for ax in axes_b[:, 0]:
-    ax.set_ylabel('Row Buffer Hit Rate (%)', fontsize=7)
+    ax.set_xlabel('Epoch')
+# Single shared y-label centered vertically between the two rows
+bbox_top = axes_b[0, 0].get_position()
+bbox_bot = axes_b[1, 0].get_position()
+fig.text(bbox_bot.x0 - 0.08, (bbox_top.y1 + bbox_bot.y0) / 2,
+         'Row Buffer Hit Rate (%)', fontsize=FONT_AXIS_LABEL, va='center',
+         rotation=90)
 
 axes_b[0, 0].text(-0.2, 1.2, '(b)', transform=axes_b[0, 0].transAxes,
-                   fontsize=8, fontweight='bold', va='top')
+                   fontsize=FONT_TITLE, fontweight='bold', va='top')
 
 savefig(fig, 'motivation_combined')
 plt.close(fig)

@@ -31,9 +31,9 @@ HIGH_BINS = [f'craft_timeout_value_sum[{lo}-{lo+99}]' for lo in range(2000, 3200
 HIGH_BINS.append('craft_timeout_value_sum[3200-]')
 
 # Colors matching fig_timeout_distribution.py
-COLOR_LOW  = '#C0504D'   # brick red
-COLOR_MID  = '#ED7D31'   # sandy orange
-COLOR_HIGH = '#4472C4'   # steel blue
+COLOR_LOW  = COLORS['closed_page']
+COLOR_MID  = COLORS['dympl']
+COLOR_HIGH = COLORS['open_page']
 
 SMOOTH_MIN_WIN = 9  # minimum smoothing window
 
@@ -158,16 +158,15 @@ for ax, (bench, title) in zip(axes, BENCHMARKS):
                     [l + m + h for l, m, h in zip(lows, mids, highs)],
                     color=COLOR_HIGH, alpha=0.85, linewidth=0)
 
-    ax.set_title(title, fontsize=8, fontweight='bold')
+    ax.set_title(title, fontsize=FONT_TITLE, fontweight='bold')
     ax.set_xlim(0, 100)
     ax.set_ylim(0, 100)
-    ax.set_xlabel('Execution Progress (%)', fontsize=7)
-    ax.tick_params(labelsize=6)
+    ax.set_xlabel('Execution Progress (%)')
     ax.grid(axis='y', linestyle=':', alpha=0.3)
 
-axes[0].set_ylabel('Timeout Dist. (%)', fontsize=7)
-axes[1].set_ylabel('Timeout Dist. (%)', fontsize=7)
-axes[2].set_ylabel('Timeout Dist. (%)', fontsize=7)
+axes[0].set_ylabel('Timeout Dist. (%)')
+axes[1].set_ylabel('Timeout Dist. (%)')
+axes[2].set_ylabel('Timeout Dist. (%)')
 
 # Shared legend
 from matplotlib.patches import Patch
@@ -176,9 +175,9 @@ legend_elements = [
     Patch(facecolor=COLOR_MID, label='Mid [800, 2 000)'),
     Patch(facecolor=COLOR_HIGH, label='High [2 000, 3 200]'),
 ]
-fig.legend(handles=legend_elements, loc='upper center', ncol=3, fontsize=7,
-           framealpha=0.9, edgecolor='gray', fancybox=False,
-           bbox_to_anchor=(0.5, 1.03))
+fig.legend(handles=legend_elements, loc='upper center', ncol=3,
+           fontsize=FONT_LEGEND, framealpha=0.9, edgecolor='gray',
+           fancybox=False, bbox_to_anchor=(0.5, 1.03))
 
 fig.tight_layout(rect=[0, 0, 1, 0.96])
 savefig(fig, 'timeout_evolution')

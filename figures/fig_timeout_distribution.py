@@ -32,40 +32,39 @@ x = np.arange(n)
 fig, ax = plt.subplots(figsize=(LNCS_TEXT_WIDTH, 3.5))
 
 bar_w = 0.55
-color_low  = '#C0504D'   # brick red   — aggressive close
-color_mid  = '#ED7D31'   # sandy orange — balanced
-color_high = '#4472C4'   # steel blue   — keep open
 
-b1 = ax.bar(x, low, bar_w, label='Low [50, 800)', color=color_low,
-            edgecolor='white', linewidth=0.5)
-b2 = ax.bar(x, mid, bar_w, bottom=low, label='Mid [800, 2000)', color=color_mid,
-            edgecolor='white', linewidth=0.5)
+b1 = ax.bar(x, low, bar_w, label='Low [50, 800)',
+            color=COLORS['closed_page'], hatch=HATCHES['closed_page'],
+            edgecolor='black', linewidth=0.8)
+b2 = ax.bar(x, mid, bar_w, bottom=low, label='Mid [800, 2000)',
+            color=COLORS['dympl'], hatch=HATCHES['dympl'],
+            edgecolor='black', linewidth=0.8)
 b3 = ax.bar(x, high, bar_w, bottom=[l+m for l, m in zip(low, mid)],
-            label='High [2000, 3200]', color=color_high,
-            edgecolor='white', linewidth=0.5)
+            label='High [2000, 3200]',
+            color=COLORS['open_page'], hatch=HATCHES['open_page'],
+            edgecolor='black', linewidth=0.8)
 
-ax.set_ylabel('Distribution (%)', fontsize=8)
+ax.set_ylabel('Distribution (%)')
 ax.set_xticks(x)
-ax.set_xticklabels(labels_raw, rotation=90, ha='center', fontsize=6)
+ax.set_xticklabels(labels_raw, rotation=35, ha='right')
 ax.set_ylim(0, 112)
 
 # Region annotations
-ax.annotate('Aggressive Close', xy=(1, 105), fontsize=6, ha='center',
+ax.annotate('Aggressive Close', xy=(1, 105), fontsize=FONT_ANNOT, ha='center',
             fontstyle='italic', color=COLORS_DARK['closed_page'])
-ax.annotate('Mixed', xy=(4, 105), fontsize=6, ha='center',
+ax.annotate('Mixed', xy=(4, 105), fontsize=FONT_ANNOT, ha='center',
             fontstyle='italic', color=COLORS_DARK['dympl'])
-ax.annotate('Keep Open', xy=(9, 105), fontsize=6, ha='center',
+ax.annotate('Keep Open', xy=(9, 105), fontsize=FONT_ANNOT, ha='center',
             fontstyle='italic', color=COLORS_DARK['open_page'])
 
 # Separator lines
 ax.axvline(x=2.5, color='gray', linestyle=':', linewidth=0.8, alpha=0.5)
 ax.axvline(x=5.5, color='gray', linestyle=':', linewidth=0.8, alpha=0.5)
 
-ax.legend(loc='upper center', ncol=3, fontsize=7,
+ax.legend(loc='upper center', ncol=3, fontsize=FONT_LEGEND,
           framealpha=0.9, edgecolor='gray', fancybox=False,
           bbox_to_anchor=(0.5, -0.22))
 ax.grid(axis='y', linestyle=':', alpha=0.3)
-ax.tick_params(axis='y', labelsize=6)
 
 fig.tight_layout()
 savefig(fig, 'timeout_distribution')

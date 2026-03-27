@@ -8,7 +8,6 @@ from collections import defaultdict
 from common import *
 
 setup_style()
-plt.rcParams.update({'font.size': 8})
 
 # ── benchmark configs ────────────────────────────────────────────────────
 BENCHMARKS = [
@@ -78,14 +77,13 @@ for ax, cfg in zip(axes.flat, BENCHMARKS):
     ax.fill_between(epochs, rbh, alpha=0.12, color=COLORS['open_page'])
 
     ax.set_ylim(-2, 105)
-    ax.tick_params(labelsize=7)
     ax.yaxis.set_major_locator(mticker.MultipleLocator(25))
     ax.grid(axis='y', linestyle=':', alpha=0.3)
-    ax.set_title(cfg['title'], fontsize=8, pad=4)
+    ax.set_title(cfg['title'], pad=4)
 
     for arr in cfg['arrows']:
         ax.annotate(arr['text'], xy=arr['xy'], xytext=arr['xytext'],
-                    fontsize=6, ha='center', va='center',
+                    fontsize=FONT_ANNOT, ha='center', va='center',
                     color=COLORS_DARK['open_page'], fontweight='bold',
                     arrowprops=dict(arrowstyle='->', color='#888888',
                                    lw=0.8),
@@ -93,9 +91,9 @@ for ax, cfg in zip(axes.flat, BENCHMARKS):
 
 # shared axis labels
 for ax in axes[1]:
-    ax.set_xlabel('Epoch', fontsize=8)
+    ax.set_xlabel('Epoch')
 for ax in axes[:, 0]:
-    ax.set_ylabel('Row Buffer Hit Rate (%)', fontsize=8)
+    ax.set_ylabel('Row Buffer Hit Rate (%)')
 
 fig.tight_layout(h_pad=1.2, w_pad=1.0)
 savefig(fig, 'phase_rbh_4bench')

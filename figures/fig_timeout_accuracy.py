@@ -56,13 +56,12 @@ ax1.text(n - 0.4, 51.5, '50%', fontsize=6, color='gray',
          ha='right', va='bottom')
 
 # Left axis styling
-ax1.set_ylabel('Timeout Precharge Accuracy (%)', fontsize=8)
+ax1.set_ylabel('Timeout Precharge Accuracy (%)')
 ax1.set_ylim(0, 105)
 ax1.set_yticks(np.arange(0, 101, 20))
-ax1.tick_params(axis='y', labelsize=6)
 
 ax1.set_xticks(x)
-ax1.set_xticklabels(labels, rotation=90, ha='center', fontsize=6)
+ax1.set_xticklabels(labels, rotation=35, ha='right')
 ax1.grid(axis='y', linestyle=':', alpha=0.3)
 ax1.set_xlim(-0.6, n - 0.4)
 
@@ -73,17 +72,19 @@ ax2.plot(x, ipc_impr, 's-', color=COLORS_DARK['open_page'],
          markeredgecolor=COLORS_DARK['open_page'], markeredgewidth=0.6,
          zorder=5)
 
-# Annotate IPC values
+# Annotate IPC values — alternate above/below to avoid overlap
 for i, (xi, yi) in enumerate(zip(x, ipc_impr)):
+    y_off = 7 if i % 2 == 0 else -12
+    va = 'bottom' if i % 2 == 0 else 'top'
     ax2.annotate(f'+{yi:.1f}%', (xi, yi),
-                 textcoords='offset points', xytext=(0, 6),
-                 fontsize=5.5, fontweight='bold',
-                 color=COLORS_DARK['open_page'], ha='center')
+                 textcoords='offset points', xytext=(0, y_off),
+                 fontsize=FONT_DETAIL, fontweight='bold',
+                 color=COLORS_DARK['open_page'], ha='center', va=va)
 
-ax2.set_ylabel('IPC Improvement (%)', fontsize=8,
+ax2.set_ylabel('IPC Improvement (%)',
                color=COLORS_DARK['open_page'])
 ax2.set_ylim(0, 8)
-ax2.tick_params(axis='y', labelcolor=COLORS_DARK['open_page'], labelsize=6)
+ax2.tick_params(axis='y', labelcolor=COLORS_DARK['open_page'])
 
 # Legend
 from matplotlib.patches import Patch
@@ -99,8 +100,9 @@ legend_elements = [
            markersize=4, linewidth=1.0,
            label='IPC Impr.'),
 ]
-ax1.legend(handles=legend_elements, loc='upper left', ncol=3, fontsize=6,
-           framealpha=0.9, edgecolor='gray', fancybox=False)
+ax1.legend(handles=legend_elements, loc='upper left', ncol=3,
+           fontsize=FONT_ANNOT, framealpha=0.9, edgecolor='gray',
+           fancybox=False)
 
 fig.tight_layout()
 savefig(fig, 'timeout_accuracy')

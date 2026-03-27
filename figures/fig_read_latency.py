@@ -48,14 +48,15 @@ x = np.arange(n)
 fig, ax = plt.subplots(figsize=(LNCS_TEXT_WIDTH, 3.5))
 
 bar_w = 0.17
-policies = ['ABP', 'DYMPL', 'INTAP', 'CRAFT']
+policies = ['ABP', 'DYMPL', 'INTAP', r'$\bf{CRAFT}$']
 values   = [abp, dympl, intap, craft]
-colors   = [COLORS['abp'], COLORS['dympl'], COLORS['intap'], COLORS['craft']]
+color_keys = ['abp', 'dympl', 'intap', 'craft']
 
-for i, (p, vals, c) in enumerate(zip(policies, values, colors)):
+for i, (p, vals, ck) in enumerate(zip(policies, values, color_keys)):
     offset = (i - 1.5) * bar_w
     ax.bar(x + offset, vals, bar_w,
-           label=p, color=c, edgecolor='white', linewidth=0.5)
+           label=p, color=COLORS[ck], hatch=HATCHES[ck],
+           edgecolor='black', linewidth=0.8)
 
 # Axis styling
 ymin = 70
@@ -64,19 +65,20 @@ ax.set_ylim(ymin, ymax)
 ax.set_yticks(np.arange(ymin, ymax + 1, 10))
 ax.yaxis.set_minor_locator(mticker.MultipleLocator(5))
 
-ax.set_ylabel('Average Read Latency (DRAM Cycles)', fontsize=8)
+ax.set_ylabel('Average Read Latency (DRAM Cycles)')
 ax.set_xticks(x)
-ax.set_xticklabels(labels, rotation=90, ha='center', fontsize=6)
+ax.set_xticklabels(labels, rotation=35, ha='right')
+tick_labels = ax.get_xticklabels()
+tick_labels[-1].set_fontweight('bold')
 
 # AVG separator
 ax.axvline(x=n - 1.5, color='gray', linestyle='--', linewidth=0.8)
 
-ax.legend(loc='upper center', ncol=4, fontsize=7,
+ax.legend(loc='upper center', ncol=4, fontsize=FONT_LEGEND,
           framealpha=0.9, edgecolor='gray', fancybox=False,
           bbox_to_anchor=(0.5, 1.15))
 ax.grid(axis='y', linestyle=':', alpha=0.3)
 ax.set_xlim(-0.6, n - 0.4)
-ax.tick_params(axis='y', labelsize=6)
 
 fig.tight_layout()
 savefig(fig, 'read_latency')

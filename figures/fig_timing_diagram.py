@@ -20,7 +20,7 @@ tRP  = 40
 C_PRE   = COLORS['abp']          # slate gray  — precharge command
 C_ACT   = COLORS['open_page']    # steel blue  — activate command
 C_CAS   = COLORS['craft']        # forest green — CAS command
-C_IDLE  = '#EBEBEB'              # light gray  — idle period
+C_IDLE  = COLORS['idle']         # light gray  — idle period
 C_TMOUT = COLORS['intap']        # medium purple — timeout marker
 C_WRONG = COLORS['closed_page']  # brick red   — wrong precharge
 C_TCONF = COLORS['dympl']        # sandy orange — conflict outcome
@@ -32,25 +32,25 @@ bar_h = 0.52
 
 # ── Figure layout ─────────────────────────────────────────────
 fig, (ax_a, ax_b) = plt.subplots(
-    2, 1, figsize=(LNCS_TEXT_WIDTH, 6.5),
-    gridspec_kw={'height_ratios': [1, 2.4], 'hspace': 0.35})
+    2, 1, figsize=(LNCS_TEXT_WIDTH, 6.0),
+    gridspec_kw={'height_ratios': [1, 2.4], 'hspace': 0.2})
 
 # ── Helpers ───────────────────────────────────────────────────
 
-def cmd(ax, y, x, w, label, color, fs=6):
+def cmd(ax, y, x, w, label, color, fs=FONT_ANNOT):
     """Draw a colored command block with centered label."""
     ax.barh(y, w, height=bar_h, left=x,
-            color=color, edgecolor='white', linewidth=0.5)
+            color=color, edgecolor='black', linewidth=0.8)
     ax.text(x + w / 2, y, label, ha='center', va='center',
             fontsize=fs, color='white', fontweight='bold')
     return x + w
 
-def idle_block(ax, y, x, w, fs=5.5):
+def idle_block(ax, y, x, w, fs=FONT_DETAIL):
     """Draw a light-gray idle period block."""
     ax.barh(y, w, height=bar_h, left=x,
-            color=C_IDLE, edgecolor='#aaa', linewidth=0.5)
+            color=C_IDLE, edgecolor='black', linewidth=0.8)
     ax.text(x + w / 2, y, 'idle', ha='center', va='center',
-            fontsize=fs, color='#777')
+            fontsize=fs, color='#555')
     return x + w
 
 def closed_gap(ax, y, x, w):
@@ -76,7 +76,7 @@ def bracket_above(ax, xl, xr, y, label, color):
     for xp in (xl, xr):
         ax.plot([xp, xp], [ya - tick, ya + tick], color='#444', lw=0.9)
     ax.text((xl + xr) / 2, ya + 0.08, label, ha='center', va='bottom',
-            fontsize=5.5, fontweight='bold', color=color)
+            fontsize=FONT_DETAIL, fontweight='bold', color=color)
 
 def bracket_below(ax, xl, xr, y, label, color):
     """Draw a penalty bracket below the bar with label."""
@@ -84,7 +84,7 @@ def bracket_below(ax, xl, xr, y, label, color):
     ax.annotate('', xy=(xr, yb), xytext=(xl, yb),
                 arrowprops=dict(arrowstyle='<->', color=color, lw=1.1))
     ax.text((xl + xr) / 2, yb - 0.12, label, ha='center', va='top',
-            fontsize=5, fontweight='bold', color=color)
+            fontsize=FONT_DETAIL, fontweight='bold', color=color)
 
 def timeout_mark(ax, x, y):
     """Draw a dashed timeout marker across the bar."""
@@ -95,20 +95,20 @@ def timeout_mark(ax, x, y):
     ax.plot(x, top + 0.06, marker='v', color=C_TMOUT,
             markersize=4, zorder=5, clip_on=False)
     ax.text(x, top + 0.16, 'timeout', ha='center', va='bottom',
-            fontsize=5, color=C_TMOUT, fontweight='bold')
+            fontsize=FONT_DETAIL, color=C_TMOUT, fontweight='bold')
 
 def req_arrow(ax, x, y, label, color='#333'):
     """Draw a request-arrival arrow above the bar."""
     ax.annotate(label,
                 xy=(x, y + bar_h / 2 + 0.03),
                 xytext=(x + 20, y + bar_h / 2 + 0.55),
-                fontsize=5, ha='center', fontweight='bold', color=color,
+                fontsize=FONT_DETAIL, ha='center', fontweight='bold', color=color,
                 arrowprops=dict(arrowstyle='->', color=color, lw=0.7))
 
 def state_label(ax, x, y, label, color='#666'):
     """Place a row-buffer state label below the bar."""
     ax.text(x, y - bar_h / 2 - 0.20, label, ha='center', va='top',
-            fontsize=4.5, fontstyle='italic', color=color)
+            fontsize=5, fontstyle='italic', color=color)
 
 
 def cas_mark(ax, x, y):
@@ -120,7 +120,7 @@ def cas_mark(ax, x, y):
     ax.plot(x, top + 0.06, marker='v', color=C_CAS,
             markersize=4, zorder=5, clip_on=False)
     ax.text(x, top + 0.16, 'CAS', ha='center', va='bottom',
-            fontsize=5, color=CD['craft'], fontweight='bold')
+            fontsize=FONT_DETAIL, color=CD['craft'], fontweight='bold')
 
 
 def req_mark(ax, x, y, label, color='#333'):
@@ -132,7 +132,7 @@ def req_mark(ax, x, y, label, color='#333'):
     ax.plot(x, top + 0.06, marker='v', color=color,
             markersize=4, zorder=5, clip_on=False)
     ax.text(x, top + 0.16, label, ha='center', va='bottom',
-            fontsize=5, color=color, fontweight='bold')
+            fontsize=FONT_DETAIL, color=color, fontweight='bold')
 
 
 def ghost_timeout_mark(ax, x, y):
@@ -147,10 +147,10 @@ def ghost_timeout_mark(ax, x, y):
 # Panel (a): Three Access Scenarios
 # ═══════════════════════════════════════════════════════════════
 ax_a.set_xlim(-5, 175)
-ax_a.set_ylim(-0.8, 4.5)
+ax_a.set_ylim(-0.5, 4.2)
 ax_a.axis('off')
 ax_a.set_title('(a) Row Buffer Access Latency',
-               fontsize=8, fontweight='bold', pad=8)
+               fontsize=FONT_TITLE, fontweight='bold', pad=8)
 
 ys_a = [3.2, 1.8, 0.4]
 labels_a = ['Row Buffer Hit',
@@ -160,7 +160,7 @@ x0 = 8
 
 for y, lbl in zip(ys_a, labels_a):
     ax_a.text(x0 - 3, y, lbl, ha='right', va='center',
-              fontsize=6, fontweight='bold')
+              fontsize=FONT_ANNOT, fontweight='bold')
 
 # Hit: tCAS only
 cmd(ax_a, ys_a[0], x0, tCAS, 'tCAS', C_CAS)
@@ -184,10 +184,10 @@ bracket_above(ax_a, x0, x0 + tRP + tRCD + tCAS, ys_a[2],
 # Panel (b): Four Timeout Precharge Outcomes
 # ═══════════════════════════════════════════════════════════════
 ax_b.set_xlim(-5, 210)
-ax_b.set_ylim(-1.0, 10.0)
+ax_b.set_ylim(-0.3, 9.8)
 ax_b.axis('off')
 ax_b.set_title('(b) Timeout-Based Speculative Precharge Outcomes',
-               fontsize=8, fontweight='bold', pad=8)
+               fontsize=FONT_TITLE, fontweight='bold', pad=8)
 
 ys_b = [8.2, 6.0, 3.8, 1.6]
 labels_b = ['Right Precharge',
@@ -197,7 +197,7 @@ labels_b = ['Right Precharge',
 
 for y, lbl in zip(ys_b, labels_b):
     ax_b.text(-3, y, lbl, ha='right', va='center',
-              fontsize=6, fontweight='bold')
+              fontsize=FONT_ANNOT, fontweight='bold')
 
 # Shared reference positions
 x0      = 5
@@ -212,14 +212,14 @@ cas_mark(ax_b, x, y)
 idle_w = tmx_pos - x0                                       # 36
 x = idle_block(ax_b, y, x, idle_w)                          # 5 → 41
 timeout_mark(ax_b, x, y)                                    # at 41
-x = cmd(ax_b, y, x, tRP, 'PRE', C_PRE, fs=7)              # 41 → 81
+x = cmd(ax_b, y, x, tRP, 'PRE', C_PRE, fs=FONT_TICK)              # 41 → 81
 closed_start = x
 x = closed_gap(ax_b, y, x, gap_w)                           # 81 → 91
 req_mark(ax_b, closed_start + gap_w / 2, y, 'Req. (diff row)')
-x = cmd(ax_b, y, x, tRCD, 'ACT', C_ACT, fs=7)             # 91 → 131
+x = cmd(ax_b, y, x, tRCD, 'ACT', C_ACT, fs=FONT_TICK)             # 91 → 131
 cas_mark(ax_b, x, y)
 ax_b.text(x + 8, y, 'Penalty: 0', ha='left', va='center',
-          fontsize=6, fontweight='bold', color=CD['craft'])
+          fontsize=FONT_ANNOT, fontweight='bold', color=CD['craft'])
 state_label(ax_b, x0 + idle_w / 2, y, 'Row A open')
 state_label(ax_b, closed_start + gap_w / 2, y, 'closed', '#999')
 state_label(ax_b, closed_start + gap_w + tRCD / 2, y, 'Row B open')
@@ -230,14 +230,14 @@ x = x0
 cas_mark(ax_b, x, y)
 x = idle_block(ax_b, y, x, idle_w)                          # 5 → 41
 timeout_mark(ax_b, x, y)                                    # at 41
-x = cmd(ax_b, y, x, tRP, 'PRE', C_PRE, fs=7)              # 41 → 81
+x = cmd(ax_b, y, x, tRP, 'PRE', C_PRE, fs=FONT_TICK)              # 41 → 81
 closed_start = x
 x = closed_gap(ax_b, y, x, gap_w)                           # 81 → 91
 req_mark(ax_b, closed_start + gap_w / 2, y, 'Req. (same row)', C_WRONG)
-act_end = cmd(ax_b, y, x, tRCD, 'ACT', C_ACT, fs=7)       # 91 → 131
+act_end = cmd(ax_b, y, x, tRCD, 'ACT', C_ACT, fs=FONT_TICK)       # 91 → 131
 cas_mark(ax_b, act_end, y)
 ax_b.text(act_end + 8, y, 'Penalty: tRCD', ha='left', va='center',
-          fontsize=6, fontweight='bold', color=CD['closed_page'])
+          fontsize=FONT_ANNOT, fontweight='bold', color=CD['closed_page'])
 state_label(ax_b, x0 + idle_w / 2, y, 'Row A open')
 state_label(ax_b, closed_start + gap_w / 2, y, 'closed', '#999')
 state_label(ax_b, closed_start + gap_w + tRCD / 2, y,
@@ -247,24 +247,24 @@ state_label(ax_b, closed_start + gap_w + tRCD / 2, y,
 y = ys_b[2]
 x = x0
 cas_mark(ax_b, x, y)
-conflict_idle = 16                                           # shorter idle
-x = idle_block(ax_b, y, x, conflict_idle)                   # 5 → 21
-req_mark(ax_b, x, y, 'Req. (diff row)', C_TCONF)           # at 21
+conflict_idle = 26                                           # wider idle for spacing
+x = idle_block(ax_b, y, x, conflict_idle)                   # 5 → 31
+req_mark(ax_b, x, y, 'Req.(diff row)', C_TCONF)            # at 31
 pre_start = x
 # PRE block — shift label to left half to avoid collision with timeout marker
 ax_b.barh(y, tRP, height=bar_h, left=pre_start,
-          color=C_PRE, edgecolor='white', linewidth=0.5)
-ax_b.text((pre_start + tmx_pos) / 2, y, 'PRE',
+          color=C_PRE, edgecolor='black', linewidth=0.8)
+ax_b.text(pre_start + tRP * 0.4, y, 'PRE',
           ha='center', va='center',
-          fontsize=5.5, color='white', fontweight='bold')
-x = pre_start + tRP                                         # 61
-timeout_mark(ax_b, tmx_pos, y)                              # at 41, over PRE block
-x = cmd(ax_b, y, x, tRCD, 'ACT', C_ACT, fs=7)             # 61 → 101
-cas_mark(ax_b, x, y)                                        # at 101
+          fontsize=FONT_DETAIL, color='white', fontweight='bold')
+x = pre_start + tRP                                         # 71
+ghost_timeout_mark(ax_b, tmx_pos, y)                        # at 41, faint reference
+x = cmd(ax_b, y, x, tRCD, 'ACT', C_ACT, fs=FONT_TICK)     # 71 → 111
+cas_mark(ax_b, x, y)                                        # at 111
 # Hatched padding to equalize bar length
-padding_block(ax_b, y, x, x_end - x)                        # 101 → 131
+padding_block(ax_b, y, x, x_end - x)
 ax_b.text(x_end + 8, y, 'Penalty: tRP + tRCD', ha='left', va='center',
-          fontsize=6, fontweight='bold', color=CD['dympl'])
+          fontsize=FONT_ANNOT, fontweight='bold', color=CD['dympl'])
 state_label(ax_b, x0 + conflict_idle / 2, y, 'Row A open')
 state_label(ax_b, pre_start + tRP + tRCD / 2, y, 'Row B open')
 
@@ -272,27 +272,27 @@ state_label(ax_b, pre_start + tRP + tRCD / 2, y, 'Row B open')
 y = ys_b[3]
 x = x0
 cas_mark(ax_b, x, y)
-hit_idle = 16                                                # same spacing as Conflict
-x = idle_block(ax_b, y, x, hit_idle)                        # 5 → 21
-req_mark(ax_b, x, y, 'Req. (same row)', C_CAS)             # at 21
+hit_idle = 26                                                # wider idle for spacing
+x = idle_block(ax_b, y, x, hit_idle)                        # 5 → 31
+req_mark(ax_b, x, y, 'Req.(same row)', C_CAS)              # at 31
 # Hatched padding to equalize bar length
-padding_block(ax_b, y, x, x_end - x)                        # 21 → 131
-# Timeout marker — same style as other three scenarios
-timeout_mark(ax_b, tmx_pos, y)                               # at 41
+padding_block(ax_b, y, x, x_end - x)
+# Timeout marker — same style as other scenarios
+ghost_timeout_mark(ax_b, tmx_pos, y)                         # at 41, faint reference
 ax_b.text(x_end + 8, y, 'Penalty: 0', ha='left', va='center',
-          fontsize=6, fontweight='bold', color=CD['craft'])
+          fontsize=FONT_ANNOT, fontweight='bold', color=CD['craft'])
 state_label(ax_b, x0 + hit_idle / 2, y, 'Row A open')
 
 # ── Command legend ────────────────────────────────────────────
 from matplotlib.patches import Patch
 legend_patches = [
-    Patch(facecolor=C_PRE, edgecolor='white', label='PRE (precharge)'),
-    Patch(facecolor=C_ACT, edgecolor='white', label='ACT (activate)'),
-    Patch(facecolor=C_CAS, edgecolor='white', label='CAS (column access)'),
-    Patch(facecolor=C_IDLE, edgecolor='#aaa', label='Idle'),
+    Patch(facecolor=C_PRE, edgecolor='black', label='PRE (precharge)'),
+    Patch(facecolor=C_ACT, edgecolor='black', label='ACT (activate)'),
+    Patch(facecolor=C_CAS, edgecolor='black', label='CAS (column access)'),
+    Patch(facecolor=C_IDLE, edgecolor='black', label='Idle'),
 ]
 ax_a.legend(handles=legend_patches, loc='upper right',
-            fontsize=5.5, framealpha=0.9, edgecolor='#ccc',
-            ncol=4, columnspacing=0.8, handlelength=1.0)
+            fontsize=FONT_DETAIL, framealpha=0.9, edgecolor='#ccc',
+            ncol=1, handlelength=1.0)
 
 savefig(fig, 'timing_diagram')

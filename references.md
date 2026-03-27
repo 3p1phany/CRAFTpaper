@@ -150,7 +150,7 @@
   author={Jure, Leskovec},
   journal={Retrieved December 2021 from http://snap. stanford. edu/data},
   year={2014}
-}
+} *(NOTICE: Fake reference, remove it in paper)*
 
 [Li+20] S. Li, Z. Yang, D. Reddy, A. Srivastava, and B. Jacob, "DRAMsim3: A Cycle-Accurate, Thermal-Capable DRAM Simulator," IEEE Computer Architecture Letters, vol. 19, no. 2, pp. 106–109, 2020.
 @article{li2020dramsim3,
@@ -186,26 +186,115 @@
 }
 
 [Rafique+22] N. Rafique, W.-T. Lin, A. Ramanathan, and R. Manohar, "DYMPL: Dynamic Multi-feature Perceptron-Based Learning for Adaptive DRAM Page Policy," in Proceedings of the IEEE/ACM International Symposium on Microarchitecture (MICRO), 2022.
+@inproceedings{rafique2022dynamic,
+  title={Dynamic page policy using perceptron learning},
+  author={Rafique, Muhammad and Zhu, Zhichun},
+  booktitle={Proceedings of the 2022 International Symposium on Memory Systems},
+  pages={1--11},
+  year={2022}
+}
 
 [Rixner+00] S. Rixner, W. J. Dally, U. J. Kapasi, P. Mattson, and J. D. Owens, "Memory Access Scheduling," in Proceedings of the International Symposium on Computer Architecture (ISCA), pp. 128–138, 2000.
+@article{rixner2000memory,
+  title={Memory access scheduling},
+  author={Rixner, Scott and Dally, William J and Kapasi, Ujval J and Mattson, Peter and Owens, John D},
+  journal={ACM SIGARCH Computer Architecture News},
+  volume={28},
+  number={2},
+  pages={128--138},
+  year={2000},
+  publisher={ACM New York, NY, USA}
+}
 
 [Rohbani+21] N. Rohbani, M. Shafiei, Z. Fang, and R. Balasubramonian, "PF-DRAM: A Precharge-Free DRAM Structure," in Proceedings of the International Symposium on Computer Architecture (ISCA), 2021. *(Verify venue and year)*
+@inproceedings{rohbani2021pf,
+  title={Pf-dram: a precharge-free dram structure},
+  author={Rohbani, Nezam and Darabi, Sina and Sarbazi-Azad, Hamid},
+  booktitle={2021 ACM/IEEE 48th Annual International Symposium on Computer Architecture (ISCA)},
+  pages={126--138},
+  year={2021},
+  organization={IEEE}
+}
+
 
 [Shen+14] X. Shen, C. Tian, and B. Li, "RBPP: Row Buffer-Aware Page Policy for Multi-Core DRAM Systems," in Proceedings of the IEEE International Conference on Computer Design (ICCD), 2014. *(Verify venue and year)*
+@article{song2020improving,
+  title={Improving memory efficiency in heterogeneous MPSoCs through row-buffer locality-aware forwarding},
+  author={Song, Yang and Lin, Bill},
+  journal={ACM Transactions on Architecture and Code Optimization (TACO)},
+  volume={17},
+  number={1},
+  pages={1--26},
+  year={2020},
+  publisher={ACM New York, NY, USA}
+}
 
 [Sherwood+02] T. Sherwood, E. Perelman, G. Hamerly, and B. Calder, "Automatically Characterizing Large Scale Program Behavior," in Proceedings of the International Conference on Architectural Support for Programming Languages and Operating Systems (ASPLOS), pp. 45–57, 2002.
+@article{sherwood2002automatically,
+  title={Automatically characterizing large scale program behavior},
+  author={Sherwood, Timothy and Perelman, Erez and Hamerly, Greg and Calder, Brad},
+  journal={ACM SIGPLAN Notices},
+  volume={37},
+  number={10},
+  pages={45--57},
+  year={2002},
+  publisher={ACM New York, NY, USA}
+}
 
 [Shun+13] J. Shun and G. E. Blelloch, "Ligra: A Lightweight Graph Processing Framework for Shared Memory," in Proceedings of the ACM SIGPLAN Symposium on Principles and Practice of Parallel Programming (PPoPP), pp. 135–146, 2013.
+@inproceedings{shun2013ligra,
+  title={Ligra: a lightweight graph processing framework for shared memory},
+  author={Shun, Julian and Blelloch, Guy E},
+  booktitle={Proceedings of the 18th ACM SIGPLAN symposium on Principles and practice of parallel programming},
+  pages={135--146},
+  year={2013}
+}
 
 [SPEC06] Standard Performance Evaluation Corporation, "SPEC CPU2006 Benchmark Suite," https://www.spec.org/cpu2006/.
+@article{spradling2007spec,
+  title={SPEC CPU2006 benchmark tools},
+  author={Spradling, Cloyce D},
+  journal={ACM SIGARCH Computer Architecture News},
+  volume={35},
+  number={1},
+  pages={130--134},
+  year={2007},
+  publisher={ACM New York, NY, USA}
+}
 
-[Stankovic+05] N. Stankovic and K. Milenkovic, "A Performance Comparison of DRAM Page Closing Policies," in Proceedings of the International Conference on Computer Design (ICCD), 2005. *(Verify exact title and venue)*
+[Stankovic+05] N. Stankovic and K. Milenkovic, "A Performance Comparison of DRAM Page Closing Policies," in Proceedings of the International Conference on Computer Design (ICCD), 2005. *(FAKE paper. Remove it in paper)*
 
 [Subramanian+18b] L. Subramanian, D. Lee, V. Seshadri, H. Hassan, and O. Mutlu, "BLISS: Balancing Performance, Fairness and Complexity in Memory Access Scheduling," IEEE Transactions on Parallel and Distributed Systems, vol. 27, no. 10, pp. 3032–3048, 2016. *(Verify: the citation key says 18b; the isolation/equalization transistor work may be a different paper)*
+@article{subramanian2016bliss,
+  title={BLISS: Balancing performance, fairness and complexity in memory access scheduling},
+  author={Subramanian, Lavanya and Lee, Donghyuk and Seshadri, Vivek and Rastogi, Harsha and Mutlu, Onur},
+  journal={IEEE Transactions on Parallel and Distributed Systems},
+  volume={27},
+  number={10},
+  pages={3071--3087},
+  year={2016},
+  publisher={IEEE}
+}
 
 [Xu+09] C.-K. Xu, Z. Zhu, and M. Prvulovic, "Page Policy Control Through Two-Level Prediction," in Proceedings of the International Conference on Computer Design (ICCD), 2009. *(Verify exact title and venue)*
+@inproceedings{xu2009prediction,
+  title={Prediction in dynamic sdram controller policies},
+  author={Xu, Ying and Agarwal, Aabhas S and Davis, Brian T},
+  booktitle={International Workshop on Embedded Computer Systems},
+  pages={128--138},
+  year={2009},
+  organization={Springer}
+
 
 [Xie+13] M. Xie, D. Tong, K. Huang, and X. Cheng, "Improving System Throughput and Fairness Simultaneously in Shared Memory CMP Systems via Dynamic Bank Partitioning," in Proceedings of the IEEE International Symposium on High Performance Computer Architecture (HPCA), pp. 344–355, 2013.
+@inproceedings{xie2014improving,
+  title={Improving system throughput and fairness simultaneously in shared memory CMP systems via dynamic bank partitioning},
+  author={Xie, Mingli and Tong, Dong and Huang, Kan and Cheng, Xu},
+  booktitle={2014 IEEE 20th International Symposium on High Performance Computer Architecture (HPCA)},
+  pages={344--355},
+  year={2014},
+  organization={IEEE}
+}
 
 [Zhang+00] Z. Zhang, Z. Zhu, and X. Zhang, "A Permutation-Based Page Interleaving Scheme to Reduce Row-Buffer Conflicts and Exploit Data Locality," in Proceedings of the 33rd Annual IEEE/ACM International Symposium on Microarchitecture (MICRO), pp. 32–41, 2000.
 @inproceedings{zhang2000permutation,

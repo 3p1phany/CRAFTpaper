@@ -56,12 +56,12 @@ fig, ax = plt.subplots(figsize=(LNCS_TEXT_WIDTH, 3.2))
 
 # Base portion: all bars share BASE = 100% (light fill)
 ax.bar(x, [100.0] * n, width=0.55, color=COLORS['craft'], alpha=0.25,
-       edgecolor='white', linewidth=0.5, label='Core Loop (BASE)')
+       edgecolor='black', linewidth=0.8, label='Core Loop (BASE)')
 
 # Delta portion stacked on top of BASE
 # Positive deltas extend upward; negative deltas extend downward into base
 ax.bar(x, deltas, width=0.55, bottom=[100.0] * n,
-       color=delta_colors, edgecolor='white', linewidth=0.5,
+       color=delta_colors, edgecolor='black', linewidth=0.8,
        label='Feature Contribution')
 
 # Highlight PRECHARGE bar with a thicker edge
@@ -78,26 +78,26 @@ ax.axhline(y=100, color=COLORS_DARK['craft'], linestyle='--',
 for i, (v, r, d) in enumerate(zip(variants, ratios, deltas)):
     if i == 0:
         ax.text(i, 101.5, '100%', ha='center', va='bottom',
-                fontsize=6, fontweight='bold', color=COLORS_DARK['craft'])
+                fontsize=FONT_ANNOT, fontweight='bold', color=COLORS_DARK['craft'])
     elif d > 0.5:
         ax.text(i, r + 1.5, f'+{d:.1f}%', ha='center', va='bottom',
-                fontsize=6, fontweight='bold', color=delta_dark[i])
+                fontsize=FONT_ANNOT, fontweight='bold', color=delta_dark[i])
     elif d < -0.5:
         ax.text(i, r - 1.5, f'{d:.1f}%', ha='center', va='top',
-                fontsize=6, fontweight='bold', color=delta_dark[i])
+                fontsize=FONT_ANNOT, fontweight='bold', color=delta_dark[i])
     else:
         ax.text(i, 101.5, '+0.0%', ha='center', va='bottom',
-                fontsize=6, fontweight='bold', color=delta_dark[i])
+                fontsize=FONT_ANNOT, fontweight='bold', color=delta_dark[i])
 
 # Category labels below x-axis
 cat_y = -0.17
-ax.text(0, cat_y, 'Core Loop', ha='center', fontsize=6,
+ax.text(0, cat_y, 'Core Loop', ha='center', fontsize=FONT_ANNOT,
         color=COLORS_DARK['craft'], transform=ax.get_xaxis_transform())
-ax.text(2, cat_y, 'Precharge-path', ha='center', fontsize=6,
+ax.text(2, cat_y, 'Precharge-path', ha='center', fontsize=FONT_ANNOT,
         color=COLORS_DARK['open_page'], transform=ax.get_xaxis_transform())
-ax.text(4.5, cat_y, 'Conflict-path', ha='center', fontsize=6,
+ax.text(4.5, cat_y, 'Conflict-path', ha='center', fontsize=FONT_ANNOT,
         color=COLORS_DARK['closed_page'], transform=ax.get_xaxis_transform())
-ax.text(6.5, cat_y, 'Combined', ha='center', fontsize=6,
+ax.text(6.5, cat_y, 'Combined', ha='center', fontsize=FONT_ANNOT,
         color='#444444', transform=ax.get_xaxis_transform())
 
 # Vertical separators between categories
@@ -105,13 +105,16 @@ for sep_x in [0.5, 3.5, 5.5]:
     ax.axvline(x=sep_x, color='gray', linestyle=':', linewidth=0.6, alpha=0.4)
 
 # ── axis styling ─────────────────────────────────────────────────────────
-ax.set_ylabel('Normalized IPC Gain\n(BASE = 100%)', fontsize=7)
+ax.set_ylabel('Normalized IPC Gain\n(BASE = 100%)')
 ax.set_xticks(x)
-ax.set_xticklabels(variants, fontsize=6.5)
+ax.set_xticklabels(variants)
+# Bold key variants
+for i, tl in enumerate(ax.get_xticklabels()):
+    if variants[i] in ('BASE', 'PRECHARGE', 'ALL'):
+        tl.set_fontweight('bold')
 ax.set_ylim(80, 145)
 ax.set_yticks(np.arange(80, 141, 10))
 ax.yaxis.set_minor_locator(plt.MultipleLocator(5))
-ax.tick_params(axis='y', labelsize=6)
 ax.grid(axis='y', linestyle=':', alpha=0.3)
 ax.set_xlim(-0.5, n - 0.5)
 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.3.25)  26 MAR 2026 15:21
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.3.26)  27 MAR 2026 00:22
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -179,42 +179,86 @@ File: pdftex.def 2020/10/05 v1.2a Graphics/color driver for pdftex
 (/usr/share/texlive/texmf-dist/tex/latex/placeins/placeins.sty
 Package: placeins 2005/04/18  v 2.2
 )
+(/usr/share/texlive/texmf-dist/tex/latex/algorithms/algorithm.sty
+Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating enviro
+nment
+
+(/usr/share/texlive/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count289
+\float@exts=\toks21
+\float@box=\box97
+\@float@everytoks=\toks22
+\@floatcapt=\box98
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2020/11/24 v1.1c Standard LaTeX ifthen package (DPC)
+)
+\@float@every@algorithm=\toks23
+\c@algorithm=\count290
+)
+(/usr/share/texlive/texmf-dist/tex/latex/algorithmicx/algpseudocode.sty
+Package: algpseudocode 
+
+(/usr/share/texlive/texmf-dist/tex/latex/algorithmicx/algorithmicx.sty
+Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
+
+Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
+\c@ALG@line=\count291
+\c@ALG@rem=\count292
+\c@ALG@nested=\count293
+\ALG@tlm=\skip51
+\ALG@thistlm=\skip52
+\c@ALG@Lnr=\count294
+\c@ALG@blocknr=\count295
+\c@ALG@storecount=\count296
+\c@ALG@tmpcounter=\count297
+\ALG@tmplength=\skip53
+)
+Document Style - pseudocode environments for use with the `algorithmicx' style
+) (/usr/share/texlive/texmf-dist/tex/latex/multirow/multirow.sty
+Package: multirow 2021/03/15 v2.8 Span multiple rows of a table
+\multirow@colwidth=\skip54
+\multirow@cntb=\count298
+\multirow@dima=\skip55
+\bigstrutjot=\dimen163
+)
 (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2022-01-12 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count289
-\l__pdf_internal_box=\box97
+\l__color_backend_stack_int=\count299
+\l__pdf_internal_box=\box99
 )
 (./samplepaper.aux)
 \openout1 = `samplepaper.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
 
 (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count290
-\scratchdimen=\dimen163
-\scratchbox=\box98
-\nofMPsegments=\count291
-\nofMParguments=\count292
-\everyMPshowfont=\toks21
-\MPscratchCnt=\count293
-\MPscratchDim=\dimen164
-\MPnumerator=\count294
-\makeMPintoPDFobject=\count295
-\everyMPtoPDFconversion=\toks22
+\scratchcounter=\count300
+\scratchdimen=\dimen164
+\scratchbox=\box100
+\nofMPsegments=\count301
+\nofMParguments=\count302
+\everyMPshowfont=\toks24
+\MPscratchCnt=\count303
+\MPscratchDim=\dimen165
+\MPnumerator=\count304
+\makeMPintoPDFobject=\count305
+\everyMPtoPDFconversion=\toks25
 ) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
@@ -225,72 +269,143 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 44.
+(Font)              <7> on input line 59.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 44.
+(Font)              <5> on input line 59.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <9> on input line 44.
+(Font)              <9> on input line 59.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 44.
-LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 4
-4.
+(Font)              <6> on input line 59.
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 5
+9.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
-Overfull \hbox (3.22633pt too wide) in paragraph at lines 47--48
+Overfull \hbox (3.22633pt too wide) in paragraph at lines 62--63
 []\T1/cmr/m/n/9 DRAM row buffer man-age-ment presents a fun-da-men-tal trade-
  []
 
 
-Overfull \hbox (7.2694pt too wide) in paragraph at lines 51--52
+Overfull \hbox (7.2694pt too wide) in paragraph at lines 66--67
 \T1/cmr/m/n/9 intensive work-loads from graph an-a-lyt-ics and sci-en-tific com
 -put-ing. CRAFT
  []
 
 [1
 
-
-
-pdfTeX warning: pdflatex (file pdftex.map): cannot open font map file
-]
-<../figures/output/motivation_combined.pdf, id=16, 315.17426pt x 411.33733pt>
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+<../figures/output/motivation_combined.pdf, id=18, 301.28897pt x 261.01524pt>
 File: ../figures/output/motivation_combined.pdf Graphic file (type pdf)
 <use ../figures/output/motivation_combined.pdf>
 Package pdftex.def Info: ../figures/output/motivation_combined.pdf  used on inp
-ut line 73.
-(pdftex.def)             Requested size: 347.12354pt x 453.05617pt.
- [2] [3 <../figures/output/motivation_combined.pdf>] [4] (./samplepaper.bbl)
-[5] (./samplepaper.aux) ) 
+ut line 88.
+(pdftex.def)             Requested size: 347.12354pt x 300.72676pt.
+
+Overfull \hbox (7.84424pt too wide) in paragraph at lines 96--97
+\T1/cmr/m/n/10 of timeout-based spec-u-la-tive precharge, CRAFT fo-cuses on thr
+ee feedback-relevant
+ []
+
+[2]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [3 <../figures/output/motivation_combined.pdf>]
+<../figures/output/timing_diagram.pdf, id=134, 315.43214pt x 350.97185pt>
+File: ../figures/output/timing_diagram.pdf Graphic file (type pdf)
+<use ../figures/output/timing_diagram.pdf>
+Package pdftex.def Info: ../figures/output/timing_diagram.pdf  used on input li
+ne 125.
+(pdftex.def)             Requested size: 295.05711pt x 328.32301pt.
+
+Overfull \hbox (43.73058pt too wide) in paragraph at lines 141--150
+ [][] 
+ []
+
+[4] [5 <../figures/output/timing_diagram.pdf>] [6]
+Overfull \hbox (11.15778pt too wide) in paragraph at lines 179--180
+[]\T1/cmr/m/n/10 The ra-tio of avoid-able over-head be-tween these two out-come
+s is $\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t[] \OT1/cmr/m/n/10 + \OML/cmm/m/it/10 
+t[]\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 =t[]$\T1/cmr/m/n/10 .
+ []
+
+[7]
+Overfull \hbox (17.57127pt too wide) in paragraph at lines 243--244
+ \T1/cmr/m/it/10 (c) Streak De-cay (SD).[] \T1/cmr/m/n/10 Each cor-rect spec-u-
+la-tive precharge decre-ments $[]$
+ []
+
+[8]
+Overfull \hbox (66.15572pt too wide) in paragraph at lines 297--314
+ [][] 
+ []
+
+[9]
+<../figures/output/normalized_ipc.pdf, id=266, 494.00748pt x 169.96295pt>
+File: ../figures/output/normalized_ipc.pdf Graphic file (type pdf)
+<use ../figures/output/normalized_ipc.pdf>
+Package pdftex.def Info: ../figures/output/normalized_ipc.pdf  used on input li
+ne 336.
+(pdftex.def)             Requested size: 312.40906pt x 107.48438pt.
+ [10]
+<../figures/output/timeout_distribution.pdf, id=270, 335.35889pt x 237.10435pt>
+
+File: ../figures/output/timeout_distribution.pdf Graphic file (type pdf)
+<use ../figures/output/timeout_distribution.pdf>
+Package pdftex.def Info: ../figures/output/timeout_distribution.pdf  used on in
+put line 355.
+(pdftex.def)             Requested size: 242.98541pt x 171.80037pt.
+ [11 <../figures/output/normalized_ipc.pdf> <../figures/output/timeout_distribu
+tion.pdf>]
+Overfull \hbox (123.03905pt too wide) in paragraph at lines 376--390
+ [][] 
+ []
+
+<../figures/output/ablation.pdf, id=458, 323.71477pt x 204.32681pt>
+File: ../figures/output/ablation.pdf Graphic file (type pdf)
+<use ../figures/output/ablation.pdf>
+Package pdftex.def Info: ../figures/output/ablation.pdf  used on input line 394
+.
+(pdftex.def)             Requested size: 242.98541pt x 153.37566pt.
+
+Underfull \vbox (badness 6758) has occurred while \output is active []
+
+ [12 <../figures/output/ablation.pdf>] (./samplepaper.bbl [13]) [14] (./samplep
+aper.aux) ) 
 Here is how much of TeX's memory you used:
- 2059 strings out of 480247
- 31166 string characters out of 5896106
- 329803 words of memory out of 5000000
- 20006 multiletter control sequences out of 15000+600000
- 479660 words of font info for 47 fonts, out of 8000000 for 9000
- 14 hyphenation exceptions out of 8191
- 55i,9n,62p,1270b,245s stack positions out of 5000i,500n,10000p,200000b,80000s
- </root/.texlive2021/texmf-var/fonts/pk/ljfour/jknappe
-n/ec/ecrm0600.600pk> </usr/share/texlive/texmf-dist/fonts/pk/ljfour/public/cm/d
-pi600/cmsy10.pk> </root/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx
-1000.600pk> </root/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ectt1000.
-600pk> </root/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecti1000.600pk
-> </root/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1200.600pk> </r
-oot/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm0900.600pk> </root/.
-texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmsy9.600pk> </root/.texlive202
-1/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx0900.600pk> </root/.texlive2021/tex
-mf-var/fonts/pk/ljfour/jknappen/ec/ectt0900.600pk> </root/.texlive2021/texmf-va
-r/fonts/pk/ljfour/jknappen/ec/ecrm0900.600pk> </usr/share/texlive/texmf-dist/fo
-nts/pk/ljfour/public/cm/dpi600/cmr6.pk> </usr/share/texlive/texmf-dist/fonts/pk
-/ljfour/public/cm/dpi600/cmmi7.pk> </usr/share/texlive/texmf-dist/fonts/pk/ljfo
-ur/public/cm/dpi600/cmsy7.pk> </usr/share/texlive/texmf-dist/fonts/pk/ljfour/pu
-blic/cm/dpi600/cmr7.pk> </root/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/
-ec/ecrm1000.600pk> </root/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ec
-bx1440.600pk>
-Output written on samplepaper.pdf (5 pages, 130504 bytes).
+ 2894 strings out of 478287
+ 45507 string characters out of 5849289
+ 348630 words of memory out of 5000000
+ 21064 multiletter control sequences out of 15000+600000
+ 482007 words of font info for 53 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 55i,12n,62p,774b,324s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}{/usr/sha
+re/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/share/texlive/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type
+1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
+nts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb>
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/
+share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/t
+exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmti7.pfb></usr/share/texlive/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmti9.pfb></usr/share/texmf/fonts/type1/public/cm-
+super/sfbx0900.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1000.pfb><
+/usr/share/texmf/fonts/type1/public/cm-super/sfbx1200.pfb></usr/share/texmf/fon
+ts/type1/public/cm-super/sfbx1440.pfb></usr/share/texmf/fonts/type1/public/cm-s
+uper/sfrm0900.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb></
+usr/share/texmf/fonts/type1/public/cm-super/sfti0900.pfb></usr/share/texmf/font
+s/type1/public/cm-super/sfti1000.pfb></usr/share/texmf/fonts/type1/public/cm-su
+per/sftt0900.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt1000.pfb></u
+sr/share/texmf/fonts/type1/public/cm-super/sfxc0900.pfb>
+Output written on samplepaper.pdf (14 pages, 550335 bytes).
 PDF statistics:
- 482 PDF objects out of 1000 (max. 8388607)
- 93 compressed objects within 1 object stream
+ 655 PDF objects out of 1000 (max. 8388607)
+ 166 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 26 words of extra memory for PDF output out of 10000 (max. 10000000)
 

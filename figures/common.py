@@ -29,36 +29,74 @@ LNCS_TEXT_WIDTH = 4.803   # inches (12.2 cm)
 # Colorblind-friendly, grayscale-distinguishable, print-safe.
 
 COLORS = {
-    # Static policies (motivation)
-    'open_page':   '#4472C4',  # steel blue
-    'closed_page': '#C0504D',  # brick red
+    # Static policies (motivation) — Tableau Muted
+    'open_page':   '#4E79A7',  # muted blue
+    'closed_page': '#E15759',  # muted red
 
     # Our method
-    'craft':       '#548235',  # forest green
+    'craft':       '#59A14F',  # muted green
 
     # Baselines
-    'abp':         '#8B8B8B',  # slate gray
-    'dympl':       '#ED7D31',  # sandy orange
-    'intap':       '#7030A0',  # medium purple
+    'abp':         '#BAB0AC',  # muted gray
+    'dympl':       '#F28E2B',  # muted orange
+    'intap':       '#B07AA1',  # muted purple
+
+    # Neutral
+    'idle':        '#EBEBEB',  # light gray — idle periods in timing diagrams
 }
 
 # Darker variants for text annotations
 COLORS_DARK = {
-    'open_page':   '#2B5080',
-    'closed_page': '#8B2F2F',
-    'craft':       '#3B5E25',
-    'abp':         '#555555',
-    'dympl':       '#B85A15',
-    'intap':       '#4A1F6E',
+    'open_page':   '#36557A',
+    'closed_page': '#A33D3F',
+    'craft':       '#3E7137',
+    'abp':         '#807874',
+    'dympl':       '#A9631E',
+    'intap':       '#7B5571',
 }
+
+# Light background fills for diagram boxes
+COLORS_BG = {
+    'closed_page': '#FCE8E8',  # wrong precharge background
+    'craft':       '#E8F4E6',  # right precharge background
+    'dympl':       '#FEF0E0',  # conflict background
+    'open_page':   '#E6EEF5',  # timeout box background
+}
+
+# Hatch patterns for bar charts (black-and-white friendly)
+HATCHES = {
+    'open_page':   '/',
+    'closed_page': '\\',
+    'craft':       'x',
+    'abp':         '.',
+    'dympl':       '+',
+    'intap':       'o',
+}
+
+# ── standardized font sizes ───────────────────────────────────────────────
+# Use these constants in all figure scripts for consistency.
+# Designed for LNCS single-column width (4.803 in / 12.2 cm).
+FONT_TITLE      = 8    # subplot titles
+FONT_AXIS_LABEL = 7    # axis labels (xlabel, ylabel)
+FONT_TICK        = 6    # tick labels (x and y)
+FONT_LEGEND      = 6    # legend text
+FONT_ANNOT       = 5.5  # value annotations on bars / data points
+FONT_DETAIL      = 5    # fine-grained labels (state labels, sub-annotations)
 
 # ── matplotlib defaults ───────────────────────────────────────────────────
 def setup_style():
     """Call once at the top of each figure script."""
     plt.rcParams.update({
-        'font.family': 'sans-serif',
-        'font.size': 10,
+        'font.family': 'TeX Gyre Heros',
+        'font.size': 7,
         'axes.linewidth': 0.8,
+        'axes.labelsize': FONT_AXIS_LABEL,
+        'axes.labelweight': 'bold',
+        'axes.titlesize': FONT_TITLE,
+        'axes.titleweight': 'bold',
+        'xtick.labelsize': FONT_TICK,
+        'ytick.labelsize': FONT_TICK,
+        'legend.fontsize': FONT_LEGEND,
     })
 
 # ── benchmark naming ──────────────────────────────────────────────────────
@@ -75,14 +113,23 @@ _GRAPH_SHORT = {
     'Amazon0312': 'amzn', 's16-e10': 's16',
 }
 
+_PROG_SHORT = {
+    'Components-Shortcut': 'CompS',
+    'Triangle-Counting': 'TriCnt',
+    'PageRank': 'PR',
+    'Triangle': 'Tri',
+    'RandAcc_LCG': 'LCG',
+    'hj-8-NPO_st': 'hj-8',
+}
+
 def short_name(bench):
     """Convert benchmark path to paper label.
 
     Examples:
-        spec06/sphinx3/ref   -> SPEC06/sphinx3
-        ligra/CF/higgs       -> Ligra/CF-higgs
-        npb/CG               -> NPB/CG
-        hpcc/RandAcc         -> HPCC/RandAcc
+        spec06/sphinx3/ref                    -> SPEC06/sphinx3
+        ligra/CF/higgs                        -> Ligra/CF-higgs
+        ligra/Components-Shortcut/soc-pokec   -> Ligra/CompS-pokec
+        npb/CG                                -> NPB/CG
     """
     parts = bench.split('/')
     if len(parts) == 3:
@@ -90,12 +137,14 @@ def short_name(bench):
         sd = _SUITE_DISPLAY.get(suite, suite)
         if suite in ('spec06', 'spec17'):
             return f"{sd}/{prog}"
+        p = _PROG_SHORT.get(prog, prog)
         g = _GRAPH_SHORT.get(inp, inp)
-        return f"{sd}/{prog}-{g}"
+        return f"{sd}/{p}-{g}"
     elif len(parts) == 2:
         suite, prog = parts
         sd = _SUITE_DISPLAY.get(suite, suite)
-        return f"{sd}/{prog}"
+        p = _PROG_SHORT.get(prog, prog)
+        return f"{sd}/{p}"
     return bench
 
 # ── data loading ──────────────────────────────────────────────────────────
@@ -132,5 +181,5 @@ def savefig(fig, name):
     for ext in ('png', 'pdf'):
         out = os.path.join(OUTPUT_DIR, f'{name}.{ext}')
         kwargs = {'dpi': 300} if ext == 'png' else {}
-        fig.savefig(out, bbox_inches='tight', **kwargs)
+        fig.savefig(out, bbox_inches='tight', pad_inches=0.02, **kwargs)
     print(f'Saved to {OUTPUT_DIR}/{name}.{{png,pdf}}')

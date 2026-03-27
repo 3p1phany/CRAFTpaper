@@ -49,7 +49,11 @@ The simulation infrastructure and experimental data live in a sibling directory:
 本论文目标发表于计算机体系结构顶级会议（ISCA / MICRO / HPCA / ASPLOS），英文正文必须采用正式学术写作风格：
 
 - **语域**：使用正式学术英语，避免口语化、随意或对话式表达
-- **用词**：优先使用精确的技术术语，避免非正式词汇（如用 "parameter" 而非 "knob"；用 "lacks interpretability" 而非 "is a black box"；用 "approximately" 而非 "~" 在正文行文中）。禁止使用过于口语化或戏剧化的动词（如 "destroy"、"kill"、"blow up"），应使用正式的学术替代词（如 "eliminate"、"negate"、"forfeit"）
+- **用词**：优先使用精确的技术术语，避免非正式词汇（如用 "parameter" 而非 "knob"；用 "lacks interpretability" 而非 "is a black box"；用 "approximately" 而非 "~" 在正文行文中）。禁止使用过于口语化或戏剧化的动词（如 "destroy"、"kill"、"blow up"），应使用正式的学术替代词（如 "eliminate"、"negate"、"forfeit"）。以下为禁用词黑名单（括号内为推荐替代）：
+  - **禁用动词**：undermine（→ negate / reduce / weaken）、destroy / kill / blow up（→ eliminate / remove）、boost（→ improve / increase）、tackle（→ address）、leverage（→ exploit / use）、utilize（→ use）、craft（作动词时 → design / construct，避免与本文方法名混淆）、delve（→ examine / investigate）、showcase（→ demonstrate / present）、spearhead（→ lead / initiate）、revolutionize（→ advance / transform）、skyrocket / plummet（→ increase / decrease significantly）、must（→ 改写为陈述句，如 "X requires Y" 或 "Y is necessary"，避免祈使语气）
+  - **禁用形容词/副词**：pivotal / crucial / vital（→ important / significant / essential）、cutting-edge / state-of-the-art（仅在有明确定义时使用）、myriad（→ numerous / many）、robust（除非指统计 robustness，否则 → effective / reliable）、seamless（→ transparent / without overhead）、drastically（→ substantially / significantly）
+  - **禁用短语**：it is worth noting that / notably（直接陈述即可）、plays a key role（→ 具体说明作用）、paves the way（→ enables）、in a nutshell（→ 删除或用 in summary）、a non-trivial amount（→ 给出具体数字）
+  - **原则**：当不确定某个词是否适合正式学术写作时，优先选择更简单、更常见、更精确的替代词。避免一切修辞性、新闻体、商业宣传风格的用词
 - **从句使用**：从句（关系从句、状语从句、分词从句）可以使用，但应避免滥用。优先使用独立句子或并列谓语表达，必要时可使用从句保持行文流畅。避免在一个句子中嵌套多层从句
 - **禁止括号定义术语**：英文正文中禁止使用括号来解释或定义术语（如 "a wrong precharge (premature closure before ...)"）。术语应在首次出现时通过独立句子自然引入，不得用括号内嵌释义
 - **禁止破折号和冒号引出解释**：英文正文中禁止使用 em dash（—）或冒号（:）来引出解释性内容，两者都属于非正式写法。需要引出解释时用句号断成独立句子

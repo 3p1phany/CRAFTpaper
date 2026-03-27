@@ -44,17 +44,18 @@ n = len(labels)
 x = np.arange(n)
 
 # ── plot ─────────────────────────────────────────────────────────────────
-fig, ax = plt.subplots(figsize=(LNCS_TEXT_WIDTH, 3.5))
+fig, ax = plt.subplots(figsize=(7.0, 2.6))
 
-bar_w = 0.17
-policies = ['ABP', 'DYMPL', 'INTAP', 'CRAFT']
+bar_w = 0.20
+policies = ['ABP', 'DYMPL', 'INTAP', r'$\bf{CRAFT}$']
 values   = [abp, dympl, intap, craft]
-colors   = [COLORS['abp'], COLORS['dympl'], COLORS['intap'], COLORS['craft']]
+color_keys = ['abp', 'dympl', 'intap', 'craft']
 
-for i, (p, vals, c) in enumerate(zip(policies, values, colors)):
+for i, (p, vals, ck) in enumerate(zip(policies, values, color_keys)):
     offset = (i - 1.5) * bar_w
     bars = ax.bar(x + offset, vals, bar_w,
-                  label=p, color=c, edgecolor='white', linewidth=0.5)
+                  label=p, color=COLORS[ck], hatch=HATCHES[ck],
+                  edgecolor='black', linewidth=0.8)
 
 # Axis styling
 ymin = 0.86
@@ -62,9 +63,12 @@ ax.set_ylim(ymin, 1.02)
 ax.set_yticks(np.arange(ymin, 1.021, 0.02))
 ax.yaxis.set_minor_locator(mticker.MultipleLocator(0.01))
 
-ax.set_ylabel('Normalized IPC (CRAFT = 1.0)', fontsize=8)
+ax.set_ylabel('Normalized IPC (CRAFT = 1.0)')
 ax.set_xticks(x)
-ax.set_xticklabels(labels, rotation=90, ha='center', fontsize=6)
+ax.set_xticklabels(labels, rotation=35, ha='right')
+# Bold GEOMEAN label
+tick_labels = ax.get_xticklabels()
+tick_labels[-1].set_fontweight('bold')
 
 # GEOMEAN separator
 ax.axvline(x=n - 1.5, color='gray', linestyle='--', linewidth=0.8)
@@ -72,12 +76,11 @@ ax.axvline(x=n - 1.5, color='gray', linestyle='--', linewidth=0.8)
 # Reference line at 1.0
 ax.axhline(y=1.0, color='black', linestyle='-', linewidth=0.6, zorder=0)
 
-ax.legend(loc='upper center', ncol=4, fontsize=7,
+ax.legend(loc='upper center', ncol=4, fontsize=FONT_LEGEND,
           framealpha=0.9, edgecolor='gray', fancybox=False,
           bbox_to_anchor=(0.5, 1.15))
 ax.grid(axis='y', linestyle=':', alpha=0.3)
 ax.set_xlim(-0.6, n - 0.4)
-ax.tick_params(axis='y', labelsize=6)
 
 fig.tight_layout()
 savefig(fig, 'normalized_ipc')
