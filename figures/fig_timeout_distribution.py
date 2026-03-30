@@ -4,8 +4,11 @@
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from common import *
+from matplotlib.patches import Patch
 
 setup_style()
+# Figure is saved at LNCS_TEXT_WIDTH but included at 0.7×textwidth.
+_PRINT_SCALE = 0.7
 
 # ── data (from craft_timeout_distribution.tsv) ───────────────────────────
 labels_raw = [
@@ -29,7 +32,7 @@ n = len(labels_raw)
 x = np.arange(n)
 
 # ── plot ─────────────────────────────────────────────────────────────────
-fig, ax = plt.subplots(figsize=(LNCS_TEXT_WIDTH, 3.5))
+fig, ax = plt.subplots(figsize=(LNCS_TEXT_WIDTH, 3.0))
 
 bar_w = 0.55
 
@@ -45,8 +48,8 @@ b3 = ax.bar(x, high, bar_w, bottom=[l+m for l, m in zip(low, mid)],
             edgecolor='black', linewidth=0.8)
 
 ax.set_ylabel('Distribution (%)')
-ax.set_xticks(x)
-ax.set_xticklabels(labels_raw, rotation=35, ha='right')
+set_categorical_xticks(ax, x, labels_raw, rotation=35, ha='right',
+                       fontsize=FONT_TICK_DENSE / _PRINT_SCALE)
 ax.set_ylim(0, 112)
 
 # Region annotations
@@ -61,10 +64,20 @@ ax.annotate('Keep Open', xy=(9, 105), fontsize=FONT_ANNOT, ha='center',
 ax.axvline(x=2.5, color='gray', linestyle=':', linewidth=0.8, alpha=0.5)
 ax.axvline(x=5.5, color='gray', linestyle=':', linewidth=0.8, alpha=0.5)
 
-ax.legend(loc='upper center', ncol=3, fontsize=FONT_LEGEND,
+legend_handles = [
+    Patch(facecolor=COLORS['closed_page'], edgecolor='black',
+          hatch=HATCHES['closed_page'], linewidth=0.8, label='Low [50, 800)'),
+    Patch(facecolor=COLORS['dympl'], edgecolor='black',
+          hatch=HATCHES['dympl'], linewidth=0.8, label='Mid [800, 2000)'),
+    Patch(facecolor=COLORS['open_page'], edgecolor='black',
+          hatch=HATCHES['open_page'], linewidth=0.8, label='High [2000, 3200]'),
+]
+ax.legend(handles=legend_handles, loc='upper center', ncol=3, fontsize=FONT_LEGEND,
           framealpha=0.9, edgecolor='gray', fancybox=False,
-          bbox_to_anchor=(0.5, -0.22))
+          bbox_to_anchor=(0.5, -0.26), handlelength=1.8,
+          handleheight=0.8, columnspacing=1.0)
 ax.grid(axis='y', linestyle=':', alpha=0.3)
 
 fig.tight_layout()
+fig.subplots_adjust(bottom=0.24)
 savefig(fig, 'timeout_distribution')

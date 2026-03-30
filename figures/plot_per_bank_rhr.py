@@ -48,7 +48,7 @@ for key, label in benchmarks:
 # ── plot bar chart ───────────────────────────────────────────────────────
 setup_style()
 
-fig, axes = plt.subplots(3, 1, figsize=(LNCS_TEXT_WIDTH, 4.5), sharex=True)
+fig, axes = plt.subplots(3, 1, figsize=(LNCS_TEXT_WIDTH, 3.7), sharex=True)
 
 bar_color_keys = ['open_page', 'dympl', 'intap']
 bank_ids = np.arange(NUM_BANKS)

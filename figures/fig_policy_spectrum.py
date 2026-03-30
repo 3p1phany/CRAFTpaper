@@ -12,7 +12,7 @@ import matplotlib.patches as mpatches, matplotlib.patheffects as pe
 
 setup_style()
 
-fig, ax = plt.subplots(figsize=(LNCS_TEXT_WIDTH, 2.6))
+fig, ax = plt.subplots(figsize=(LNCS_TEXT_WIDTH, 1.8))
 ax.set_xlim(-0.5, 10.5)
 ax.set_ylim(-0.1, 4.4)
 ax.axis('off')

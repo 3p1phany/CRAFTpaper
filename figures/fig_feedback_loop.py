@@ -125,7 +125,7 @@ ax.plot([wx - bw * 0.35, wx + bw * 0.35], [0.97, 0.97],
         color=C_W, lw=0.6, alpha=0.4)
 ax.text(wx, 0.77, 'ESCALATE',
         fontsize=FONT_ANNOT, fontweight='bold', color=C_W, ha='center')
-ax.text(wx, 0.52, r'timeout += B $\cdot$ 2$^{streak}$',
+ax.text(wx, 0.52, 'timeout += B * 2^streak',
         fontsize=FONT_DETAIL, color='#333', ha='center')
 ax.text(wx, 0.27, '(exponential backoff)',
         fontsize=FONT_DETAIL, color=C_G, ha='center', fontstyle='italic')
@@ -160,7 +160,7 @@ ax.plot([ccx - bw * 0.35, ccx + bw * 0.35], [0.97, 0.97],
         color=C_C, lw=0.6, alpha=0.4)
 ax.text(ccx, 0.77, 'DE-ESCALATE',
         fontsize=FONT_ANNOT, fontweight='bold', color=C_C, ha='center')
-ax.text(ccx, 0.52, r'timeout $-$= B $\cdot \frac{tRP}{tRP+tRCD}$',
+ax.text(ccx, 0.52, 'timeout -= B * tRP / (tRP + tRCD)',
         fontsize=FONT_DETAIL, color='#333', ha='center')
 ax.text(ccx, 0.27, '(cost-proportional)',
         fontsize=FONT_DETAIL, color=C_G, ha='center', fontstyle='italic')

@@ -45,7 +45,7 @@ n = len(labels)
 x = np.arange(n)
 
 # ── plot ─────────────────────────────────────────────────────────────────
-fig, ax = plt.subplots(figsize=(LNCS_TEXT_WIDTH, 3.5))
+fig, ax = plt.subplots(figsize=(LNCS_TEXT_WIDTH, 2.7))
 
 bar_w = 0.17
 policies = ['ABP', 'DYMPL', 'INTAP', r'$\bf{CRAFT}$']
@@ -66,8 +66,7 @@ ax.set_yticks(np.arange(ymin, ymax + 1, 10))
 ax.yaxis.set_minor_locator(mticker.MultipleLocator(5))
 
 ax.set_ylabel('Average Read Latency (DRAM Cycles)')
-ax.set_xticks(x)
-ax.set_xticklabels(labels, rotation=35, ha='right')
+set_categorical_xticks(ax, x, labels, rotation=35, ha='right')
 tick_labels = ax.get_xticklabels()
 tick_labels[-1].set_fontweight('bold')
 

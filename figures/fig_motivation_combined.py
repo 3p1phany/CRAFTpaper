@@ -10,6 +10,7 @@ import json
 from collections import defaultdict
 from common import *
 import matplotlib.gridspec as gridspec
+from matplotlib.patches import Patch
 
 setup_style()
 
@@ -114,7 +115,7 @@ def load_rbh(rel_path):
 # Figure layout: (a) on top, (b) 2×2 on bottom — compact
 # ══════════════════════════════════════════════════════════════════════════
 fig = plt.figure(figsize=(LNCS_TEXT_WIDTH, 4.0))
-gs = gridspec.GridSpec(2, 1, height_ratios=[1.6, 2.8], hspace=0.55)
+gs = gridspec.GridSpec(2, 1, height_ratios=[1.6, 2.8], hspace=0.72)
 
 # ── (a) Bar chart ────────────────────────────────────────────────────────
 ax_a = fig.add_subplot(gs[0])
@@ -138,8 +139,7 @@ if transition_idx is not None:
     ax_a.axvline(x=transition_idx - 0.5, color='#666666', linestyle='--',
                  linewidth=0.8, alpha=0.5, zorder=1)
 
-ax_a.set_xticks(x)
-ax_a.set_xticklabels(labels_a, rotation=35, ha='right')
+set_categorical_xticks(ax_a, x, labels_a, rotation=35, ha='right')
 ax_a.set_ylim(0.65, 1.06)
 ax_a.yaxis.set_major_locator(mticker.MultipleLocator(0.1))
 ax_a.yaxis.set_minor_locator(mticker.MultipleLocator(0.05))
@@ -147,28 +147,35 @@ ax_a.set_ylabel('Normalized IPC')
 ax_a.set_xlim(-0.6, n - 0.4)
 ax_a.grid(axis='y', linestyle=':', alpha=0.3, zorder=0)
 
-handles, leg_labels = ax_a.get_legend_handles_labels()
-ax_a.legend(handles, leg_labels, loc='upper center', ncol=2,
-            fontsize=FONT_ANNOT, frameon=False, bbox_to_anchor=(0.5, 1.18))
+legend_handles = [
+    Patch(facecolor=c_open, edgecolor='black',
+          hatch=HATCHES['open_page'], linewidth=0.8, label='Open-Page'),
+    Patch(facecolor=c_close, edgecolor='black',
+          hatch=HATCHES['closed_page'], linewidth=0.8, label='Close-Page'),
+]
+ax_a.legend(legend_handles, ['Open-Page', 'Close-Page'],
+            loc='upper center', ncol=2, fontsize=FONT_ANNOT,
+            frameon=True, framealpha=0.95, edgecolor='#CCCCCC',
+            bbox_to_anchor=(0.5, 1.32),
+            handlelength=1.8, handleheight=0.8, columnspacing=1.0)
 
 ax_a.text(-0.08, 1.18, '(a)', transform=ax_a.transAxes,
           fontsize=FONT_TITLE, fontweight='bold', va='top')
 
 # ── (b) 2×2 phase RBH ───────────────────────────────────────────────────
 gs_b = gridspec.GridSpecFromSubplotSpec(2, 2, subplot_spec=gs[1],
-                                        hspace=0.5, wspace=0.3)
+                                        hspace=0.70, wspace=0.42)
 axes_b = np.array([[fig.add_subplot(gs_b[i, j]) for j in range(2)]
                     for i in range(2)])
 
-phase_colors = [COLORS['open_page'], COLORS['closed_page'],
-                COLORS['craft'], COLORS['dympl']]
-phase_styles = ['-', '--', '-.', ':']
+phase_line = COLORS['trace']
+phase_fill = COLORS_BG['open_page']
 
-for ax, cfg, pcol, pls in zip(axes_b.flat, BENCHMARKS_B, phase_colors, phase_styles):
+for ax, cfg in zip(axes_b.flat, BENCHMARKS_B):
     epochs, rbh = load_rbh(cfg['path'])
 
-    ax.plot(epochs, rbh, color=pcol, linewidth=1.0, linestyle=pls)
-    ax.fill_between(epochs, rbh, alpha=0.18, color=pcol)
+    ax.plot(epochs, rbh, color=phase_line, linewidth=1.1)
+    ax.fill_between(epochs, rbh, alpha=0.18, color=phase_fill)
 
     ax.set_ylim(-2, 105)
     ax.yaxis.set_major_locator(mticker.MultipleLocator(25))
@@ -176,11 +183,17 @@ for ax, cfg, pcol, pls in zip(axes_b.flat, BENCHMARKS_B, phase_colors, phase_sty
     ax.set_title(cfg['title'], fontsize=FONT_TICK, pad=3)
 
     for arr in cfg['arrows']:
+        semantic = {
+            'High': 'open_page',
+            'Low': 'closed_page',
+            'Mid': 'dympl',
+        }[arr['text']]
         ax.annotate(arr['text'], xy=arr['xy'], xytext=arr['xytext'],
                     fontsize=FONT_DETAIL, ha='center', va='center',
-                    color='#333333', fontweight='bold',
-                    arrowprops=dict(arrowstyle='->', color='#666666',
-                                   lw=0.6),
+                    color=COLORS_DARK[semantic], fontweight='bold',
+                    arrowprops=dict(arrowstyle='->',
+                                    color=COLORS_DARK[semantic],
+                                    lw=0.7),
                     annotation_clip=False)
 
 # Shared axis labels

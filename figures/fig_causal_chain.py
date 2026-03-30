@@ -33,7 +33,7 @@ n = len(labels)
 x = np.arange(n)
 
 # ── three-panel figure (vertical stack for LNCS single-column) ───────────
-fig, axes = plt.subplots(3, 1, figsize=(LNCS_TEXT_WIDTH, 8.5), sharey=False)
+fig, axes = plt.subplots(3, 1, figsize=(LNCS_TEXT_WIDTH, 7.7), sharey=False)
 
 panel_data = [
     (read_hr, 'Read HR Impr. (pp)', 'open_page', '+{:.1f}'),
@@ -65,8 +65,7 @@ for ax, (data, ylabel, ck, fmt), title in zip(axes, panel_data, panel_titles):
             ha='right', va='bottom', fontsize=FONT_DETAIL, fontstyle='italic')
 
     ax.set_ylabel(ylabel)
-    ax.set_xticks(x)
-    ax.set_xticklabels(labels, rotation=40, ha='right')
+    set_categorical_xticks(ax, x, labels, rotation=40, ha='right')
     ax.set_title(title, fontweight='bold')
     ax.grid(axis='y', linestyle=':', alpha=0.3)
     ax.set_xlim(-0.5, n - 0.5)
@@ -78,7 +77,7 @@ for ax, (data, ylabel, ck, fmt), title in zip(axes, panel_data, panel_titles):
 # Arrow annotations between panels
 arrow_positions = [0.66, 0.36]
 for y_pos in arrow_positions:
-    fig.text(0.5, y_pos, r'$\Downarrow$', fontsize=12,
+    fig.text(0.5, y_pos, '↓', fontsize=12,
              ha='center', va='center', fontweight='bold')
 
 fig.tight_layout(rect=[0, 0, 1, 0.98], h_pad=3.0)

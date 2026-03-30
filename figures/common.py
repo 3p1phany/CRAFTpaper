@@ -29,30 +29,29 @@ LNCS_TEXT_WIDTH = 4.803   # inches (12.2 cm)
 # Colorblind-friendly, grayscale-distinguishable, print-safe.
 
 COLORS = {
-    # Static policies (motivation) — Tableau Muted
-    'open_page':   '#4E79A7',  # muted blue
-    'closed_page': '#E15759',  # muted red
+    # Semantic anchors used across figures
+    'open_page':   '#4472C4',  # steel blue — Open-Page policy
+    'closed_page': '#C0504D',  # brick red  — Closed-Page policy
+    'craft':       '#548235',  # forest green — CRAFT (our method)
+    'dympl':       '#ED7D31',  # sandy orange — DYMPL baseline
 
-    # Our method
-    'craft':       '#59A14F',  # muted green
+    # Algorithm-specific neutrals
+    'abp':         '#8B8B8B',  # slate gray — ABP baseline
+    'intap':       '#7030A0',  # medium purple — INTAP baseline
 
-    # Baselines
-    'abp':         '#BAB0AC',  # muted gray
-    'dympl':       '#F28E2B',  # muted orange
-    'intap':       '#B07AA1',  # muted purple
-
-    # Neutral
+    # Utility colors
+    'trace':       '#566574',  # neutral line color for workload traces
     'idle':        '#EBEBEB',  # light gray — idle periods in timing diagrams
 }
 
 # Darker variants for text annotations
 COLORS_DARK = {
-    'open_page':   '#36557A',
-    'closed_page': '#A33D3F',
-    'craft':       '#3E7137',
-    'abp':         '#807874',
-    'dympl':       '#A9631E',
-    'intap':       '#7B5571',
+    'open_page':   '#2B5080',
+    'closed_page': '#8B2F2F',
+    'craft':       '#3B5E25',
+    'abp':         '#555555',
+    'dympl':       '#B85A15',
+    'intap':       '#4A1F6E',
 }
 
 # Light background fills for diagram boxes
@@ -65,12 +64,12 @@ COLORS_BG = {
 
 # Hatch patterns for bar charts (black-and-white friendly)
 HATCHES = {
-    'open_page':   '/',
-    'closed_page': '\\',
-    'craft':       'x',
-    'abp':         '.',
-    'dympl':       '+',
-    'intap':       'o',
+    'open_page':   '////',
+    'closed_page': '\\\\\\\\',
+    'craft':       'xxxx',
+    'abp':         '....',
+    'dympl':       '++++',
+    'intap':       'oooo',
 }
 
 # ── standardized font sizes ───────────────────────────────────────────────
@@ -79,6 +78,7 @@ HATCHES = {
 FONT_TITLE      = 8    # subplot titles
 FONT_AXIS_LABEL = 7    # axis labels (xlabel, ylabel)
 FONT_TICK        = 6    # tick labels (x and y)
+FONT_TICK_DENSE = 5.5  # dense categorical x-axis labels in bar charts
 FONT_LEGEND      = 6    # legend text
 FONT_ANNOT       = 5.5  # value annotations on bars / data points
 FONT_DETAIL      = 5    # fine-grained labels (state labels, sub-annotations)
@@ -87,8 +87,19 @@ FONT_DETAIL      = 5    # fine-grained labels (state labels, sub-annotations)
 def setup_style():
     """Call once at the top of each figure script."""
     plt.rcParams.update({
+        # Use a paper-standard Helvetica-style family across all figures.
         'font.family': 'TeX Gyre Heros',
+        'font.sans-serif': ['TeX Gyre Heros'],
         'font.size': 7,
+        'mathtext.fontset': 'custom',
+        'mathtext.rm': 'TeX Gyre Heros',
+        'mathtext.sf': 'TeX Gyre Heros',
+        'mathtext.it': 'TeX Gyre Heros:italic',
+        'mathtext.bf': 'TeX Gyre Heros:bold',
+        'mathtext.default': 'regular',
+        'pdf.fonttype': 42,
+        'ps.fonttype': 42,
+        'axes.unicode_minus': False,
         'axes.linewidth': 0.8,
         'axes.labelsize': FONT_AXIS_LABEL,
         'axes.labelweight': 'bold',
@@ -174,6 +185,13 @@ def read_comparison(filename):
             parts = line.split('\t')
             d[parts[0]] = (float(parts[1]), float(parts[2]))
     return d
+
+def set_categorical_xticks(ax, positions, labels, rotation=35, ha='right',
+                           fontsize=FONT_TICK_DENSE):
+    """Apply a unified style for dense categorical x-axis labels."""
+    ax.set_xticks(positions)
+    ax.set_xticklabels(labels, rotation=rotation, ha=ha)
+    ax.tick_params(axis='x', labelsize=fontsize)
 
 def savefig(fig, name):
     """Save figure as both PNG (300 dpi) and PDF to output/."""

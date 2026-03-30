@@ -44,7 +44,7 @@ for acc in accuracy:
         bar_colors.append(COLORS['craft'])         # forest green for normal
 
 # ── plot ─────────────────────────────────────────────────────────────────
-fig, ax1 = plt.subplots(figsize=(LNCS_TEXT_WIDTH, 3.5))
+fig, ax1 = plt.subplots(figsize=(LNCS_TEXT_WIDTH, 2.7))
 
 # Accuracy bars
 bars = ax1.bar(x, accuracy, 0.55,
@@ -60,8 +60,7 @@ ax1.set_ylabel('Timeout Precharge Accuracy (%)')
 ax1.set_ylim(0, 105)
 ax1.set_yticks(np.arange(0, 101, 20))
 
-ax1.set_xticks(x)
-ax1.set_xticklabels(labels, rotation=35, ha='right')
+set_categorical_xticks(ax1, x, labels, rotation=35, ha='right')
 ax1.grid(axis='y', linestyle=':', alpha=0.3)
 ax1.set_xlim(-0.6, n - 0.4)
 

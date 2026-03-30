@@ -56,7 +56,7 @@ transition_idx = next(
 
 # ── plot ──────────────────────────────────────────────────────────────────
 setup_style()
-fig, ax = plt.subplots(figsize=(LNCS_TEXT_WIDTH, 3.0))
+fig, ax = plt.subplots(figsize=(LNCS_TEXT_WIDTH, 2.2))
 
 n = len(labels)
 x = np.arange(n)
@@ -84,8 +84,7 @@ if transition_idx is not None:
             color=c_open, fontweight='bold', fontstyle='italic', alpha=0.7)
 
 # ── x-axis ───────────────────────────────────────────────────────────────
-ax.set_xticks(x)
-ax.set_xticklabels(labels, rotation=90, ha='center')
+set_categorical_xticks(ax, x, labels, rotation=90, ha='center')
 
 # ── y-axis & styling ─────────────────────────────────────────────────────
 ax.set_ylim(0.65, 1.06)
