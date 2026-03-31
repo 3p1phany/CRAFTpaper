@@ -12,3 +12,35 @@ __pycache__/
 # OS
 .DS_Store
 Thumbs.db
+
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.synctex.gz
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.nav
+*.snm
+*.vrb
+texput.log
+
+# Generated outputs (figures & compiled PDF)
+figures/output/
+paper/samplepaper.pdf
+
+# Reference PDFs (not part of source)
+paper/*.pdf
+!paper/llncs.cls
+
+# Misc PDFs in root
+3641853.pdf
+
+# Claude Code local settings
+.claude/settings.local.json

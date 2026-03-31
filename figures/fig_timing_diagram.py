@@ -86,12 +86,14 @@ def bracket_below(ax, xl, xr, y, label, color):
     ax.text((xl + xr) / 2, yb - 0.12, label, ha='center', va='top',
             fontsize=FONT_DETAIL, fontweight='bold', color=color)
 
+DOTTED = (0, (1, 1))  # dense dot sequence for all vertical markers
+
 def timeout_mark(ax, x, y):
-    """Draw a dashed timeout marker across the bar."""
+    """Draw a dotted timeout marker across the bar."""
     bot = y - bar_h * 0.55
     top = y + bar_h * 0.55
     ax.plot([x, x], [bot, top], color=C_TMOUT,
-            linewidth=1.2, linestyle='--', zorder=5)
+            linewidth=1.2, linestyle=DOTTED, zorder=5)
     ax.plot(x, top + 0.06, marker='v', color=C_TMOUT,
             markersize=4, zorder=5, clip_on=False)
     ax.text(x, top + 0.16, 'timeout', ha='center', va='bottom',
@@ -116,7 +118,7 @@ def cas_mark(ax, x, y):
     bot = y - bar_h * 0.55
     top = y + bar_h * 0.55
     ax.plot([x, x], [bot, top], color=C_CAS,
-            linewidth=1.2, linestyle='--', zorder=5)
+            linewidth=1.2, linestyle=DOTTED, zorder=5)
     ax.plot(x, top + 0.06, marker='v', color=C_CAS,
             markersize=4, zorder=5, clip_on=False)
     ax.text(x, top + 0.16, 'CAS', ha='center', va='bottom',
@@ -128,7 +130,7 @@ def req_mark(ax, x, y, label, color='#333'):
     bot = y - bar_h * 0.55
     top = y + bar_h * 0.55
     ax.plot([x, x], [bot, top], color=color,
-            linewidth=1.2, linestyle='--', zorder=5)
+            linewidth=1.2, linestyle=DOTTED, zorder=5)
     ax.plot(x, top + 0.06, marker='v', color=color,
             markersize=4, zorder=5, clip_on=False)
     ax.text(x, top + 0.16, label, ha='center', va='bottom',
@@ -140,7 +142,7 @@ def ghost_timeout_mark(ax, x, y):
     bot = y - bar_h * 0.55
     top = y + bar_h * 0.55
     ax.plot([x, x], [bot, top], color=C_TMOUT,
-            linewidth=1.2, linestyle=':', alpha=0.5, zorder=5)
+            linewidth=1.2, linestyle=DOTTED, alpha=0.5, zorder=5)
 
 
 # ═══════════════════════════════════════════════════════════════
@@ -240,7 +242,7 @@ ax_b.text(act_end + 8, y, 'Penalty: tRCD', ha='left', va='center',
           fontsize=FONT_ANNOT, fontweight='bold', color=CD['closed_page'])
 state_label(ax_b, x0 + idle_w / 2, y, 'Row A open')
 state_label(ax_b, closed_start + gap_w / 2, y, 'closed', '#999')
-state_label(ax_b, closed_start + gap_w + tRCD / 2, y,
+state_label(ax_b, closed_start + gap_w + tRCD / 2 + 2, y,
             'Row A  (reopened)', CD['closed_page'])
 
 # ── Conflict ─────────────────────────────────────────────────
