@@ -195,7 +195,7 @@ Algorithm~\ref{alg:craft} presents the complete pseudocode of the core feedback 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=0.85\textwidth]{../figures/output/feedback_loop.pdf}
-\caption{CRAFT core feedback loop. The per-bank timeout counter triggers a speculative precharge, whose outcome is classified into one of three categories. An incorrect speculative precharge incurs $t_\mathrm{RP} + t_\mathrm{RCD}$ in avoidable overhead and escalates the timeout with exponential backoff. A correct speculative precharge confirms the current timeout value. A conflict incurs only $t_\mathrm{RP}$ in missed overlap opportunity and de-escalates the timeout by a cost-proportional decrement.}
+\caption{CRAFT timeout-control logic. Timeout expiration triggers speculative precharge, after which the next access determines a wrong or right precharge outcome. A new request that arrives before timeout expiration is instead either a row hit or a conflict. Wrong precharges incur $t_\mathrm{RP} + t_\mathrm{RCD}$ in avoidable overhead and escalate the timeout with exponential backoff. Conflicts incur only $t_\mathrm{RP}$ in missed overlap opportunity and de-escalate the timeout by a cost-proportional decrement, while right precharges confirm the current value.}
 \label{fig:feedback}
 \end{figure}
 

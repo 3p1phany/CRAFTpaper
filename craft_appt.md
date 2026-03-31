@@ -146,12 +146,12 @@ On each bank ACT event:
     timeout ← clamp(timeout, T_MIN, T_MAX)
 ```
 
-Figure 3 illustrates the feedback loop schematically.
-The three precharge outcomes feed back to the per-bank timeout counter with asymmetric step sizes, forming a closed-loop control mechanism that continuously adapts to the prevailing row-level access pattern.
+Figure 3 illustrates the timeout-control logic schematically.
+Timeout expiration leads to speculative precharge and subsequently to either a wrong precharge or a right precharge. A new request that arrives before timeout expiration instead becomes either a row hit or a conflict. Wrong precharges and conflicts feed back to the per-bank timeout counter with asymmetric updates, while right precharges confirm the current value.
 
 <img src="figures/output/feedback_loop.png" alt="CRAFT feedback loop" width="80%">
 
-**Figure 3: CRAFT core feedback loop. On each bank activation following a timeout-triggered precharge, the controller classifies the precharge outcome and adjusts the per-bank timeout accordingly. Wrong precharges escalate the timeout with exponential backoff. Conflicts de-escalate with a cost-proportional step. Right precharges confirm the current timeout value.**
+**Figure 3: CRAFT timeout-control logic. Timeout expiration triggers speculative precharge, after which the next access determines a wrong or right precharge outcome. A new request that arrives before timeout expiration is instead either a row hit or a conflict. Wrong precharges escalate the timeout with exponential backoff, conflicts de-escalate it with a cost-proportional step, and right precharges confirm the current value.**
 
 ### 3.2 Precharge-Path Refinements
 
