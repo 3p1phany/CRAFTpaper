@@ -59,33 +59,33 @@ BENCHMARKS_B = [
         'path': 'open_page_1c/spec17/mcf/ref/5',
         'title': 'SPEC17/mcf',
         'arrows': [
-            {'text': 'High', 'xy': (50, 98),  'xytext': (50, 60)},
-            {'text': 'Low',  'xy': (148, 13), 'xytext': (148, 50)},
+            {'text': 'High', 'xy': (50, 98),  'xytext': (50, 53)},
+            {'text': 'Low',  'xy': (148, 13), 'xytext': (148, 58)},
         ],
     },
     {
         'path': 'open_page_1c/crono/PageRank/soc-pokec/0',
         'title': 'Crono/PageRank',
         'arrows': [
-            {'text': 'Low',  'xy': (50, 15),  'xytext': (50, 55)},
-            {'text': 'High', 'xy': (100, 93), 'xytext': (100, 55)},
+            {'text': 'Low',  'xy': (50, 15),  'xytext': (50, 60)},
+            {'text': 'High', 'xy': (100, 93), 'xytext': (100, 48)},
         ],
     },
     {
         'path': 'open_page_1c/spec06/GemsFDTD/ref/17',
         'title': 'SPEC06/GemsFDTD',
         'arrows': [
-            {'text': 'Low',  'xy': (13, 20),  'xytext': (13, 60)},
-            {'text': 'High', 'xy': (32, 87),  'xytext': (32, 55)},
+            {'text': 'Low',  'xy': (7, 15),  'xytext': (7, 52)},
+            {'text': 'High', 'xy': (32, 87),  'xytext': (32, 42)},
         ],
     },
     {
         'path': 'open_page_1c/spec06/zeusmp/ref/23',
         'title': 'SPEC06/zeusmp',
         'arrows': [
-            {'text': 'Low',  'xy': (8, 17),   'xytext': (8, 55)},
-            {'text': 'High', 'xy': (20, 97),  'xytext': (20, 65)},
-            {'text': 'Mid',  'xy': (31, 49),  'xytext': (31, 80)},
+            {'text': 'Low',  'xy': (8, 17),   'xytext': (8, 62)},
+            {'text': 'High', 'xy': (20, 97),  'xytext': (20, 52)},
+            {'text': 'Mid',  'xy': (32, 45),  'xytext': (32, 83)},
         ],
     },
 ]
@@ -114,8 +114,8 @@ def load_rbh(rel_path):
 # ══════════════════════════════════════════════════════════════════════════
 # Figure layout: (a) on top, (b) 2×2 on bottom — compact
 # ══════════════════════════════════════════════════════════════════════════
-fig = plt.figure(figsize=(LNCS_TEXT_WIDTH, 4.0))
-gs = gridspec.GridSpec(2, 1, height_ratios=[1.6, 2.8], hspace=0.72)
+fig = plt.figure(figsize=(LNCS_TEXT_WIDTH, 3.6))
+gs = gridspec.GridSpec(2, 1, height_ratios=[1.6, 2.8], hspace=0.85)
 
 # ── (a) Bar chart ────────────────────────────────────────────────────────
 ax_a = fig.add_subplot(gs[0])
@@ -164,7 +164,7 @@ ax_a.text(-0.08, 1.18, '(a)', transform=ax_a.transAxes,
 
 # ── (b) 2×2 phase RBH ───────────────────────────────────────────────────
 gs_b = gridspec.GridSpecFromSubplotSpec(2, 2, subplot_spec=gs[1],
-                                        hspace=0.70, wspace=0.42)
+                                        hspace=0.75, wspace=0.42)
 axes_b = np.array([[fig.add_subplot(gs_b[i, j]) for j in range(2)]
                     for i in range(2)])
 
@@ -188,13 +188,16 @@ for ax, cfg in zip(axes_b.flat, BENCHMARKS_B):
             'Low': 'closed_page',
             'Mid': 'dympl',
         }[arr['text']]
-        ax.annotate(arr['text'], xy=arr['xy'], xytext=arr['xytext'],
-                    fontsize=FONT_DETAIL, ha='center', va='center',
-                    color=COLORS_DARK[semantic], fontweight='bold',
-                    arrowprops=dict(arrowstyle='->',
-                                    color=COLORS_DARK[semantic],
-                                    lw=0.7),
+        color = COLORS_DARK[semantic]
+        # Draw arrow separately so text bbox does not eat the shaft
+        ax.annotate('', xy=arr['xy'], xytext=arr['xytext'],
+                    arrowprops=dict(arrowstyle='->', color=color, lw=1.2),
                     annotation_clip=False)
+        # Place text at the tail end of the arrow
+        va = 'bottom' if arr['xytext'][1] > arr['xy'][1] else 'top'
+        ax.text(arr['xytext'][0], arr['xytext'][1], arr['text'],
+                fontsize=FONT_DETAIL, ha='center', va=va,
+                color=color, fontweight='bold')
 
 # Shared axis labels
 for ax in axes_b[1]:
@@ -206,7 +209,7 @@ fig.text(bbox_bot.x0 - 0.08, (bbox_top.y1 + bbox_bot.y0) / 2,
          'Row Buffer Hit Rate (%)', fontsize=FONT_AXIS_LABEL, va='center',
          rotation=90)
 
-axes_b[0, 0].text(-0.2, 1.2, '(b)', transform=axes_b[0, 0].transAxes,
+axes_b[0, 0].text(-0.2, 1.22, '(b)', transform=axes_b[0, 0].transAxes,
                    fontsize=FONT_TITLE, fontweight='bold', va='top')
 
 savefig(fig, 'motivation_combined')

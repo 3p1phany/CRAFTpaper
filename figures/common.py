@@ -19,7 +19,7 @@ import matplotlib.ticker as mticker
 import numpy as np
 
 # ── data path ─────────────────────────────────────────────────────────────
-RESULTS_DIR = '/root/data/smartPRE/champsim-la/results'
+RESULTS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'fig_data')
 OUTPUT_DIR  = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'output')
 
 # ── LNCS template dimensions ─────────────────────────────────────────────

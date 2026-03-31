@@ -32,7 +32,7 @@ n = len(labels_raw)
 x = np.arange(n)
 
 # ── plot ─────────────────────────────────────────────────────────────────
-fig, ax = plt.subplots(figsize=(LNCS_TEXT_WIDTH, 3.0))
+fig, ax = plt.subplots(figsize=(LNCS_TEXT_WIDTH, 2.5))
 
 bar_w = 0.55
 

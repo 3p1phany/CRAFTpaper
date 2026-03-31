@@ -8,25 +8,21 @@ CRAFT is a lightweight, feedback-driven DRAM row buffer management scheme that u
 
 ## ⚠️ 当前编辑规则
 
-**所有论文内容的编辑和修改必须在 `craft_appt.md` 中进行。** 这是最终整合的论文文件。不要去单独的 section 文件（如 `background.md`、`design.md`、`intro.md` 等）中修改内容，那些文件仅作为历史参考保留。
+**论文已进入 LaTeX 阶段，所有内容的编辑和修改必须在 `paper/samplepaper.tex` 中进行。** 不要修改 Markdown 文件（`craft_appt.md`、`intro.md` 等），那些文件仅作为历史参考保留。
 
 ## Repository Structure
 
-论文最终整合文件：
+LaTeX 论文文件：
 
-- `craft_appt.md` — **当前主文件**，所有编辑在此进行
+- `paper/samplepaper.tex` — **当前主文件**，所有编辑在此进行
+- `paper/refs.bib` — 参考文献
+- `paper/llncs.cls` — LNCS 模板样式文件
 
-以下为历史分章节文件（仅供参考，不再直接编辑）：
+以下为历史 Markdown 文件（仅供参考，不再直接编辑）：
 
-- `draft.md` — 完整论文大纲（保留作为总览参考）
-- `intro.md` — Section 1: Introduction
-- `background.md` — Section 2: Background & Motivation
-- `design.md` — Section 3: CRAFT Design
-- `methodology.md` — Section 4: Methodology
-- `evaluation.md` — Section 5: Evaluation
-- `discussion.md` — Section 6: Discussion
-- `related_work.md` — Section 7: Related Work
-- `conclusion.md` — Section 8: Conclusion
+- `craft_appt.md` — Markdown 整合稿（历史参考）
+- `draft.md` — 完整论文大纲（历史参考）
+- `intro.md`、`background.md`、`design.md`、`methodology.md`、`evaluation.md`、`discussion.md`、`related_work.md`、`conclusion.md` — 分章节草稿（历史参考）
 - `figures/` — 论文图表
 
 ## Related Data & Code
@@ -38,10 +34,20 @@ The simulation infrastructure and experimental data live in a sibling directory:
   - `docs/analysis/` — Analysis documents (timeout distribution, row buffer hit rate, storage overhead, etc.)
   - `docs/experiments/` — Experiment result summaries (e.g., `craft_final_evaluation.md`)
 
+## Building the Paper
+
+LaTeX 环境使用 TinyTeX（安装在 `~/.TinyTeX`），完整编译命令：
+
+```bash
+cd paper && pdflatex -interaction=nonstopmode samplepaper.tex && bibtex samplepaper && pdflatex -interaction=nonstopmode samplepaper.tex && pdflatex -interaction=nonstopmode samplepaper.tex
+```
+
+如缺包可用 `tlmgr install <包名>` 补装。
+
 ## Writing Conventions
 
-- The draft uses mixed Chinese/English: Chinese for narrative/argumentation notes, English for technical terms, tables, and pseudocode
-- `【TODO】` markers indicate figures or content that still need to be created
+- LaTeX 源文件为纯英文学术写作
+- `% TODO` 注释标记待完成的内容
 - Data sources are referenced as file paths to analysis documents in `/root/data/smartPRE/docs/`
 
 ## Writing Style (English Prose)

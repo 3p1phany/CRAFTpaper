@@ -11,9 +11,9 @@ from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
 from matplotlib.path import Path as MPath
 
 setup_style()
-fig, ax = plt.subplots(figsize=(LNCS_TEXT_WIDTH, 3.0))
+fig, ax = plt.subplots(figsize=(LNCS_TEXT_WIDTH, 2.5))
 ax.set_xlim(-1.0, 8.0)
-ax.set_ylim(-0.2, 5.0)
+ax.set_ylim(-0.1, 4.6)
 ax.axis('off')
 
 # Scale factor for fonts (proportional to width reduction)
@@ -49,14 +49,14 @@ def ortho_arrow(vertices, color, lw=1.3, ms=13):
     ax.add_patch(patch)
 
 # ── Layout parameters ────────────────────────────────────────────────────
-top_cx, top_cy = 3.5, 4.20
-top_w, top_h = 4.6, 0.68
+top_cx, top_cy = 3.5, 3.85
+top_w, top_h = 4.6, 0.60
 
-mid_cx, mid_cy = 3.5, 2.98
-mid_w, mid_h = 3.6, 0.64
+mid_cx, mid_cy = 3.5, 2.72
+mid_w, mid_h = 3.6, 0.56
 
-bw, bh = 2.3, 1.65
-bot_y = 0.95
+bw, bh = 2.3, 1.45
+bot_y = 0.82
 bot_xs = [0.85, 3.5, 6.15]        # WRONG, RIGHT, CONFLICT
 bot_top = bot_y + bh / 2          # top edge of outcome boxes
 
@@ -85,7 +85,7 @@ ax.text(mid_cx, mid_cy - 0.12, 'Classify Precharge Outcome',
         fontsize=FONT_TICK, fontweight='bold', ha='center', va='center', color='#333')
 
 # ── Arrows: Classify → three outcome boxes (right-angle tree) ────────────
-junction_y = 2.30
+junction_y = 2.10
 
 # CENTER (RIGHT) — straight down, no turn
 ortho_arrow(
@@ -115,54 +115,54 @@ ortho_arrow(
 
 # ── WRONG ─────────────────────────────────────────────────────────────────
 rbox(wx, bot_y, bw, bh, C_WB, C_W, lw=1.5)
-ax.text(wx, 1.60, 'WRONG',
+ax.text(wx, 1.42, 'WRONG',
         fontsize=FONT_TICK, fontweight='bold', color=C_W, ha='center')
-ax.text(wx, 1.37, 'new_row = prev_row',
+ax.text(wx, 1.22, 'new_row = prev_row',
         fontsize=FONT_DETAIL, color=C_G, ha='center')
-ax.text(wx, 1.14, 'Penalty: tRP + tRCD',
+ax.text(wx, 1.02, 'Penalty: tRP + tRCD',
         fontsize=FONT_ANNOT, fontweight='bold', color='#444', ha='center')
-ax.plot([wx - bw * 0.35, wx + bw * 0.35], [0.97, 0.97],
+ax.plot([wx - bw * 0.35, wx + bw * 0.35], [0.87, 0.87],
         color=C_W, lw=0.6, alpha=0.4)
-ax.text(wx, 0.77, 'ESCALATE',
+ax.text(wx, 0.70, 'ESCALATE',
         fontsize=FONT_ANNOT, fontweight='bold', color=C_W, ha='center')
-ax.text(wx, 0.52, 'timeout += B * 2^streak',
+ax.text(wx, 0.50, 'timeout += B * 2^streak',
         fontsize=FONT_DETAIL, color='#333', ha='center')
-ax.text(wx, 0.27, '(exponential backoff)',
+ax.text(wx, 0.30, '(exponential backoff)',
         fontsize=FONT_DETAIL, color=C_G, ha='center', fontstyle='italic')
 
 # ── RIGHT ─────────────────────────────────────────────────────────────────
 rx = bot_xs[1]
 rbox(rx, bot_y, bw, bh, C_RB, C_R, lw=1.5)
-ax.text(rx, 1.60, 'RIGHT',
+ax.text(rx, 1.42, 'RIGHT',
         fontsize=FONT_TICK, fontweight='bold', color=C_R, ha='center')
-ax.text(rx, 1.37, u'new_row \u2260 prev_row',
+ax.text(rx, 1.22, u'new_row \u2260 prev_row',
         fontsize=FONT_DETAIL, color=C_G, ha='center')
-ax.text(rx, 1.14, 'Saved: tRP',
+ax.text(rx, 1.02, 'Saved: tRP',
         fontsize=FONT_ANNOT, fontweight='bold', color='#444', ha='center')
-ax.plot([rx - bw * 0.35, rx + bw * 0.35], [0.97, 0.97],
+ax.plot([rx - bw * 0.35, rx + bw * 0.35], [0.87, 0.87],
         color=C_R, lw=0.6, alpha=0.4)
-ax.text(rx, 0.77, 'NO CHANGE',
+ax.text(rx, 0.70, 'NO CHANGE',
         fontsize=FONT_ANNOT, fontweight='bold', color=C_R, ha='center')
-ax.text(rx, 0.52, 'right_streak++',
+ax.text(rx, 0.50, 'right_streak++',
         fontsize=FONT_DETAIL, color='#333', ha='center')
-ax.text(rx, 0.27, '(timeout confirmed)',
+ax.text(rx, 0.30, '(timeout confirmed)',
         fontsize=FONT_DETAIL, color=C_G, ha='center', fontstyle='italic')
 
 # ── CONFLICT ──────────────────────────────────────────────────────────────
 rbox(ccx, bot_y, bw, bh, C_CB, C_C, lw=1.5)
-ax.text(ccx, 1.60, 'CONFLICT',
+ax.text(ccx, 1.42, 'CONFLICT',
         fontsize=FONT_TICK, fontweight='bold', color=C_C, ha='center')
-ax.text(ccx, 1.37, 'on-demand precharge',
+ax.text(ccx, 1.22, 'on-demand precharge',
         fontsize=FONT_DETAIL, color=C_G, ha='center')
-ax.text(ccx, 1.14, 'Penalty: tRP',
+ax.text(ccx, 1.02, 'Penalty: tRP',
         fontsize=FONT_ANNOT, fontweight='bold', color='#444', ha='center')
-ax.plot([ccx - bw * 0.35, ccx + bw * 0.35], [0.97, 0.97],
+ax.plot([ccx - bw * 0.35, ccx + bw * 0.35], [0.87, 0.87],
         color=C_C, lw=0.6, alpha=0.4)
-ax.text(ccx, 0.77, 'DE-ESCALATE',
+ax.text(ccx, 0.70, 'DE-ESCALATE',
         fontsize=FONT_ANNOT, fontweight='bold', color=C_C, ha='center')
-ax.text(ccx, 0.52, 'timeout -= B * tRP / (tRP + tRCD)',
+ax.text(ccx, 0.50, 'timeout -= B * tRP / (tRP + tRCD)',
         fontsize=FONT_DETAIL, color='#333', ha='center')
-ax.text(ccx, 0.27, '(cost-proportional)',
+ax.text(ccx, 0.30, '(cost-proportional)',
         fontsize=FONT_DETAIL, color=C_G, ha='center', fontstyle='italic')
 
 # ── Feedback arrows (right-angle, native path) ───────────────────────────

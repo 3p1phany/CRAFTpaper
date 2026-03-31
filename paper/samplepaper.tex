@@ -190,7 +190,14 @@ The $\mathit{reopen\_streak}$ counter tracks consecutive incorrect speculative p
 \paragraph{(c) Continuous adjustment range.}
 The timeout adjusts within $[T_\mathrm{MIN}, T_\mathrm{MAX}] = [50, 3200]$~cycles. $T_\mathrm{MIN}$ matches \texttt{BASE\_STEP} to prevent degeneration to close-page behavior; $T_\mathrm{MAX}$ prevents indefinitely open rows. The exponential backoff traverses the full range in as few as six escalation events.
 
-Algorithm~\ref{alg:craft} presents the complete pseudocode of the core feedback loop.
+Algorithm~\ref{alg:craft} presents the complete pseudocode of the core feedback loop, and Fig.~\ref{fig:feedback} illustrates the overall structure.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{../figures/output/feedback_loop.pdf}
+\caption{CRAFT core feedback loop. The per-bank timeout counter triggers a speculative precharge, whose outcome is classified into one of three categories. An incorrect speculative precharge incurs $t_\mathrm{RP} + t_\mathrm{RCD}$ in avoidable overhead and escalates the timeout with exponential backoff. A correct speculative precharge confirms the current timeout value. A conflict incurs only $t_\mathrm{RP}$ in missed overlap opportunity and de-escalates the timeout by a cost-proportional decrement.}
+\label{fig:feedback}
+\end{figure}
 
 \begin{algorithm}[!htbp]
 \caption{CRAFT Core Feedback Loop}
@@ -319,7 +326,14 @@ The largest gains over ABP occur in graph traversal workloads such as CF and Pag
 \subsection{DRAM-Level Performance Analysis}
 \label{sec:dram_level}
 
-CRAFT achieves the highest read row buffer hit rate on all 12 workloads, surpassing the best-performing baseline by an average of 5.62\% (largest gains: CF/roadNet-CA +9.25\%, PageRank/roadNet-CA +9.12\%, sphinx3 +7.76\%). CRAFT also achieves the lowest average read latency, with a mean reduction of 2.74\%. Write row buffer hit rates remain nearly identical across all policies, indicating that the gain primarily comes from the read path.
+Figure~\ref{fig:dram} presents the per-workload read row buffer hit rate and average read latency for all four schemes. CRAFT achieves the highest read row buffer hit rate on all 12 workloads, surpassing the best-performing baseline by an average of 5.62\% (largest gains: CF/roadNet-CA +9.25\%, PageRank/roadNet-CA +9.12\%, sphinx3 +7.76\%). CRAFT also achieves the lowest average read latency, with a mean reduction of 2.74\%. The two metrics are correlated: workloads where CRAFT improves RBHR the most also exhibit the largest latency reductions, confirming that the IPC gains reported in Section~\ref{sec:ipc} originate from improved row buffer management at the DRAM level. Write row buffer hit rates remain nearly identical across all policies, indicating that the gain primarily comes from the read path.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{../figures/output/dram_level.pdf}
+\caption{DRAM-level performance across 12 workloads. (a)~Read row buffer hit rate. CRAFT achieves the highest RBHR on every workload, with an average improvement of 5.62\% over the best baseline. (b)~Average read latency in DRAM cycles. CRAFT achieves the lowest latency on every workload, with a mean reduction of 2.74\%.}
+\label{fig:dram}
+\end{figure}
 
 \subsection{Timeout Distribution}
 \label{sec:timeout_dist}
@@ -338,6 +352,15 @@ Figure~\ref{fig:timeout_dist} presents the timeout value distribution for each w
 \textbf{Gradual Transition.} CF/higgs distributes values across all three ranges, reflecting a shift from conflict-dominated early phases to locality-rich later phases.
 
 \textbf{Open-Page-Like.} The roadNet-CA workloads concentrate overwhelmingly in the High range. PageRank on roadNet-CA yields 90.9\% High versus 96.9\% Low on higgs, confirming that adaptation reflects the runtime access pattern rather than algorithm identity.
+
+Figure~\ref{fig:timeout_evo} shows how the timeout distribution evolves over execution progress for three representative workloads. CF/roadNet-CA converges to the High range early and remains stable, consistent with sustained spatial locality. CF/higgs begins in the Low range and gradually transitions toward higher timeout values, reflecting a shift from conflict-dominated phases to locality-rich phases. sphinx3 exhibits periodic oscillations between Low and High ranges, corresponding to alternating program phases with distinct memory access patterns. These temporal profiles confirm that CRAFT continuously adapts its timeout values in response to changing workload behavior, rather than settling on a single static policy.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{../figures/output/timeout_evolution.pdf}
+\caption{Timeout distribution evolution over execution progress for three representative workloads. Low~[50,\,800), Mid~[800,\,2000), and High~[2000,\,3200] ranges correspond to close-page-like, intermediate, and open-page-like behavior. CRAFT continuously adapts its timeout values as workload phases change.}
+\label{fig:timeout_evo}
+\end{figure}
 
 \subsection{Ablation Study}
 \label{sec:ablation}

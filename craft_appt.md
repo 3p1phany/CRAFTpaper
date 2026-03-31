@@ -289,18 +289,23 @@ Figure 4 presents the per-workload IPC improvement of CRAFT over each of the thr
 
 ### 5.2 DRAM-Level Performance Analysis
 
-To understand the source of CRAFT's IPC improvement, we examine two DRAM-level metrics.
-CRAFT achieves the highest read row buffer hit rate on all 12 workloads, surpassing the best-performing baseline by an average of 5.62%. The improvements are most pronounced on workloads with strong but phase-varying row locality. CF/roadNet-CA (+9.25 %), PageRank/roadNet-CA (+9.12 %), and sphinx3 (+7.76 %) exhibit the largest gains.
-CRAFT also achieves the lowest average read latency on all 12 workloads. The average reduction is 2.74% compared to the best-performing baseline. The latency improvements are largest on workloads with the largest read hit rate improvements. Sphinx3 (-5.86%), CF/roadNet-CA (-5.66%), and PageRank/roadNet-CA (-5.29%) show the most significant reductions. This correlation is expected. Additional row buffer hits eliminate the precharge and activation overhead.
+To understand the source of CRAFT's IPC improvement, we examine two DRAM-level metrics. Figure 5 presents per-workload results for both metrics.
+
+CRAFT achieves the highest read row buffer hit rate on all 12 workloads (Figure 5(a)), surpassing the best-performing baseline by an average of 5.62%. The improvements are most pronounced on workloads with strong but phase-varying row locality. CF/roadNet-CA (+9.25 %), PageRank/roadNet-CA (+9.12 %), and sphinx3 (+7.76 %) exhibit the largest gains.
+CRAFT also achieves the lowest average read latency on all 12 workloads (Figure 5(b)). The average reduction is 2.74% compared to the best-performing baseline. The latency improvements are largest on workloads with the largest read hit rate improvements. Sphinx3 (-5.86%), CF/roadNet-CA (-5.66%), and PageRank/roadNet-CA (-5.29%) show the most significant reductions. This correlation is expected. Additional row buffer hits eliminate the precharge and activation overhead.
 Write row buffer hit rates remain nearly identical across all four policies. The performance advantage of CRAFT therefore originates primarily from the read path. This observation is consistent with CRAFT's read/write cost differentiation design.
+
+<img src="figures/output/dram_level.png" alt="DRAM-level performance" width="90%">
+
+**Figure 5: DRAM-level performance across 12 workloads. (a) Read row buffer hit rate. CRAFT achieves the highest hit rate on all workloads. (b) Average read latency. CRAFT achieves the lowest latency on all workloads. The latency reductions correlate with the hit rate improvements.**
 
 ### 5.3 Timeout Distribution
 
-Figure 5 presents the timeout value distribution for each workload. For analysis, we partition the timeout range into three bins: Low [50, 800), Mid [800, 2000), and High [2000, 3200]. The boundaries correspond to approximately one quarter and two thirds of the full range, separating aggressive-close, moderate, and keep-open behavior. Three distinct adaptation patterns emerge.
+Figure 6 presents the timeout value distribution for each workload. For analysis, we partition the timeout range into three bins: Low [50, 800), Mid [800, 2000), and High [2000, 3200]. The boundaries correspond to approximately one quarter and two thirds of the full range, separating aggressive-close, moderate, and keep-open behavior. Three distinct adaptation patterns emerge.
 
 <img src="figures/output/timeout_distribution.png" alt="Timeout distribution" width="80%">
 
-**Figure 5: Timeout value distribution across 12 workloads, sorted from aggressive-close (left) to keep-open (right). CRAFT adapts to three distinct behavioral regimes without any explicit mode selection.**
+**Figure 6: Timeout value distribution across 12 workloads, sorted from aggressive-close (left) to keep-open (right). CRAFT adapts to three distinct behavioral regimes without any explicit mode selection.**
 
 **Aggressive Close.** PageRank/higgs concentrates 96.9% of timeout observations in the Low range. 33.5% of observations fall below 100 cycles. The higgs graph's irregular power-law degree distribution yields poor row-level locality for PageRank's vertex-centric iterations. CRAFT responds by aggressively reducing timeout values to minimize conflict penalties. Components-Shortcut/pokec exhibits a similar pattern. The short-lived exploratory accesses of connected component algorithms drive this behavior.
 
@@ -310,9 +315,15 @@ Figure 5 presents the timeout value distribution for each workload. For analysis
 
 A particularly revealing comparison is PageRank on two different inputs. RoadNet-CA yields 90.9% in the High range. Higgs yields 96.9% in the Low range. This demonstrates that CRAFT's adaptation is driven by the runtime row-level access pattern, a joint function of algorithm and input data, rather than by the algorithm identity alone. Importantly, all three adaptation modes produce positive IPC improvements over every baseline. CRAFT is effectively adaptive rather than biased toward any single static policy.
 
+Figure 7 visualizes how the timeout distribution evolves over execution progress for three representative workloads. CF/roadNet-CA rapidly converges to the High range and remains there throughout execution, consistent with the road network graph's strong spatial locality. CF/higgs exhibits a gradual transition from Low-dominated to High-dominated behavior as row-level locality builds over successive iterations. Sphinx3 alternates between High and Low ranges, reflecting periodic transitions between data-intensive and computation-intensive phases. These temporal dynamics confirm that CRAFT's feedback loop tracks evolving locality patterns without explicit phase detection.
+
+<img src="figures/output/timeout_evolution.png" alt="Timeout evolution" width="90%">
+
+**Figure 7: Timeout distribution evolution over execution progress for three representative workloads. CF/roadNet-CA maintains high timeout values throughout. CF/higgs transitions gradually from aggressive-close to keep-open. Sphinx3 exhibits periodic phase alternation.**
+
 ### 5.4 Ablation Study
 
-We conduct an ablation study to quantify the contribution of each design component. Figure 6 compares eight CRAFT variants. Table 5 defines each variant. Each variant's geometric mean IPC gain over the best baseline is normalized to the core feedback loop's gain.
+We conduct an ablation study to quantify the contribution of each design component. Figure 8 compares eight CRAFT variants. Table 5 defines each variant. Each variant's geometric mean IPC gain over the best baseline is normalized to the core feedback loop's gain.
 
 **Table 5: Ablation Study Variants**
 
@@ -329,7 +340,7 @@ We conduct an ablation study to quantify the contribution of each design compone
 
 <img src="figures/output/ablation.png" alt="Ablation Study" width="80%">
 
-**Figure 6: Ablation study of CRAFT design components. Green: core feedback loop and the recommended PRECHARGE configuration. Blue: individual precharge-path enhancements. Red: individual conflict-path signals. The dashed line marks the BASE level.**
+**Figure 8: Ablation study of CRAFT design components. Green: core feedback loop and the recommended PRECHARGE configuration. Blue: individual precharge-path enhancements. Red: individual conflict-path signals. The dashed line marks the BASE level.**
 
 **The core feedback loop is the primary contributor.** The BASE variant implements only the cost-asymmetric step sizes and exponential backoff. BASE accounts for 76% of the final improvement. This confirms that differentiating precharge outcomes by the nature of their waste provides a sufficiently rich feedback signal for effective timeout adaptation, even without additional refinements.
 

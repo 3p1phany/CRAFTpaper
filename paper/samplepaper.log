@@ -1,57 +1,54 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.3.26)  27 MAR 2026 13:28
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.30)  31 MAR 2026 13:14
 entering extended mode
  restricted \write18 enabled.
- file:line:error style messages enabled.
  %&-line parsing enabled.
-**/root/data/CRAFTpaper/paper/samplepaper.tex
-(/root/data/CRAFTpaper/paper/samplepaper.tex
-LaTeX2e <2021-11-15> patch level 1
-L3 programming layer <2022-01-21> (./llncs.cls
+**/home/xu/CRAFTpaper/paper/samplepaper
+(/home/xu/CRAFTpaper/paper/samplepaper.tex
+LaTeX2e <2025-11-01>
+L3 programming layer <2026-01-19>
+(./llncs.cls
 Document Class: llncs 2024/01/29 v2.24 
  LaTeX document class for Lecture Notes in Computer Science
-(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
-Document Class: article 2021/10/04 v1.4n Standard LaTeX document class
-(/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo
-File: size10.clo 2021/10/04 v1.4n Standard LaTeX file (size option)
+(/home/xu/.TinyTeX/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2025/01/22 v1.4n Standard LaTeX document class
+(/home/xu/.TinyTeX/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2025/01/22 v1.4n Standard LaTeX file (size option)
 )
-\c@part=\count185
-\c@section=\count186
-\c@subsection=\count187
-\c@subsubsection=\count188
-\c@paragraph=\count189
-\c@subparagraph=\count190
-\c@figure=\count191
-\c@table=\count192
-\abovecaptionskip=\skip47
-\belowcaptionskip=\skip48
-\bibindent=\dimen138
-) (/usr/share/texlive/texmf-dist/tex/latex/tools/multicol.sty
-Package: multicol 2021/10/28 v1.9b multicolumn formatting (FMi)
-\c@tracingmulticols=\count193
-\mult@box=\box50
-\multicol@leftmargin=\dimen139
-\c@unbalance=\count194
-\c@collectmore=\count195
-\doublecol@number=\count196
-\multicoltolerance=\count197
-\multicolpretolerance=\count198
-\full@width=\dimen140
-\page@free=\dimen141
-\premulticols=\dimen142
-\postmulticols=\dimen143
-\multicolsep=\skip49
-\multicolbaselineskip=\skip50
-\partial@page=\box51
-\last@line=\box52
-\maxbalancingoverflow=\dimen144
-\mult@rightbox=\box53
-\mult@grightbox=\box54
-\mult@firstbox=\box55
-\mult@gfirstbox=\box56
-\@tempa=\box57
-\@tempa=\box58
-\@tempa=\box59
-\@tempa=\box60
+\c@part=\count275
+\c@section=\count276
+\c@subsection=\count277
+\c@subsubsection=\count278
+\c@paragraph=\count279
+\c@subparagraph=\count280
+\c@figure=\count281
+\c@table=\count282
+\abovecaptionskip=\skip49
+\belowcaptionskip=\skip50
+\bibindent=\dimen148
+) (/home/xu/.TinyTeX/texmf-dist/tex/latex/tools/multicol.sty
+Package: multicol 2025/10/21 v2.0b multicolumn formatting (FMi)
+\c@tracingmulticols=\count283
+\mult@box=\box53
+\multicol@leftmargin=\dimen149
+\c@unbalance=\count284
+\c@collectmore=\count285
+\doublecol@number=\count286
+\multicoltolerance=\count287
+\multicolpretolerance=\count288
+\full@width=\dimen150
+\page@free=\dimen151
+\premulticols=\dimen152
+\postmulticols=\dimen153
+\multicolsep=\skip51
+\multicolbaselineskip=\skip52
+\partial@page=\box54
+\last@line=\box55
+\mc@boxedresult=\box56
+\maxbalancingoverflow=\dimen154
+\mult@rightbox=\box57
+\mult@grightbox=\box58
+\mult@firstbox=\box59
+\mult@gfirstbox=\box60
 \@tempa=\box61
 \@tempa=\box62
 \@tempa=\box63
@@ -84,19 +81,24 @@ Package: multicol 2021/10/28 v1.9b multicolumn formatting (FMi)
 \@tempa=\box90
 \@tempa=\box91
 \@tempa=\box92
-\c@minrows=\count199
-\c@columnbadness=\count266
-\c@finalcolumnbadness=\count267
-\last@try=\dimen145
-\multicolovershoot=\dimen146
-\multicolundershoot=\dimen147
-\mult@nat@firstbox=\box93
-\colbreak@box=\box94
-\mc@col@check@num=\count268
-) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/aliascnt.sty
-Package: aliascnt 2018/09/07 v1.5 Alias counters (HO)
+\@tempa=\box93
+\@tempa=\box94
+\@tempa=\box95
+\@tempa=\box96
+\c@minrows=\count289
+\c@columnbadness=\count290
+\c@finalcolumnbadness=\count291
+\last@try=\dimen155
+\multicolovershoot=\dimen156
+\multicolundershoot=\dimen157
+\mult@nat@firstbox=\box97
+\colbreak@box=\box98
+\mc@col@check@num=\count292
+\g__mc_curr_col_int=\count293
+) (/home/xu/.TinyTeX/texmf-dist/tex/latex/aliascnt/aliascnt.sty
+Package: aliascnt 2026-03-08 v1.7 Alias counters (HO)
 )
-\c@chapter=\count269
+\c@chapter=\count294
 LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 379.
 LaTeX Font Info:    Redeclaring math symbol \Delta on input line 380.
 LaTeX Font Info:    Redeclaring math symbol \Theta on input line 381.
@@ -109,108 +111,107 @@ LaTeX Font Info:    Redeclaring math symbol \Phi on input line 387.
 LaTeX Font Info:    Redeclaring math symbol \Psi on input line 388.
 LaTeX Font Info:    Redeclaring math symbol \Omega on input line 389.
 LaTeX Info: Redefining \vec on input line 394.
-\tocchpnum=\dimen148
-\tocsecnum=\dimen149
-\tocsectotal=\dimen150
-\tocsubsecnum=\dimen151
-\tocsubsectotal=\dimen152
-\tocsubsubsecnum=\dimen153
-\tocsubsubsectotal=\dimen154
-\tocparanum=\dimen155
-\tocparatotal=\dimen156
-\tocsubparanum=\dimen157
-\@tempcntc=\count270
-\fnindent=\dimen158
-\c@@inst=\count271
-\c@@auth=\count272
-\c@auco=\count273
-\instindent=\dimen159
-\authrun=\box95
-\authorrunning=\toks16
-\tocauthor=\toks17
-\titrun=\box96
-\titlerunning=\toks18
-\toctitle=\toks19
-\c@theorem=\count274
-\c@case=\count275
-\c@conjecture=\count276
-\c@corollary=\count277
-\c@definition=\count278
-\c@example=\count279
-\c@exercise=\count280
-\c@lemma=\count281
-\c@note=\count282
-\c@problem=\count283
-\c@property=\count284
-\c@proposition=\count285
-\c@question=\count286
-\c@solution=\count287
-\c@remark=\count288
-\headlineindent=\dimen160
-) (/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty
-Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
-) (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
-Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
- (/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
-Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
-\KV@toks@=\toks20
-) (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
-Package: graphics 2021/03/04 v1.4d Standard LaTeX Graphics (DPC,SPQR)
- (/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
-Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
-) (/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+\tocchpnum=\dimen158
+\tocsecnum=\dimen159
+\tocsectotal=\dimen160
+\tocsubsecnum=\dimen161
+\tocsubsectotal=\dimen162
+\tocsubsubsecnum=\dimen163
+\tocsubsubsectotal=\dimen164
+\tocparanum=\dimen165
+\tocparatotal=\dimen166
+\tocsubparanum=\dimen167
+\@tempcntc=\count295
+\fnindent=\dimen168
+\c@@inst=\count296
+\c@@auth=\count297
+\c@auco=\count298
+\instindent=\dimen169
+\authrun=\box99
+\authorrunning=\toks17
+\tocauthor=\toks18
+\titrun=\box100
+\titlerunning=\toks19
+\toctitle=\toks20
+\c@theorem=\count299
+\c@case=\count300
+\c@conjecture=\count301
+\c@corollary=\count302
+\c@definition=\count303
+\c@example=\count304
+\c@exercise=\count305
+\c@lemma=\count306
+\c@note=\count307
+\c@problem=\count308
+\c@property=\count309
+\c@proposition=\count310
+\c@question=\count311
+\c@solution=\count312
+\c@remark=\count313
+\headlineindent=\dimen170
+) (/home/xu/.TinyTeX/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2025/07/18 v2.1d Standard LaTeX package
+) (/home/xu/.TinyTeX/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2024/12/31 v1.2e Enhanced LaTeX Graphics (DPC,SPQR)
+ (/home/xu/.TinyTeX/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
+\KV@toks@=\toks21
+) (/home/xu/.TinyTeX/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2024/08/06 v1.4g Standard LaTeX Graphics (DPC,SPQR)
+ (/home/xu/.TinyTeX/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
+) (/home/xu/.TinyTeX/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
-Package graphics Info: Driver file: pdftex.def on input line 107.
- (/usr/share/texlive/texmf-dist/tex/latex/graphics-def/pdftex.def
-File: pdftex.def 2020/10/05 v1.2a Graphics/color driver for pdftex
+Package graphics Info: Driver file: pdftex.def on input line 106.
+ (/home/xu/.TinyTeX/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2025/09/29 v1.2d Graphics/color driver for pdftex
 ))
-\Gin@req@height=\dimen161
-\Gin@req@width=\dimen162
-) (/usr/share/texlive/texmf-dist/tex/latex/placeins/placeins.sty
+\Gin@req@height=\dimen171
+\Gin@req@width=\dimen172
+) (/home/xu/.TinyTeX/texmf-dist/tex/latex/placeins/placeins.sty
 Package: placeins 2005/04/18  v 2.2
-) (/usr/share/texlive/texmf-dist/tex/latex/algorithms/algorithm.sty
+) (/home/xu/.TinyTeX/texmf-dist/tex/latex/algorithms/algorithm.sty
 Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating environment
- (/usr/share/texlive/texmf-dist/tex/latex/float/float.sty
+ (/home/xu/.TinyTeX/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count289
-\float@exts=\toks21
-\float@box=\box97
-\@float@everytoks=\toks22
-\@floatcapt=\box98
-) (/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty
-Package: ifthen 2020/11/24 v1.1c Standard LaTeX ifthen package (DPC)
+\c@float@type=\count314
+\float@exts=\toks22
+\float@box=\box101
+\@float@everytoks=\toks23
+\@floatcapt=\box102
+) (/home/xu/.TinyTeX/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2024/03/16 v1.1e Standard LaTeX ifthen package (DPC)
 )
-\@float@every@algorithm=\toks23
-\c@algorithm=\count290
-) (/usr/share/texlive/texmf-dist/tex/latex/algorithmicx/algpseudocode.sty
+\@float@every@algorithm=\toks24
+\c@algorithm=\count315
+) (/home/xu/.TinyTeX/texmf-dist/tex/latex/algorithmicx/algpseudocode.sty
 Package: algpseudocode 
- (/usr/share/texlive/texmf-dist/tex/latex/algorithmicx/algorithmicx.sty
+ (/home/xu/.TinyTeX/texmf-dist/tex/latex/algorithmicx/algorithmicx.sty
 Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
 
 Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
-\c@ALG@line=\count291
-\c@ALG@rem=\count292
-\c@ALG@nested=\count293
-\ALG@tlm=\skip51
-\ALG@thistlm=\skip52
-\c@ALG@Lnr=\count294
-\c@ALG@blocknr=\count295
-\c@ALG@storecount=\count296
-\c@ALG@tmpcounter=\count297
-\ALG@tmplength=\skip53
+\c@ALG@line=\count316
+\c@ALG@rem=\count317
+\c@ALG@nested=\count318
+\ALG@tlm=\skip53
+\ALG@thistlm=\skip54
+\c@ALG@Lnr=\count319
+\c@ALG@blocknr=\count320
+\c@ALG@storecount=\count321
+\c@ALG@tmpcounter=\count322
+\ALG@tmplength=\skip55
 )
 Document Style - pseudocode environments for use with the `algorithmicx' style
-) (/usr/share/texlive/texmf-dist/tex/latex/multirow/multirow.sty
-Package: multirow 2021/03/15 v2.8 Span multiple rows of a table
-\multirow@colwidth=\skip54
-\multirow@cntb=\count298
-\multirow@dima=\skip55
-\bigstrutjot=\dimen163
-) (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
-File: l3backend-pdftex.def 2022-01-12 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count299
-\l__pdf_internal_box=\box99
+) (/home/xu/.TinyTeX/texmf-dist/tex/latex/multirow/multirow.sty
+Package: multirow 2024/11/12 v2.9 Span multiple rows of a table
+\multirow@colwidth=\skip56
+\multirow@cntb=\count323
+\multirow@dima=\skip57
+\bigstrutjot=\dimen173
+) (/home/xu/.TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count324
 ) (./samplepaper.aux)
 \openout1 = `samplepaper.aux'.
 
@@ -228,23 +229,10 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 38.
 LaTeX Font Info:    ... okay on input line 38.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 38.
 LaTeX Font Info:    ... okay on input line 38.
- (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
-[Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count300
-\scratchdimen=\dimen164
-\scratchbox=\box100
-\nofMPsegments=\count301
-\nofMParguments=\count302
-\everyMPshowfont=\toks24
-\MPscratchCnt=\count303
-\MPscratchDim=\dimen165
-\MPnumerator=\count304
-\makeMPintoPDFobject=\count305
-\everyMPtoPDFconversion=\toks25
-) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+ (/home/xu/.TinyTeX/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
- (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+ (/home/xu/.TinyTeX/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
 LaTeX Font Info:    External font `cmex10' loaded for size
@@ -255,10 +243,7 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <9> on input line 59.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 59.
-LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 59.
- (/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
-File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
-)
+
 Overfull \hbox (3.22633pt too wide) in paragraph at lines 62--63
 []\T1/cmr/m/n/9 DRAM row buffer man-age-ment presents a fun-da-men-tal trade-
  []
@@ -275,87 +260,115 @@ Overfull \hbox (10.48433pt too wide) in paragraph at lines 66--67
 
 [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-<../figures/output/motivation_combined.pdf, id=18, 301.45844pt x 265.87303pt>
+{/home/xu/.TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+<../figures/output/motivation_combined.pdf, id=18, 302.16418pt x 240.48836pt>
 File: ../figures/output/motivation_combined.pdf Graphic file (type pdf)
 <use ../figures/output/motivation_combined.pdf>
 Package pdftex.def Info: ../figures/output/motivation_combined.pdf  used on input line 88.
-(pdftex.def)             Requested size: 347.12354pt x 306.1654pt.
+(pdftex.def)             Requested size: 347.12354pt x 276.2769pt.
 
 Overfull \hbox (7.84424pt too wide) in paragraph at lines 96--97
 \T1/cmr/m/n/10 of timeout-based spec-u-la-tive precharge, CRAFT fo-cuses on three feedback-relevant
  []
 
-[2]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [3 <../figures/output/motivation_combined.pdf>]
-<../figures/output/timing_diagram.pdf, id=45, 315.43214pt x 350.97185pt>
+[2] [3 <../figures/output/motivation_combined.pdf>]
+<../figures/output/timing_diagram.pdf, id=46, 323.6033pt x 264.51106pt>
 File: ../figures/output/timing_diagram.pdf Graphic file (type pdf)
 <use ../figures/output/timing_diagram.pdf>
 Package pdftex.def Info: ../figures/output/timing_diagram.pdf  used on input line 125.
-(pdftex.def)             Requested size: 295.05711pt x 328.32301pt.
+(pdftex.def)             Requested size: 295.05711pt x 241.18169pt.
 
 Overfull \hbox (43.73058pt too wide) in paragraph at lines 141--150
  [][] 
  []
 
-[4] [5 <../figures/output/timing_diagram.pdf>] [6]
+[4] [5 <../figures/output/timing_diagram.pdf>]
 Overfull \hbox (11.15778pt too wide) in paragraph at lines 179--180
 []\T1/cmr/m/n/10 The ra-tio of avoid-able over-head be-tween these two out-comes is $\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t[] \OT1/cmr/m/n/10 + \OML/cmm/m/it/10 t[]\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 =t[]$\T1/cmr/m/n/10 .
  []
 
-[7]
-Overfull \hbox (17.57127pt too wide) in paragraph at lines 243--244
+[6]
+<../figures/output/feedback_loop.pdf, id=87, 271.90321pt x 142.01054pt>
+File: ../figures/output/feedback_loop.pdf Graphic file (type pdf)
+<use ../figures/output/feedback_loop.pdf>
+Package pdftex.def Info: ../figures/output/feedback_loop.pdf  used on input line 197.
+(pdftex.def)             Requested size: 295.05711pt x 154.11884pt.
+ [7 <../figures/output/feedback_loop.pdf>]
+Overfull \hbox (17.57127pt too wide) in paragraph at lines 250--251
  \T1/cmr/m/it/10 (c) Streak De-cay (SD).[] \T1/cmr/m/n/10 Each cor-rect spec-u-la-tive precharge decre-ments $[]$
  []
 
 [8] [9]
-<../figures/output/normalized_ipc.pdf, id=99, 493.8004pt x 235.17651pt>
+<../figures/output/normalized_ipc.pdf, id=122, 491.35716pt x 234.41124pt>
 File: ../figures/output/normalized_ipc.pdf Graphic file (type pdf)
 <use ../figures/output/normalized_ipc.pdf>
-Package pdftex.def Info: ../figures/output/normalized_ipc.pdf  used on input line 312.
-(pdftex.def)             Requested size: 312.40906pt x 148.78996pt.
+Package pdftex.def Info: ../figures/output/normalized_ipc.pdf  used on input line 319.
+(pdftex.def)             Requested size: 312.40906pt x 149.04262pt.
  [10 <../figures/output/normalized_ipc.pdf>]
-<../figures/output/timeout_distribution.pdf, id=121, 335.35889pt x 214.84554pt>
+<../figures/output/dram_level.pdf, id=144, 309.1988pt x 302.8767pt>
+File: ../figures/output/dram_level.pdf Graphic file (type pdf)
+<use ../figures/output/dram_level.pdf>
+Package pdftex.def Info: ../figures/output/dram_level.pdf  used on input line 333.
+(pdftex.def)             Requested size: 312.40906pt x 306.02782pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [11 <../figures/output/dram_level.pdf>]
+<../figures/output/timeout_distribution.pdf, id=166, 334.48878pt x 180.0074pt>
 File: ../figures/output/timeout_distribution.pdf Graphic file (type pdf)
 <use ../figures/output/timeout_distribution.pdf>
-Package pdftex.def Info: ../figures/output/timeout_distribution.pdf  used on input line 331.
-(pdftex.def)             Requested size: 242.98541pt x 155.67213pt.
+Package pdftex.def Info: ../figures/output/timeout_distribution.pdf  used on input line 345.
+(pdftex.def)             Requested size: 242.98541pt x 130.76433pt.
+<../figures/output/timeout_evolution.pdf, id=167, 334.5377pt x 251.78128pt>
+File: ../figures/output/timeout_evolution.pdf Graphic file (type pdf)
+<use ../figures/output/timeout_evolution.pdf>
+Package pdftex.def Info: ../figures/output/timeout_evolution.pdf  used on input line 360.
+(pdftex.def)             Requested size: 295.05711pt x 222.06764pt.
 
-Overfull \hbox (123.03905pt too wide) in paragraph at lines 352--366
+Overfull \hbox (123.03905pt too wide) in paragraph at lines 375--389
  [][] 
  []
 
-<../figures/output/ablation.pdf, id=122, 320.24364pt x 196.0994pt>
+<../figures/output/ablation.pdf, id=168, 321.2223pt x 168.63933pt>
 File: ../figures/output/ablation.pdf Graphic file (type pdf)
 <use ../figures/output/ablation.pdf>
-Package pdftex.def Info: ../figures/output/ablation.pdf  used on input line 370.
-(pdftex.def)             Requested size: 242.98541pt x 148.79172pt.
-[11 <../figures/output/timeout_distribution.pdf>]
-Overfull \hbox (2.09674pt too wide) in paragraph at lines 380--381
+Package pdftex.def Info: ../figures/output/ablation.pdf  used on input line 393.
+(pdftex.def)             Requested size: 242.98541pt x 127.56506pt.
+[12 <../figures/output/timeout_distribution.pdf>]
+Overfull \hbox (2.09674pt too wide) in paragraph at lines 403--404
 \T1/cmr/m/n/10 Static page poli-cies set a fixed open or closed be-hav-ior for all ac-cesses. JEDEC [16]
  []
 
-[12 <../figures/output/ablation.pdf>] (./samplepaper.bbl [13] [14]
-Underfull \hbox (badness 4120) in paragraph at lines 140--146
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [13 <../figures/output/timeout_evolution.pdf>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [14 <../figures/output/ablation.pdf>] (./samplepaper.bbl [15]
+Underfull \hbox (badness 4120) in paragraph at lines 113--116
 []\T1/cmr/m/n/9 Rachata Ausavarung-nirun, Kevin Kai-Wei Chang, La-vanya Sub-ra-ma-nian,
  []
 
-) [15] (./samplepaper.aux) ) 
+[16]) [17] (./samplepaper.aux)
+ ***********
+LaTeX2e <2025-11-01>
+L3 programming layer <2026-01-19>
+ ***********
+ ) 
 Here is how much of TeX's memory you used:
- 2913 strings out of 478287
- 45779 string characters out of 5849289
- 348665 words of memory out of 5000000
- 21079 multiletter control sequences out of 15000+600000
- 482846 words of font info for 58 fonts, out of 8000000 for 9000
- 1141 hyphenation exceptions out of 8191
- 55i,12n,62p,1091b,324s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx0900.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0900.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfti0900.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfti1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt0900.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfxc0900.pfb>
-Output written on samplepaper.pdf (15 pages, 531533 bytes).
+ 2671 strings out of 469515
+ 42488 string characters out of 5469773
+ 454024 words of memory out of 5000000
+ 31306 multiletter control sequences out of 15000+600000
+ 641308 words of font info for 70 fonts, out of 8000000 for 9000
+ 14 hyphenation exceptions out of 8191
+ 57i,12n,65p,1085b,330s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ </home/xu/.TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/ecti0900.600pk> </home/xu/.TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/ecxc0900.600pk> </home/xu/.TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1000.600pk> </home/xu/.TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/ectt1000.600pk> </home/xu/.TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/ecti1000.600pk> </home/xu/.TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1200.600pk> </home/xu/.TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm0900.600pk> </home/xu/.TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx0900.600pk> </home/xu/.TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/ectt0900.600pk> </home/xu/.TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm0900.600pk> </home/xu/.TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1000.600pk> </home/xu/.TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1440.600pk></home/xu/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></home/xu/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></home/xu/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></home/xu/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></home/xu/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></home/xu/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></home/xu/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></home/xu/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></home/xu/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></home/xu/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></home/xu/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></home/xu/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmti7.pfb></home/xu/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb></home/xu/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></home/xu/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
+Output written on samplepaper.pdf (17 pages, 557612 bytes).
 PDF statistics:
- 292 PDF objects out of 1000 (max. 8388607)
- 170 compressed objects within 2 object streams
+ 826 PDF objects out of 1000 (max. 8388607)
+ 216 compressed objects within 3 object streams
  0 named destinations out of 1000 (max. 500000)
- 26 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 41 words of extra memory for PDF output out of 10000 (max. 10000000)
 

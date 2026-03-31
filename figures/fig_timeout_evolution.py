@@ -16,7 +16,7 @@ setup_style()
 
 # ── config ────────────────────────────────────────────────────────────────
 BASE = os.path.join(RESULTS_DIR, 'CRAFT_PRECHARGE_1c')
-MANIFEST_PATH = '/root/data/smartPRE/champsim-la/benchmarks_selected.tsv'
+MANIFEST_PATH = os.path.join(RESULTS_DIR, 'benchmarks_selected.tsv')
 
 # Representative benchmarks
 BENCHMARKS = [
@@ -144,7 +144,7 @@ def load_epoch_series_all(bench_path, slices):
 manifest = load_manifest()
 
 # ── plot (vertical stack for LNCS single-column) ─────────────────────────
-fig, axes = plt.subplots(3, 1, figsize=(LNCS_TEXT_WIDTH, 5.5), sharey=True)
+fig, axes = plt.subplots(3, 1, figsize=(LNCS_TEXT_WIDTH, 3.5), sharey=True)
 
 for ax, (bench, title) in zip(axes, BENCHMARKS):
     slices = manifest.get(bench, [('0', 1.0)])

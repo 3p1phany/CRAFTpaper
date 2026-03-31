@@ -9,36 +9,38 @@
 \citation{Rafique22}
 \citation{Intel06}
 \@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces (a) Normalized IPC of open-page and close-page policies across 12 memory-intensive workloads, normalized to the better static policy per workload. Neither static policy dominates across all workloads. (b) Row buffer hit rate across execution epochs under the open-page policy for four representative workloads. Each workload exhibits distinct phase transitions between high- and low-locality regimes.}}{3}{}\protected@file@percent }
-\newlabel{fig:motivation}{{1}{3}}
+\newlabel{fig:motivation}{{1}{3}{}{figure.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Background}{3}{}\protected@file@percent }
+\newlabel{sec:background}{{2}{3}{}{section.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}DRAM Row Buffer Fundamentals}{3}{}\protected@file@percent }
 \citation{Awasthi11}
 \citation{Rafique22}
 \citation{Intel06}
-\@writefile{toc}{\contentsline {section}{\numberline {2}Background}{4}{}\protected@file@percent }
-\newlabel{sec:background}{{2}{4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}DRAM Row Buffer Fundamentals}{4}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Timeout-based speculative precharge.}{4}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Limitations of Existing Adaptive Schemes}{4}{}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Row buffer access scenarios and timeout precharge outcomes. (a)\nobreakspace  {}Three row buffer states at the time of a memory request. A row buffer hit incurs only $t_\mathrm  {CAS}$. A closed-bank access requires $t_\mathrm  {RCD} + t_\mathrm  {CAS}$. A row buffer conflict pays $t_\mathrm  {RP} + t_\mathrm  {RCD} + t_\mathrm  {CAS}$. (b)\nobreakspace  {}Four outcomes of timeout-triggered speculative precharge. CRAFT's feedback loop uses the three outcomes involving a precharge event.}}{5}{}\protected@file@percent }
-\newlabel{fig:timing}{{2}{5}}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Comparison of adaptive row buffer management baselines.}}{5}{}\protected@file@percent }
-\newlabel{tab:baselines}{{1}{5}}
-\@writefile{toc}{\contentsline {section}{\numberline {3}CRAFT Design}{6}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Core Feedback Loop}{6}{}\protected@file@percent }
-\newlabel{sec:core}{{3.1}{6}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Comparison of adaptive row buffer management baselines.}}{4}{}\protected@file@percent }
+\newlabel{tab:baselines}{{1}{4}{}{table.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Row buffer access scenarios and timeout precharge outcomes. (a)~Three row buffer states at the time of a memory request. A row buffer hit incurs only $t_\mathrm  {CAS}$. A closed-bank access requires $t_\mathrm  {RCD} + t_\mathrm  {CAS}$. A row buffer conflict pays $t_\mathrm  {RP} + t_\mathrm  {RCD} + t_\mathrm  {CAS}$. (b)~Four outcomes of timeout-triggered speculative precharge. CRAFT's feedback loop uses the three outcomes involving a precharge event.}}{5}{}\protected@file@percent }
+\newlabel{fig:timing}{{2}{5}{}{figure.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}CRAFT Design}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Core Feedback Loop}{5}{}\protected@file@percent }
+\newlabel{sec:core}{{3.1}{5}{}{subsection.3.1}{}}
 \@writefile{toc}{\contentsline {paragraph}{(a) Cost-driven asymmetric step sizes.}{6}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{(b) Exponential backoff.}{7}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{(b) Exponential backoff.}{6}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{(c) Continuous adjustment range.}{7}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces CRAFT core feedback loop. The per-bank timeout counter triggers a speculative precharge, whose outcome is classified into one of three categories. An incorrect speculative precharge incurs $t_\mathrm  {RP} + t_\mathrm  {RCD}$ in avoidable overhead and escalates the timeout with exponential backoff. A correct speculative precharge confirms the current timeout value. A conflict incurs only $t_\mathrm  {RP}$ in missed overlap opportunity and de-escalates the timeout by a cost-proportional decrement.}}{7}{}\protected@file@percent }
+\newlabel{fig:feedback}{{3}{7}{}{figure.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Precharge-Path Refinements}{7}{}\protected@file@percent }
-\newlabel{sec:refinements}{{3.2}{7}}
+\newlabel{sec:refinements}{{3.2}{7}{}{subsection.3.2}{}}
 \@writefile{toc}{\contentsline {paragraph}{(a) Timeout Reduction After Consecutive Correct Speculative Precharges (RS).}{7}{}\protected@file@percent }
 \citation{Gober22}
 \citation{Li20}
 \@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces CRAFT Core Feedback Loop}}{8}{}\protected@file@percent }
-\newlabel{alg:craft}{{1}{8}}
+\newlabel{alg:craft}{{1}{8}{}{algorithm.1}{}}
 \@writefile{toc}{\contentsline {paragraph}{(b) Read/Write Cost Differentiation (RW).}{8}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{(c) Streak Decay (SD).}{8}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Hardware Overhead}{8}{}\protected@file@percent }
-\newlabel{sec:hardware}{{3.3}{8}}
+\newlabel{sec:hardware}{{3.3}{8}{}{subsection.3.3}{}}
 \citation{Shun13}
 \citation{Ahmad15}
 \citation{Leskovec16}
@@ -48,39 +50,39 @@
 \citation{Rafique22}
 \citation{Intel06}
 \@writefile{toc}{\contentsline {section}{\numberline {4}Methodology}{9}{}\protected@file@percent }
-\newlabel{sec:methodology}{{4}{9}}
+\newlabel{sec:methodology}{{4}{9}{}{section.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Simulation Infrastructure}{9}{}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Simulation configuration.}}{9}{}\protected@file@percent }
-\newlabel{tab:simconfig}{{2}{9}}
+\newlabel{tab:simconfig}{{2}{9}{}{table.2}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Workloads}{9}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Baselines}{9}{}\protected@file@percent }
-\newlabel{sec:baselines_meth}{{4.3}{9}}
+\newlabel{sec:baselines_meth}{{4.3}{9}{}{subsection.4.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Metrics}{10}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {5}Evaluation}{10}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.1}IPC Performance}{10}{}\protected@file@percent }
-\newlabel{sec:ipc}{{5.1}{10}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Normalized IPC across 12 workloads (CRAFT = 1.0). CRAFT improves IPC relative to all three baselines on the evaluated workloads. The geometric mean improvements are 7.73\%, 3.10\%, and 2.84\% over ABP, DYMPL, and INTAP, respectively.}}{10}{}\protected@file@percent }
-\newlabel{fig:ipc}{{3}{10}}
+\newlabel{sec:ipc}{{5.1}{10}{}{subsection.5.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Normalized IPC across 12 workloads (CRAFT = 1.0). CRAFT improves IPC relative to all three baselines on the evaluated workloads. The geometric mean improvements are 7.73\%, 3.10\%, and 2.84\% over ABP, DYMPL, and INTAP, respectively.}}{10}{}\protected@file@percent }
+\newlabel{fig:ipc}{{4}{10}{}{figure.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.2}DRAM-Level Performance Analysis}{11}{}\protected@file@percent }
-\newlabel{sec:dram_level}{{5.2}{11}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Timeout Distribution}{11}{}\protected@file@percent }
-\newlabel{sec:timeout_dist}{{5.3}{11}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Timeout value distribution across 12 workloads, sorted from close-page-like (left) to open-page-like (right). CRAFT adapts to three distinct behavioral regimes without any explicit mode selection.}}{11}{}\protected@file@percent }
-\newlabel{fig:timeout_dist}{{4}{11}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Ablation Study}{11}{}\protected@file@percent }
-\newlabel{sec:ablation}{{5.4}{11}}
+\newlabel{sec:dram_level}{{5.2}{11}{}{subsection.5.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces DRAM-level performance across 12 workloads. (a)~Read row buffer hit rate. CRAFT achieves the highest RBHR on every workload, with an average improvement of 5.62\% over the best baseline. (b)~Average read latency in DRAM cycles. CRAFT achieves the lowest latency on every workload, with a mean reduction of 2.74\%.}}{11}{}\protected@file@percent }
+\newlabel{fig:dram}{{5}{11}{}{figure.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Timeout Distribution}{12}{}\protected@file@percent }
+\newlabel{sec:timeout_dist}{{5.3}{12}{}{subsection.5.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Timeout value distribution across 12 workloads, sorted from close-page-like (left) to open-page-like (right). CRAFT adapts to three distinct behavioral regimes without any explicit mode selection.}}{12}{}\protected@file@percent }
+\newlabel{fig:timeout_dist}{{6}{12}{}{figure.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Ablation Study}{12}{}\protected@file@percent }
+\newlabel{sec:ablation}{{5.4}{12}{}{subsection.5.4}{}}
 \citation{DDR345}
 \citation{Kaseridis11}
 \citation{Awasthi11,Ghasempour16}
 \citation{Intel06}
 \citation{Rafique22}
 \citation{Ipek08}
-\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Ablation study variants.}}{12}{}\protected@file@percent }
-\newlabel{tab:ablation_variants}{{3}{12}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Ablation study of CRAFT design components. Green bars correspond to the core feedback loop and the PRECHARGE configuration. Blue bars show individual precharge-outcome-based enhancements. Red bars show individual conflict-based heuristics. The dashed line marks the BASE level.}}{12}{}\protected@file@percent }
-\newlabel{fig:ablation}{{5}{12}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Related Work}{12}{}\protected@file@percent }
-\newlabel{sec:related}{{6}{12}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Timeout distribution evolution over execution progress for three representative workloads. Low~[50,\,800), Mid~[800,\,2000), and High~[2000,\,3200] ranges correspond to close-page-like, intermediate, and open-page-like behavior. CRAFT continuously adapts its timeout values as workload phases change.}}{13}{}\protected@file@percent }
+\newlabel{fig:timeout_evo}{{7}{13}{}{figure.7}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Ablation study variants.}}{13}{}\protected@file@percent }
+\newlabel{tab:ablation_variants}{{3}{13}{}{table.3}{}}
 \citation{Rixner00}
 \citation{Mutlu07}
 \citation{Kim10}
@@ -91,14 +93,14 @@
 \citation{Lee13}
 \citation{Liu12}
 \citation{Udipi10}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Ablation study of CRAFT design components. Green bars correspond to the core feedback loop and the PRECHARGE configuration. Blue bars show individual precharge-outcome-based enhancements. Red bars show individual conflict-based heuristics. The dashed line marks the BASE level.}}{14}{}\protected@file@percent }
+\newlabel{fig:ablation}{{8}{14}{}{figure.8}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Related Work}{14}{}\protected@file@percent }
+\newlabel{sec:related}{{6}{14}{}{section.6}{}}
 \bibstyle{unsrt}
 \bibdata{refs}
 \bibcite{Wulf95}{1}
 \bibcite{Mutlu13}{2}
-\@writefile{toc}{\contentsline {section}{\numberline {7}Conclusion}{13}{}\protected@file@percent }
-\newlabel{sec:conclusion}{{7}{13}}
-\@writefile{toc}{\contentsline {subsubsection}{Acknowledgments.}{13}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Disclosure of Interests.}{13}{}\protected@file@percent }
 \bibcite{Hennessy19}{3}
 \bibcite{Zhang00}{4}
 \bibcite{Jacob07}{5}
@@ -108,6 +110,10 @@
 \bibcite{Gober22}{9}
 \bibcite{Li20}{10}
 \bibcite{Shun13}{11}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Conclusion}{15}{}\protected@file@percent }
+\newlabel{sec:conclusion}{{7}{15}{}{section.7}{}}
+\@writefile{toc}{\contentsline {subsubsection}{Acknowledgments.}{15}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Disclosure of Interests.}{15}{}\protected@file@percent }
 \bibcite{Ahmad15}{12}
 \bibcite{Leskovec16}{13}
 \bibcite{SPEC06}{14}
@@ -127,4 +133,4 @@
 \bibcite{Lee13}{28}
 \bibcite{Liu12}{29}
 \bibcite{Udipi10}{30}
-\gdef \@abspage@last{15}
+\gdef \@abspage@last{17}

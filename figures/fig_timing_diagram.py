@@ -28,12 +28,12 @@ C_TCONF = COLORS['dympl']        # sandy orange — conflict outcome
 # Dark text variants
 CD = COLORS_DARK
 
-bar_h = 0.52
+bar_h = 0.44
 
 # ── Figure layout ─────────────────────────────────────────────
 fig, (ax_a, ax_b) = plt.subplots(
-    2, 1, figsize=(LNCS_TEXT_WIDTH, 6.0),
-    gridspec_kw={'height_ratios': [1, 2.4], 'hspace': 0.2})
+    2, 1, figsize=(LNCS_TEXT_WIDTH, 4.5),
+    gridspec_kw={'height_ratios': [1, 2.4], 'hspace': 0.15})
 
 # ── Helpers ───────────────────────────────────────────────────
 
@@ -147,12 +147,12 @@ def ghost_timeout_mark(ax, x, y):
 # Panel (a): Three Access Scenarios
 # ═══════════════════════════════════════════════════════════════
 ax_a.set_xlim(-5, 175)
-ax_a.set_ylim(-0.5, 4.2)
+ax_a.set_ylim(-0.2, 3.8)
 ax_a.axis('off')
-ax_a.set_title('(a) Row Buffer Access Latency',
-               fontsize=FONT_TITLE, fontweight='bold', pad=8)
+ax_a.text(0.0, 1.05, '(a)', transform=ax_a.transAxes,
+         fontsize=FONT_TITLE, fontweight='bold', va='bottom')
 
-ys_a = [3.2, 1.8, 0.4]
+ys_a = [2.9, 1.6, 0.3]
 labels_a = ['Row Buffer Hit',
             'Row Buffer Miss\n(Closed Bank)',
             'Row Buffer Conflict\n(Wrong Row Open)']
@@ -184,12 +184,12 @@ bracket_above(ax_a, x0, x0 + tRP + tRCD + tCAS, ys_a[2],
 # Panel (b): Four Timeout Precharge Outcomes
 # ═══════════════════════════════════════════════════════════════
 ax_b.set_xlim(-5, 210)
-ax_b.set_ylim(-0.3, 9.8)
+ax_b.set_ylim(-0.1, 8.6)
 ax_b.axis('off')
-ax_b.set_title('(b) Timeout-Based Speculative Precharge Outcomes',
-               fontsize=FONT_TITLE, fontweight='bold', pad=8)
+ax_b.text(0.0, 1.02, '(b)', transform=ax_b.transAxes,
+         fontsize=FONT_TITLE, fontweight='bold', va='bottom')
 
-ys_b = [8.2, 6.0, 3.8, 1.6]
+ys_b = [7.2, 5.3, 3.4, 1.5]
 labels_b = ['Right Precharge',
             'Wrong Precharge',
             'Conflict',

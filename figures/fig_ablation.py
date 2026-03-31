@@ -63,7 +63,7 @@ n = len(variants)
 x = np.arange(n)
 
 # ── plot ─────────────────────────────────────────────────────────────────
-fig, ax = plt.subplots(figsize=(LNCS_TEXT_WIDTH, 2.8))
+fig, ax = plt.subplots(figsize=(LNCS_TEXT_WIDTH, 2.4))
 
 # Base portion: all bars share BASE = 100% (light fill)
 ax.bar(x, [100.0] * n, width=0.40, color=COLORS['craft'], alpha=0.25,

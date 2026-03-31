@@ -8,8 +8,7 @@ Wm~A Wulf and Sally~A McKee.
 \bibitem{Mutlu13}
 Onur Mutlu.
 \newblock Memory scaling: A systems architecture perspective.
-\newblock In {\em 2013 5th IEEE International Memory Workshop}, pages 21--25.
-  IEEE, 2013.
+\newblock In {\em 2013 5th IEEE International Memory Workshop}, pages 21--25. IEEE, 2013.
 
 \bibitem{Hennessy19}
 John~L Hennessy and David~A Patterson.
@@ -18,10 +17,8 @@ John~L Hennessy and David~A Patterson.
 
 \bibitem{Zhang00}
 Zhao Zhang, Zhichun Zhu, and Xiaodong Zhang.
-\newblock A permutation-based page interleaving scheme to reduce row-buffer
-  conflicts and exploit data locality.
-\newblock In {\em Proceedings of the 33rd annual ACM/IEEE international
-  symposium on Microarchitecture}, pages 32--41, 2000.
+\newblock A permutation-based page interleaving scheme to reduce row-buffer conflicts and exploit data locality.
+\newblock In {\em Proceedings of the 33rd annual ACM/IEEE international symposium on Microarchitecture}, pages 32--41, 2000.
 
 \bibitem{Jacob07}
 Bruce Jacob, David Wang, and Spencer Ng.
@@ -29,19 +26,14 @@ Bruce Jacob, David Wang, and Spencer Ng.
 \newblock Morgan Kaufmann, 2010.
 
 \bibitem{Awasthi11}
-Manu Awasthi, David~W Nellans, Kshitij Sudan, Rajeev Balasubramonian, and
-  Al~Davis.
-\newblock Handling the problems and opportunities posed by multiple on-chip
-  memory controllers.
-\newblock In {\em Proceedings of the 19th international conference on Parallel
-  architectures and compilation techniques}, pages 319--330, 2010.
+Manu Awasthi, David~W Nellans, Kshitij Sudan, Rajeev Balasubramonian, and Al~Davis.
+\newblock Handling the problems and opportunities posed by multiple on-chip memory controllers.
+\newblock In {\em Proceedings of the 19th international conference on Parallel architectures and compilation techniques}, pages 319--330, 2010.
 
 \bibitem{Rafique22}
 Muhammad~M Rafique, Wei-Ting Lin, Arun Ramanathan, and Rajit Manohar.
-\newblock Dympl: Dynamic multi-feature page management policy using perceptron
-  learning.
-\newblock In {\em Proceedings of the International Symposium on Memory
-  Systems}, 2022.
+\newblock Dympl: Dynamic multi-feature page management policy using perceptron learning.
+\newblock In {\em Proceedings of the International Symposium on Memory Systems}, 2022.
 
 \bibitem{Intel06}
 James~M Dodd.
@@ -49,10 +41,8 @@ James~M Dodd.
 \newblock US Patent 7,076,617.
 
 \bibitem{Gober22}
-Nathan Gober, Gino Chacon, Lei Wang, Paul~V Gratz, Daniel~A Jimenez, Elvira
-  Teran, Seth Pugsley, and Jinchun Kim.
-\newblock The championship simulator: Architectural simulation for education
-  and competition, 2022.
+Nathan Gober, Gino Chacon, Lei Wang, Paul~V Gratz, Daniel~A Jimenez, Elvira Teran, Seth Pugsley, and Jinchun Kim.
+\newblock The championship simulator: Architectural simulation for education and competition, 2022.
 
 \bibitem{Li20}
 Shang Li, Zhiyuan Yang, Dhiraj Reddy, Ankur Srivastava, and Bruce Jacob.
@@ -62,21 +52,17 @@ Shang Li, Zhiyuan Yang, Dhiraj Reddy, Ankur Srivastava, and Bruce Jacob.
 \bibitem{Shun13}
 Julian Shun and Guy~E Blelloch.
 \newblock Ligra: a lightweight graph processing framework for shared memory.
-\newblock In {\em Proceedings of the 18th ACM SIGPLAN Symposium on Principles
-  and Practice of Parallel Programming}, pages 135--146, 2013.
+\newblock In {\em Proceedings of the 18th ACM SIGPLAN Symposium on Principles and Practice of Parallel Programming}, pages 135--146, 2013.
 
 \bibitem{Ahmad15}
 Masab Ahmad, Farrukh Hijaz, Qingchuan Shi, and Omer Khan.
-\newblock {CRONO}: A benchmark suite for multithreaded graph algorithms
-  executing on futuristic multicores.
-\newblock In {\em 2015 IEEE International Symposium on Workload
-  Characterization}, pages 44--55, 2015.
+\newblock {CRONO}: A benchmark suite for multithreaded graph algorithms executing on futuristic multicores.
+\newblock In {\em 2015 IEEE International Symposium on Workload Characterization}, pages 44--55, 2015.
 
 \bibitem{Leskovec16}
 Jure Leskovec and Rok Sosi{\v{c}}.
 \newblock {SNAP}: A general-purpose network analysis and graph-mining library.
-\newblock {\em ACM Transactions on Intelligent Systems and Technology},
-  8(1):1--20, 2016.
+\newblock {\em ACM Transactions on Intelligent Systems and Technology}, 8(1):1--20, 2016.
 
 \bibitem{SPEC06}
 John~L Henning.
@@ -86,9 +72,7 @@ John~L Henning.
 \bibitem{Sherwood02}
 Timothy Sherwood, Erez Perelman, Greg Hamerly, and Brad Calder.
 \newblock Automatically characterizing large scale program behavior.
-\newblock In {\em Proceedings of the 10th International Conference on
-  Architectural Support for Programming Languages and Operating Systems}, pages
-  45--57, 2002.
+\newblock In {\em Proceedings of the 10th International Conference on Architectural Support for Programming Languages and Operating Systems}, pages 45--57, 2002.
 
 \bibitem{DDR345}
 {JEDEC Solid State Technology Association}.
@@ -97,104 +81,72 @@ Timothy Sherwood, Erez Perelman, Greg Hamerly, and Brad Calder.
 
 \bibitem{Kaseridis11}
 Dimitris Kaseridis, Jeffrey Stuecheli, and Lizy~Kurian John.
-\newblock Minimalist open-page: A {DRAM} page-mode scheduling policy for the
-  many-core era.
-\newblock In {\em Proceedings of the 44th Annual IEEE/ACM International
-  Symposium on Microarchitecture}, pages 24--35, 2011.
+\newblock Minimalist open-page: A {DRAM} page-mode scheduling policy for the many-core era.
+\newblock In {\em Proceedings of the 44th Annual IEEE/ACM International Symposium on Microarchitecture}, pages 24--35, 2011.
 
 \bibitem{Ghasempour16}
 Mohsen Ghasempour, Aamer Jaleel, Jim~D Garside, and Mikel Luj{\'a}n.
 \newblock {HAPPY}: Hybrid address-based page policy in {DRAM}s.
-\newblock In {\em Proceedings of the Second International Symposium on Memory
-  Systems}, pages 311--321, 2016.
+\newblock In {\em Proceedings of the Second International Symposium on Memory Systems}, pages 311--321, 2016.
 
 \bibitem{Ipek08}
 Engin Ipek, Onur Mutlu, Jos{\'e}~F Mart{\'\i}nez, and Rich Caruana.
-\newblock Self optimizing memory controllers: A reinforcement learning
-  approach.
-\newblock In {\em Proceedings of the 35th Annual International Symposium on
-  Computer Architecture}, pages 39--50, 2008.
+\newblock Self optimizing memory controllers: A reinforcement learning approach.
+\newblock In {\em Proceedings of the 35th Annual International Symposium on Computer Architecture}, pages 39--50, 2008.
 
 \bibitem{Rixner00}
-Scott Rixner, William~J. Dally, Ujval~J. Kapasi, Peter~R. Mattson, and John~D.
-  Owens.
+Scott Rixner, William~J. Dally, Ujval~J. Kapasi, Peter~R. Mattson, and John~D. Owens.
 \newblock Memory access scheduling.
-\newblock In {\em 27th International Symposium on Computer Architecture (ISCA
-  2000)}, pages 128--138. {IEEE} Computer Society, 2000.
+\newblock In {\em 27th International Symposium on Computer Architecture (ISCA 2000)}, pages 128--138. {IEEE} Computer Society, 2000.
 
 \bibitem{Mutlu07}
 Onur Mutlu and Thomas Moscibroda.
 \newblock Stall-time fair memory access scheduling for chip multiprocessors.
-\newblock In {\em 40th Annual IEEE/ACM International Symposium on
-  Microarchitecture (MICRO 2007)}, pages 146--160. {IEEE} Computer Society,
-  2007.
+\newblock In {\em 40th Annual IEEE/ACM International Symposium on Microarchitecture (MICRO 2007)}, pages 146--160. {IEEE} Computer Society, 2007.
 
 \bibitem{Kim10}
 Yoongu Kim, Michael Papamichael, Onur Mutlu, and Mor Harchol-Balter.
-\newblock Thread cluster memory scheduling: Exploiting differences in memory
-  access behavior.
-\newblock In {\em 43rd Annual IEEE/ACM International Symposium on
-  Microarchitecture (MICRO 2010)}, pages 65--76. {IEEE} Computer Society, 2010.
+\newblock Thread cluster memory scheduling: Exploiting differences in memory access behavior.
+\newblock In {\em 43rd Annual IEEE/ACM International Symposium on Microarchitecture (MICRO 2010)}, pages 65--76. {IEEE} Computer Society, 2010.
 
 \bibitem{Ausavarungnirun12}
-Rachata Ausavarungnirun, Kevin Kai-Wei Chang, Lavanya Subramanian, Gabriel~H.
-  Loh, and Onur Mutlu.
-\newblock Staged memory scheduling: Achieving high performance and scalability
-  in heterogeneous systems.
-\newblock In {\em 39th International Symposium on Computer Architecture (ISCA
-  2012)}, pages 416--427. {IEEE} Computer Society, 2012.
+Rachata Ausavarungnirun, Kevin Kai-Wei Chang, Lavanya Subramanian, Gabriel~H. Loh, and Onur Mutlu.
+\newblock Staged memory scheduling: Achieving high performance and scalability in heterogeneous systems.
+\newblock In {\em 39th International Symposium on Computer Architecture (ISCA 2012)}, pages 416--427. {IEEE} Computer Society, 2012.
 
 \bibitem{Stuecheli10}
-Jeffrey Stuecheli, Dimitris Kaseridis, David Daly, Hillery~C. Hunter, and
-  Lizy~K. John.
-\newblock The virtual write queue: coordinating {DRAM} and last-level cache
-  policies.
-\newblock In {\em 37th International Symposium on Computer Architecture (ISCA
-  2010)}, pages 72--82. ACM, 2010.
+Jeffrey Stuecheli, Dimitris Kaseridis, David Daly, Hillery~C. Hunter, and Lizy~K. John.
+\newblock The virtual write queue: coordinating {DRAM} and last-level cache policies.
+\newblock In {\em 37th International Symposium on Computer Architecture (ISCA 2010)}, pages 72--82. ACM, 2010.
 
 \bibitem{Muralidhara11}
-Sai~Prashanth Muralidhara, Lavanya Subramanian, Onur Mutlu, Mahmut~T. Kandemir,
-  and Thomas Moscibroda.
-\newblock Reducing memory interference in multicore systems via
-  application-aware memory channel partitioning.
-\newblock In {\em 44th Annual IEEE/ACM International Symposium on
-  Microarchitecture (MICRO 2011)}, pages 374--385. ACM, 2011.
+Sai~Prashanth Muralidhara, Lavanya Subramanian, Onur Mutlu, Mahmut~T. Kandemir, and Thomas Moscibroda.
+\newblock Reducing memory interference in multicore systems via application-aware memory channel partitioning.
+\newblock In {\em 44th Annual IEEE/ACM International Symposium on Microarchitecture (MICRO 2011)}, pages 374--385. ACM, 2011.
 
 \bibitem{Subramanian13}
 Lavanya Subramanian, Vivek Seshadri, Yoongu Kim, Ben Jaiyen, and Onur Mutlu.
-\newblock {MISE:} providing performance predictability and improving fairness
-  in shared main memory systems.
-\newblock In {\em 19th {IEEE} International Symposium on High Performance
-  Computer Architecture (HPCA 2013)}, pages 639--650. {IEEE} Computer Society,
-  2013.
+\newblock {MISE:} providing performance predictability and improving fairness in shared main memory systems.
+\newblock In {\em 19th {IEEE} International Symposium on High Performance Computer Architecture (HPCA 2013)}, pages 639--650. {IEEE} Computer Society, 2013.
 
 \bibitem{Kim12}
 Yoongu Kim, Vivek Seshadri, Donghyuk Lee, Jamie Liu, and Onur Mutlu.
 \newblock A case for exploiting subarray-level parallelism {(SALP)} in {DRAM}.
-\newblock In {\em 39th International Symposium on Computer Architecture (ISCA
-  2012)}, pages 368--379. {IEEE} Computer Society, 2012.
+\newblock In {\em 39th International Symposium on Computer Architecture (ISCA 2012)}, pages 368--379. {IEEE} Computer Society, 2012.
 
 \bibitem{Lee13}
-Donghyuk Lee, Yoongu Kim, Vivek Seshadri, Jamie Liu, Lavanya Subramanian, and
-  Onur Mutlu.
-\newblock Tiered-latency {DRAM:} {A} low latency and low cost {DRAM}
-  architecture.
-\newblock In {\em 19th {IEEE} International Symposium on High Performance
-  Computer Architecture (HPCA 2013)}, pages 615--626. {IEEE} Computer Society,
-  2013.
+Donghyuk Lee, Yoongu Kim, Vivek Seshadri, Jamie Liu, Lavanya Subramanian, and Onur Mutlu.
+\newblock Tiered-latency {DRAM:} {A} low latency and low cost {DRAM} architecture.
+\newblock In {\em 19th {IEEE} International Symposium on High Performance Computer Architecture (HPCA 2013)}, pages 615--626. {IEEE} Computer Society, 2013.
 
 \bibitem{Liu12}
 Jamie Liu, Ben Jaiyen, Richard Veras, and Onur Mutlu.
 \newblock {RAIDR:} retention-aware intelligent {DRAM} refresh.
-\newblock In {\em 39th International Symposium on Computer Architecture (ISCA
-  2012)}, pages 1--12. {IEEE} Computer Society, 2012.
+\newblock In {\em 39th International Symposium on Computer Architecture (ISCA 2012)}, pages 1--12. {IEEE} Computer Society, 2012.
 
 \bibitem{Udipi10}
-Aniruddha~N. Udipi, Naveen Muralimanohar, Niladrish Chatterjee, Rajeev
-  Balasubramonian, Al~Davis, and Norman~P. Jouppi.
-\newblock Rethinking {DRAM} design and organization for energy-constrained
-  multi-cores.
-\newblock In {\em 37th International Symposium on Computer Architecture (ISCA
-  2010)}, pages 175--186. ACM, 2010.
+Aniruddha~N. Udipi, Naveen Muralimanohar, Niladrish Chatterjee, Rajeev Balasubramonian, Al~Davis, and Norman~P. Jouppi.
+\newblock Rethinking {DRAM} design and organization for energy-constrained multi-cores.
+\newblock In {\em 37th International Symposium on Computer Architecture (ISCA 2010)}, pages 175--186. ACM, 2010.
 
 \end{thebibliography}
