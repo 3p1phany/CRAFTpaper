@@ -56,7 +56,7 @@ DRAM row buffer management presents a fundamental tradeoff between exploiting ro
 
 This paper presents CRAFT, a lightweight, cost-aware adaptive timeout scheme for DRAM row buffer management. CRAFT exploits the observation that the two failure modes of speculative precharge incur qualitatively different performance costs and translates this cost asymmetry into differentiated per-bank timeout adjustments. Incorrect speculative precharges increase the timeout through exponential backoff, whereas conflicts reduce it with a smaller step proportional to the avoidable overhead. Beyond this core feedback loop, three precharge-outcome-based refinements further improve adaptation precision without additional hardware structures. The entire mechanism requires no prediction tables, feature extraction, or learned models.
 
-We evaluate CRAFT using a cycle-accurate simulator across 12 memory-intensive workloads from graph analytics and scientific computing. CRAFT improves IPC by 7.73\%, 3.10\%, and 2.84\% over ABP, DYMPL, and INTAP, respectively. The total storage overhead is 140~bytes per channel, representing a 24$\times$ reduction relative to DYMPL and over 140$\times$ reduction relative to ABP. These results indicate that the cost asymmetry inherent in precharge outcomes is an effective basis for lightweight row buffer management in our evaluated setting.
+We evaluate CRAFT using a cycle-accurate simulator across 12 memory-intensive workloads from graph analytics and scientific computing. CRAFT improves IPC by 7.73\%, 3.10\%, and 2.84\% over ABP, DYMPL, and INTAP, respectively. The total storage overhead is 140~bytes per channel, representing a 24$\times$ reduction relative to DYMPL and more than a 140$\times$ reduction relative to ABP. These results indicate that the cost asymmetry inherent in precharge outcomes is an effective basis for lightweight row buffer management in our evaluated setting.
 
 \keywords{DRAM row buffer management \and page policy \and memory controller \and feedback-driven adaptation}
 \end{abstract}
@@ -72,7 +72,7 @@ This fundamental tradeoff makes row buffer management one of the most extensivel
 
 The optimal page policy varies across workloads, across execution phases, and even across targeted address ranges.
 Neither open-page nor close-page dominates across all workloads. Open-page loses up to 11\% IPC on workloads with frequent row buffer conflicts. Close-page sacrifices up to 28\% IPC on workloads with high row buffer locality (Fig.~\ref{fig:motivation}(a)).
-Within a single program execution, row buffer hit rate shifts dramatically between program phases. The row buffer hit rate of \texttt{mcf} transitions from above 90\% to below 10\%, while \texttt{PageRank} follows the inverse trajectory (Fig.~\ref{fig:motivation}(b)).
+Within a single program execution, the row buffer hit rate shifts dramatically across program phases. The row buffer hit rate for \texttt{mcf} transitions from above 90\% to below 10\%, while \texttt{PageRank} follows the inverse trajectory (Fig.~\ref{fig:motivation}(b)).
 Beyond temporal variation, row buffer locality also differs substantially across banks within a single channel. Under the open-page policy, \texttt{omnetpp} exhibits a per-bank row buffer hit rate coefficient of variation of 1.51, indicating pronounced inter-bank disparity.
 These observations suggest that effective row buffer management should adapt per bank and per execution phase.
 
@@ -91,7 +91,7 @@ This paper presents CRAFT, a lightweight, cost-aware adaptive timeout scheme for
 The contributions of this paper are as follows:
 
 \begin{enumerate}
-\item We identify that incorrect speculative precharges and conflicts incur qualitatively different performance costs, and propose CRAFT, a feedback-driven scheme that translates this cost asymmetry into differentiated per-bank timeout adjustments requiring only 140~bytes per channel, representing over 140$\times$ storage reduction compared to ABP.
+\item We show that incorrect speculative precharges and conflicts incur qualitatively different performance costs, and we propose CRAFT, a feedback-driven scheme that translates this cost asymmetry into differentiated per-bank timeout adjustments while requiring only 140~bytes per channel, representing more than a 140$\times$ storage reduction compared to ABP.
 \item Through ablation analysis, we show that precharge outcomes provide an effective basis for timeout adaptation in our evaluated setting, without requiring auxiliary runtime metrics.
 \item We evaluate CRAFT on 12 memory-intensive workloads under a DDR5-4800 configuration. CRAFT improves IPC relative to ABP, DYMPL, and INTAP across the evaluated workloads.
 \end{enumerate}
@@ -159,7 +159,7 @@ CRAFT detects the three precharge outcomes at two distinct points.
 A conflict occurs when a new request for a different row arrives while the timeout has not yet expired, indicating the timeout is too long.
 Incorrect and correct speculative precharge outcomes are identified at the bank activation following a timeout-triggered precharge.
 A same-row activation indicates an incorrect speculative precharge and signals that the timeout was too short.
-A different-row activation indicates a correct speculative precharge and confirms the current timeout value is appropriate.
+A different-row activation indicates a correct speculative precharge and suggests that the current timeout value is appropriate.
 These three outcomes provide a direct feedback signal for timeout adaptation.
 CRAFT exploits the different performance costs of these outcomes to derive both the direction and the magnitude of each adjustment.
 
@@ -175,34 +175,38 @@ The ratio of avoidable overhead between these two outcomes is $(t_\mathrm{RP} + 
 This asymmetry creates a deliberate upward bias: under equal frequencies of incorrect speculative precharges and conflicts, net timeout increases accumulate, reflecting the $2{:}1$ cost ratio. $T_\mathrm{MAX}$ bounds this bias at 3200~cycles; conflicts and timeout reduction after consecutive correct speculative precharges then provide downward pressure.
 
 \paragraph{(b) Exponential backoff.}
-CRAFT applies exponential backoff to consecutive incorrect speculative precharges by left-shifting the base step:
+CRAFT applies exponential backoff to consecutive incorrect speculative precharges by left-shifting the base step.
+Let $n$ denote the number of consecutive incorrect speculative precharges observed so far, capped at $N_{\max} = 7$.
+The effective step size is
 \begin{equation}
-\mathit{step} = \mathtt{BASE\_STEP} \times 2^{\min(\mathit{reopen\_streak},\;\mathtt{SHIFT\_CAP})}
+s = s_0 \cdot 2^{\,\min(n,\, N_{\max})}
 \end{equation}
-The $\mathit{reopen\_streak}$ counter tracks consecutive incorrect speculative precharges, is capped at 7, and resets to zero upon a correct speculative precharge or a conflict. This mechanism enables rapid convergence during sustained high-locality phases. The timeout can reach the upper bound within a small number of feedback events.
+where $s_0 = \texttt{BASE\_STEP} = 50$~cycles.
+A conflict resets the counter to zero. A correct speculative precharge decrements the counter by one (the SD refinement in Section~\ref{sec:refinements}), dampening future backoff without fully erasing it. This mechanism enables rapid convergence during sustained high-locality phases. The timeout can reach the upper bound within a small number of feedback events.
 
 \paragraph{(c) Continuous adjustment range.}
 The timeout adjusts within $[T_\mathrm{MIN}, T_\mathrm{MAX}] = [50, 3200]$~cycles. $T_\mathrm{MIN}$ matches \texttt{BASE\_STEP} to prevent degeneration to close-page behavior; $T_\mathrm{MAX}$ prevents indefinitely open rows. The exponential backoff traverses the full range in as few as six escalation events.
 
-Algorithm~\ref{alg:craft} presents the complete pseudocode of the core feedback loop, and Fig.~\ref{fig:feedback} illustrates the overall structure.
+Algorithm~\ref{alg:craft} presents the complete pseudocode, including the three refinements described in Section~\ref{sec:refinements} (annotated [RS], [RW], [SD]). Fig.~\ref{fig:feedback} illustrates the overall structure.
 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=0.85\textwidth]{../figures/output/feedback_loop.pdf}
-\caption{CRAFT timeout-control logic. Timeout expiration triggers speculative precharge, after which the next access determines a wrong or right precharge outcome. A new request that arrives before timeout expiration is instead either a row hit or a conflict. Wrong precharges incur $t_\mathrm{RP} + t_\mathrm{RCD}$ in avoidable overhead and escalate the timeout with exponential backoff. Conflicts incur only $t_\mathrm{RP}$ in missed overlap opportunity and reduce the timeout with a cost-proportional decrement, while right precharges confirm the current value.}
+\caption{CRAFT timeout-control logic. Timeout expiration triggers speculative precharge, after which the next access determines a wrong or right precharge outcome. A new request that arrives before timeout expiration is instead either a row hit or a conflict. Wrong precharges incur $t_\mathrm{RP} + t_\mathrm{RCD}$ in avoidable overhead and escalate the timeout with exponential backoff. Conflicts incur only $t_\mathrm{RP}$ in missed overlap opportunity and reduce the timeout with a cost-proportional decrement. Correct speculative precharges decay the backoff counter and, after four or more consecutive occurrences, gradually reduce the timeout.}
 \label{fig:feedback}
 \end{figure}
 
 \begin{algorithm}[!htbp]
-\caption{CRAFT Core Feedback Loop}
+\caption{CRAFT Feedback Loop}
 \label{alg:craft}
 \small
 \begin{algorithmic}[1]
-\State \textbf{On each incoming bank request (while timeout active):}
+\State \textbf{On each incoming bank request (while row open):}
 \If{$\mathit{new\_row} \neq \mathit{open\_row}$} \Comment{Conflict}
   \State $\mathit{step} \leftarrow \texttt{BASE\_STEP} \times t_\mathrm{RP} / (t_\mathrm{RP} + t_\mathrm{RCD})$
+  \State \textbf{if} $\mathit{is\_read}$\textbf{:}\; $\mathit{step} \leftarrow 2 \times \mathit{step}$ \Comment{[RW]}
   \State $\mathit{timeout} \leftarrow \mathit{timeout} - \mathit{step}$ \Comment{Reduce timeout}
-  \State $\mathit{reopen\_streak} \leftarrow 0$
+  \State $\mathit{reopen\_streak} \leftarrow 0$;\; $\mathit{right\_streak} \leftarrow 0$
   \State $\mathit{timeout} \leftarrow \mathrm{clamp}(\mathit{timeout},\;T_\mathrm{MIN},\;T_\mathrm{MAX})$
 \EndIf
 \Statex
@@ -210,10 +214,16 @@ Algorithm~\ref{alg:craft} presents the complete pseudocode of the core feedback 
 \If{$\mathit{prev\_closed\_by\_timeout}$}
   \If{$\mathit{new\_row} = \mathit{prev\_row}$} \Comment{Incorrect speculative precharge}
     \State $\mathit{step} \leftarrow \texttt{BASE\_STEP} \ll \min(\mathit{reopen\_streak},\;\texttt{SHIFT\_CAP})$
+    \State \textbf{if} $\mathit{is\_write}$\textbf{:}\; $\mathit{step} \leftarrow \mathit{step} \gg 1$ \Comment{[RW]}
     \State $\mathit{timeout} \leftarrow \mathit{timeout} + \mathit{step}$ \Comment{Increase timeout}
     \State $\mathit{reopen\_streak} \leftarrow \min(\mathit{reopen\_streak} + 1,\;7)$
+    \State $\mathit{right\_streak} \leftarrow 0$
   \Else \Comment{Correct speculative precharge}
-    \State $\mathit{reopen\_streak} \leftarrow 0$
+    \State $\mathit{reopen\_streak} \leftarrow \max(\mathit{reopen\_streak} - 1,\;0)$ \Comment{[SD]}
+    \State $\mathit{right\_streak} \leftarrow \min(\mathit{right\_streak} + 1,\;7)$ \Comment{[RS]}
+    \If{$\mathit{right\_streak} \geq 4$} \Comment{[RS]}
+      \State $\mathit{timeout} \leftarrow \mathit{timeout} - \texttt{BASE\_STEP} \times t_\mathrm{RP}\,/\,(2\,(t_\mathrm{RP} + t_\mathrm{RCD}))$
+    \EndIf
   \EndIf
   \State $\mathit{timeout} \leftarrow \mathrm{clamp}(\mathit{timeout},\;T_\mathrm{MIN},\;T_\mathrm{MAX})$
 \EndIf
@@ -235,7 +245,7 @@ RS provides a proactive path for timeout reduction in the absence of explicit co
 RS adds three bits per bank for the $\mathit{right\_streak}$ counter.
 
 \paragraph{(b) Read/Write Cost Differentiation (RW).}
-An incorrect speculative precharge blocking a read stalls the processor pipeline, while one blocking a write is absorbed by the write buffer. CRAFT exploits this asymmetry by halving the increment for write incorrect speculative precharges and doubling the decrement for read conflicts. RW requires no additional storage.
+An incorrect speculative precharge blocking a read stalls the processor pipeline, while one blocking a write is absorbed by the write buffer in the memory controller. CRAFT exploits this asymmetry by halving the increment for write incorrect speculative precharges and doubling the decrement for read conflicts. RW requires no additional storage.
 
 \paragraph{(c) Streak Decay (SD).}
 Each correct speculative precharge decrements $\mathit{reopen\_streak}$ by one, preventing a historically elevated streak from causing disproportionately large increments later. SD requires no additional storage.
@@ -294,7 +304,7 @@ We compare CRAFT against ABP~\cite{Awasthi11}, DYMPL~\cite{Rafique22}, and INTAP
 
 \subsection{Metrics}
 
-We report three metrics. \textbf{IPC} is the primary performance metric; we report per-workload improvement relative to each baseline. \textbf{Read row buffer hit rate} measures the fraction of read requests served from the currently activated row; write hit rates are excluded as writes complete in the write buffer of the memory controller. \textbf{Average read latency} is the mean DRAM service time for read requests in DRAM cycles.
+We report three metrics. \textbf{IPC} is the primary performance metric; we report per-workload improvement relative to each baseline. \textbf{Read row buffer hit rate} measures the fraction of read requests served from the currently activated row; write hit rates are excluded because writes complete in the memory controller's write buffer. \textbf{Average read latency} is the mean DRAM service time for read requests in DRAM cycles.
 
 \section{Evaluation}
 
@@ -344,7 +354,7 @@ Figure~\ref{fig:timeout_dist} presents the timeout value distribution for each w
 
 \textbf{Open-Page-Like.} The roadNet-CA workloads concentrate overwhelmingly in the High range. PageRank on roadNet-CA yields 90.9\% High versus 96.9\% Low on higgs, confirming that adaptation reflects the runtime access pattern rather than algorithm identity.
 
-Figure~\ref{fig:timeout_evo} shows how the timeout distribution evolves over execution progress for three representative workloads. CF/roadNet-CA converges to the High range early and remains stable, consistent with sustained spatial locality. CF/higgs begins in the Low range and gradually transitions toward higher timeout values, reflecting a shift from conflict-dominated phases to locality-rich phases. sphinx3 exhibits periodic oscillations between Low and High ranges, corresponding to alternating program phases with distinct memory access patterns. These temporal profiles confirm that CRAFT continuously adapts its timeout values in response to changing workload behavior, rather than settling on a single static policy.
+Figure~\ref{fig:timeout_evo} shows how the timeout distribution evolves over execution progress for three representative workloads. CF/roadNet-CA is dominated by the High range throughout execution, consistent with sustained spatial locality in the road-network graph. CF/higgs begins in the Low range and gradually transitions toward higher timeout values, reflecting a shift from conflict-dominated early phases to locality-rich later phases. sphinx3 remains predominantly in the High range, but exhibits periodic fluctuations where the Low and Mid ranges temporarily expand, indicating brief phases of reduced locality interspersed within an overall open-page-like pattern. These temporal profiles confirm that CRAFT continuously adapts its timeout values in response to changing workload behavior, rather than settling on a single static policy.
 
 \begin{figure}[!htbp]
 \centering
@@ -400,9 +410,9 @@ A substantial body of work addresses DRAM performance from orthogonal angles. Sc
 
 This paper presents CRAFT, a lightweight row buffer management scheme that exploits the cost asymmetry between the two failure modes of speculative precharge. CRAFT combines asymmetric timeout updates with exponential backoff and requires only 140~bytes of storage per channel.
 
-Across 12 memory-intensive workloads, CRAFT improves IPC by 7.73\%, 3.10\%, and 2.84\% over ABP, DYMPL, and INTAP, respectively. CRAFT also improves average read row buffer hit rate by 5.62\% over the best baseline and reduces average read latency by 2.74\%. Our ablation study shows that precharge-outcome-based refinements improve adaptation precision, while additional conflict-based heuristics do not help in this setting.
+Across 12 memory-intensive workloads, CRAFT improves IPC by 7.73\%, 3.10\%, and 2.84\% over ABP, DYMPL, and INTAP, respectively. CRAFT also improves the average read row buffer hit rate by 5.62\% over the best baseline and reduces average read latency by 2.74\%. Our ablation study shows that precharge-outcome-based refinements improve adaptation precision, while additional conflict-based heuristics do not help in this setting.
 
-These results support CRAFT as a practical option for the evaluated single-core DDR5 configuration. The current evaluation emphasizes memory-intensive single-core workloads, and broader multi-core and cross-standard validation remains future work.
+These results support CRAFT as a practical option for the evaluated single-core DDR5 configuration. The current evaluation emphasizes memory-intensive single-core workloads, and broader multi-core and cross-standard validation remains for future work.
 
 \begin{credits}
 \subsubsection{\discintname} The authors have no competing interests to declare.

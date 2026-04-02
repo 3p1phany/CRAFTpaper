@@ -220,7 +220,7 @@ x = closed_gap(ax_b, y, x, gap_w)                           # 81 → 91
 req_mark(ax_b, closed_start + gap_w / 2, y, 'Req. (diff row)')
 x = cmd(ax_b, y, x, tRCD, 'ACT', C_ACT, fs=FONT_TICK)             # 91 → 131
 cas_mark(ax_b, x, y)
-ax_b.text(x + 8, y, 'Penalty: 0', ha='left', va='center',
+ax_b.text(x + 8, y, 'Avoidable cost: 0', ha='left', va='center',
           fontsize=FONT_ANNOT, fontweight='bold', color=CD['craft'])
 state_label(ax_b, x0 + idle_w / 2, y, 'Row A open')
 state_label(ax_b, closed_start + gap_w / 2, y, 'closed', '#999')
@@ -238,7 +238,7 @@ x = closed_gap(ax_b, y, x, gap_w)                           # 81 → 91
 req_mark(ax_b, closed_start + gap_w / 2, y, 'Req. (same row)', C_WRONG)
 act_end = cmd(ax_b, y, x, tRCD, 'ACT', C_ACT, fs=FONT_TICK)       # 91 → 131
 cas_mark(ax_b, act_end, y)
-ax_b.text(act_end + 8, y, 'Penalty: tRCD', ha='left', va='center',
+ax_b.text(act_end + 8, y, 'Avoidable cost: tRP + tRCD', ha='left', va='center',
           fontsize=FONT_ANNOT, fontweight='bold', color=CD['closed_page'])
 state_label(ax_b, x0 + idle_w / 2, y, 'Row A open')
 state_label(ax_b, closed_start + gap_w / 2, y, 'closed', '#999')
@@ -265,7 +265,7 @@ x = cmd(ax_b, y, x, tRCD, 'ACT', C_ACT, fs=FONT_TICK)     # 71 → 111
 cas_mark(ax_b, x, y)                                        # at 111
 # Hatched padding to equalize bar length
 padding_block(ax_b, y, x, x_end - x)
-ax_b.text(x_end + 8, y, 'Penalty: tRP + tRCD', ha='left', va='center',
+ax_b.text(x_end + 8, y, 'Avoidable cost: tRP', ha='left', va='center',
           fontsize=FONT_ANNOT, fontweight='bold', color=CD['dympl'])
 state_label(ax_b, x0 + conflict_idle / 2, y, 'Row A open')
 state_label(ax_b, pre_start + tRP + tRCD / 2, y, 'Row B open')
@@ -281,7 +281,7 @@ req_mark(ax_b, x, y, 'Req.(same row)', C_CAS)              # at 31
 padding_block(ax_b, y, x, x_end - x)
 # Timeout marker — same style as other scenarios
 ghost_timeout_mark(ax_b, tmx_pos, y)                         # at 41, faint reference
-ax_b.text(x_end + 8, y, 'Penalty: 0', ha='left', va='center',
+ax_b.text(x_end + 8, y, 'Avoidable cost: 0', ha='left', va='center',
           fontsize=FONT_ANNOT, fontweight='bold', color=CD['craft'])
 state_label(ax_b, x0 + hit_idle / 2, y, 'Row A open')
 

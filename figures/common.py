@@ -87,15 +87,15 @@ FONT_DETAIL      = 5    # fine-grained labels (state labels, sub-annotations)
 def setup_style():
     """Call once at the top of each figure script."""
     plt.rcParams.update({
-        # Use a paper-standard Helvetica-style family across all figures.
-        'font.family': 'TeX Gyre Heros',
-        'font.sans-serif': ['TeX Gyre Heros'],
+        # Use a Helvetica-compatible sans family for clearer figure text.
+        'font.family': 'Nimbus Sans',
+        'font.sans-serif': ['Nimbus Sans', 'Nimbus Sans L', 'Liberation Sans'],
         'font.size': 7,
         'mathtext.fontset': 'custom',
-        'mathtext.rm': 'TeX Gyre Heros',
-        'mathtext.sf': 'TeX Gyre Heros',
-        'mathtext.it': 'TeX Gyre Heros:italic',
-        'mathtext.bf': 'TeX Gyre Heros:bold',
+        'mathtext.rm': 'Nimbus Sans',
+        'mathtext.sf': 'Nimbus Sans',
+        'mathtext.it': 'Nimbus Sans:italic',
+        'mathtext.bf': 'Nimbus Sans:bold',
         'mathtext.default': 'regular',
         'pdf.fonttype': 42,
         'ps.fonttype': 42,
