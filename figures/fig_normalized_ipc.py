@@ -66,7 +66,7 @@ n = len(labels)
 x = np.arange(n)
 
 # ── plot ─────────────────────────────────────────────────────────────────
-fig, ax = plt.subplots(figsize=(7.0, 2.4))
+fig, ax = plt.subplots(figsize=(7.0, 2.0))
 
 bar_w = 0.22
 policies = ['ABP', 'DYMPL', 'INTAP', 'CRAFT']
@@ -82,9 +82,9 @@ for i, (p, vals, ck) in enumerate(zip(policies, values, color_keys)):
            edgecolor=edge_col, linewidth=edge_lw)
 
 # Axis styling
-ymin = 0.86
+ymin = 0.88
 ax.set_ylim(ymin, 1.02)
-ax.set_yticks(np.arange(ymin, 1.021, 0.04))
+ax.set_yticks(np.arange(ymin, 1.021, 0.02))
 ax.yaxis.set_minor_locator(mticker.MultipleLocator(0.02))
 
 ax.set_ylabel('Normalized IPC (CRAFT = 1.0)')
@@ -112,7 +112,7 @@ legend_handles = [
 ]
 legend = ax.legend(handles=legend_handles, loc='upper center', ncol=4, fontsize=7,
           framealpha=0.9, edgecolor='gray', fancybox=False,
-          bbox_to_anchor=(0.5, -0.38), handlelength=1.8,
+          bbox_to_anchor=(0.5, -0.52), handlelength=1.8,
           handleheight=0.8, columnspacing=1.0)
 legend.get_texts()[-1].set_fontweight('bold')
 ax.grid(axis='y', linestyle=':', alpha=0.3)

@@ -32,7 +32,7 @@ n = len(labels_raw)
 x = np.arange(n)
 
 # ── plot ─────────────────────────────────────────────────────────────────
-fig, ax = plt.subplots(figsize=(LNCS_TEXT_WIDTH, 2.5))
+fig, ax = plt.subplots(figsize=(LNCS_TEXT_WIDTH, 2.0))
 
 bar_w = 0.55
 
@@ -74,10 +74,10 @@ legend_handles = [
 ]
 ax.legend(handles=legend_handles, loc='upper center', ncol=3, fontsize=FONT_LEGEND,
           framealpha=0.9, edgecolor='gray', fancybox=False,
-          bbox_to_anchor=(0.5, -0.26), handlelength=1.8,
+          bbox_to_anchor=(0.5, -0.65), handlelength=1.8,
           handleheight=0.8, columnspacing=1.0)
 ax.grid(axis='y', linestyle=':', alpha=0.3)
 
 fig.tight_layout()
-fig.subplots_adjust(bottom=0.24)
+fig.subplots_adjust(bottom=0.45)
 savefig(fig, 'timeout_distribution')

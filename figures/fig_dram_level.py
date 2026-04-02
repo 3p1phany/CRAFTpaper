@@ -31,11 +31,12 @@ rbhr_abp   = [72.13, 60.81, 25.13, 63.80, 53.21, 55.96, 70.89, 47.47, 78.59, 65.
 rbhr_dympl = [81.90, 63.29, 29.16, 75.20, 80.09, 56.60, 84.09, 74.83, 84.48, 88.23, 31.98, 66.20]
 rbhr_intap = [81.56, 64.86, 32.87, 74.96, 76.17, 58.48, 80.46, 74.85, 86.71, 86.93, 35.08, 66.17]
 
-# Averages
-rbhr_craft.append(sum(rbhr_craft) / 12)
-rbhr_abp.append(sum(rbhr_abp) / 12)
-rbhr_dympl.append(sum(rbhr_dympl) / 12)
-rbhr_intap.append(sum(rbhr_intap) / 12)
+# GEOMEAN
+def _geo(vals): return math.exp(sum(math.log(v) for v in vals) / len(vals))
+rbhr_craft.append(_geo(rbhr_craft))
+rbhr_abp.append(_geo(rbhr_abp))
+rbhr_dympl.append(_geo(rbhr_dympl))
+rbhr_intap.append(_geo(rbhr_intap))
 
 # Average Read Latency (DRAM cycles)
 lat_craft = [95.32, 107.86, 111.80, 90.99, 82.31, 109.56, 124.94, 79.15, 89.70, 134.11, 112.85, 96.51]
@@ -43,12 +44,12 @@ lat_abp   = [111.47, 116.80, 119.71, 101.30, 104.28, 113.56, 133.72, 98.78, 94.8
 lat_dympl = [104.99, 115.43, 115.73, 95.41, 87.43, 114.27, 128.34, 83.75, 94.80, 137.52, 113.44, 100.19]
 lat_intap = [101.04, 109.88, 112.97, 94.28, 88.41, 110.05, 128.32, 83.58, 90.83, 137.86, 113.10, 99.21]
 
-lat_craft.append(sum(lat_craft) / 12)
-lat_abp.append(sum(lat_abp) / 12)
-lat_dympl.append(sum(lat_dympl) / 12)
-lat_intap.append(sum(lat_intap) / 12)
+lat_craft.append(_geo(lat_craft))
+lat_abp.append(_geo(lat_abp))
+lat_dympl.append(_geo(lat_dympl))
+lat_intap.append(_geo(lat_intap))
 
-labels = [short_name(b) for b in benchmarks] + ['AVG']
+labels = [short_name(b) for b in benchmarks] + ['GEOMEAN']
 n = len(labels)
 x = np.arange(n)
 
@@ -61,8 +62,8 @@ _HATCHES = {
 }
 
 # ── plot ────────────────────────────────────────────────────────────────────
-fig = plt.figure(figsize=(LNCS_TEXT_WIDTH, 4.2))
-gs = gridspec.GridSpec(2, 1, hspace=0.45)
+fig = plt.figure(figsize=(LNCS_TEXT_WIDTH, 3.4))
+gs = gridspec.GridSpec(2, 1, hspace=0.7)
 ax_a = fig.add_subplot(gs[0])
 ax_b = fig.add_subplot(gs[1])
 
@@ -80,8 +81,8 @@ for i, (p, vals, ck) in enumerate(zip(policies, rbhr_vals, color_keys)):
              label=p, color=COLORS[ck], hatch=_HATCHES[ck],
              edgecolor=edge_col, linewidth=edge_lw)
 
-ax_a.set_ylim(0, 105)
-ax_a.set_yticks(np.arange(0, 101, 20))
+ax_a.set_ylim(20, 100)
+ax_a.set_yticks(np.arange(20, 101, 20))
 ax_a.yaxis.set_minor_locator(mticker.MultipleLocator(10))
 ax_a.set_ylabel('Read Row Buffer\nHit Rate (%)')
 set_categorical_xticks(ax_a, x, labels, rotation=35, ha='right')
@@ -103,8 +104,8 @@ for i, (p, vals, ck) in enumerate(zip(policies, lat_vals, color_keys)):
              label=p, color=COLORS[ck], hatch=_HATCHES[ck],
              edgecolor=edge_col, linewidth=edge_lw)
 
-ax_b.set_ylim(70, 160)
-ax_b.set_yticks(np.arange(70, 161, 20))
+ax_b.set_ylim(75, 155)
+ax_b.set_yticks(np.arange(80, 161, 20))
 ax_b.yaxis.set_minor_locator(mticker.MultipleLocator(10))
 ax_b.set_ylabel('Avg Read Latency\n(DRAM Cycles)')
 set_categorical_xticks(ax_b, x, labels, rotation=35, ha='right')
@@ -129,10 +130,10 @@ legend_handles = [
 ]
 legend = fig.legend(handles=legend_handles, loc='upper center', ncol=4,
                     fontsize=FONT_LEGEND, framealpha=0.9, edgecolor='gray',
-                    fancybox=False, bbox_to_anchor=(0.5, -0.01),
+                    fancybox=False, bbox_to_anchor=(0.5, -0.05),
                     handlelength=1.8, handleheight=0.8, columnspacing=1.0)
 legend.get_texts()[-1].set_fontweight('bold')
 
 fig.tight_layout()
-fig.subplots_adjust(bottom=0.08)
+fig.subplots_adjust(bottom=0.12)
 savefig(fig, 'dram_level')

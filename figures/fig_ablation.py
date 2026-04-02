@@ -63,7 +63,7 @@ n = len(variants)
 x = np.arange(n)
 
 # ── plot ─────────────────────────────────────────────────────────────────
-fig, ax = plt.subplots(figsize=(LNCS_TEXT_WIDTH, 2.4))
+fig, ax = plt.subplots(figsize=(LNCS_TEXT_WIDTH, 1.8))
 
 # Base portion: all bars share BASE = 100% (light fill)
 ax.bar(x, [100.0] * n, width=0.40, color=COLORS['craft'], alpha=0.25,
@@ -101,7 +101,7 @@ for i, (v, r, d) in enumerate(zip(variants, ratios, deltas)):
                 fontsize=_FONT_ANNOT, fontweight='bold', color=delta_dark[i])
 
 # Category labels below x-axis
-cat_y = -0.28
+cat_y = -0.35
 ax.text(0, cat_y, 'Core Loop', ha='center', fontsize=_FONT_ANNOT,
         color=COLORS_DARK['craft'], transform=ax.get_xaxis_transform())
 ax.text(2, cat_y, 'Precharge-path', ha='center', fontsize=_FONT_ANNOT,
@@ -117,17 +117,17 @@ for sep_x in [0.5, 3.5, 5.5]:
 
 # ── axis styling ─────────────────────────────────────────────────────────
 ax.set_ylabel('Normalized IPC Gain\n(BASE = 100%)')
-set_categorical_xticks(ax, x, variants, rotation=90, ha='center',
+set_categorical_xticks(ax, x, variants, rotation=0, ha='center',
                        fontsize=FONT_TICK_DENSE / _PRINT_SCALE)
 # Bold key variants
 for i, tl in enumerate(ax.get_xticklabels()):
     if variants[i] in ('BASE', 'PRE', 'ALL'):
         tl.set_fontweight('bold')
-ax.set_ylim(80, 145)
-ax.set_yticks(np.arange(80, 141, 10))
+ax.set_ylim(85, 140)
+ax.set_yticks(np.arange(90, 141, 10))
 ax.yaxis.set_minor_locator(plt.MultipleLocator(5))
 ax.grid(axis='y', linestyle=':', alpha=0.3)
 ax.set_xlim(-0.5, n - 0.5)
 
-fig.subplots_adjust(bottom=0.20, top=0.94, left=0.15, right=0.96)
+fig.subplots_adjust(bottom=0.28, top=0.94, left=0.15, right=0.96)
 savefig(fig, 'ablation')
