@@ -175,34 +175,35 @@ The ratio of avoidable overhead between these two outcomes is $(t_\mathrm{RP} + 
 This asymmetry creates a deliberate upward bias: under equal frequencies of incorrect speculative precharges and conflicts, net timeout increases accumulate, reflecting the $2{:}1$ cost ratio. $T_\mathrm{MAX}$ bounds this bias at 3200~cycles; conflicts and timeout reduction after consecutive correct speculative precharges then provide downward pressure.
 
 \paragraph{(b) Exponential backoff.}
-CRAFT applies exponential backoff to consecutive incorrect speculative precharges by left-shifting the base step:
+CRAFT applies exponential backoff to consecutive incorrect speculative precharges by left-shifting the base step. Let $n$ denote the number of consecutive incorrect speculative precharges observed so far, capped at $N_\mathrm{max} = 7$. The effective step size is
 \begin{equation}
-\mathit{step} = \mathtt{BASE\_STEP} \times 2^{\min(\mathit{reopen\_streak},\;\mathtt{SHIFT\_CAP})}
+s = s_0 \cdot 2^{\min(n,\;N_\mathrm{max})}
 \end{equation}
-The $\mathit{reopen\_streak}$ counter tracks consecutive incorrect speculative precharges, is capped at 7, and resets to zero upon a correct speculative precharge or a conflict. This mechanism enables rapid convergence during sustained high-locality phases. The timeout can reach the upper bound within a small number of feedback events.
+where $s_0 = \texttt{BASE\_STEP} = 50$~cycles. A conflict resets the counter to zero. A correct speculative precharge decrements the counter by one (the SD refinement in Section~\ref{sec:refinements}), dampening future backoff without fully erasing it. This mechanism enables rapid convergence during sustained high-locality phases. The timeout can reach the upper bound within a small number of feedback events.
 
 \paragraph{(c) Continuous adjustment range.}
 The timeout adjusts within $[T_\mathrm{MIN}, T_\mathrm{MAX}] = [50, 3200]$~cycles. $T_\mathrm{MIN}$ matches \texttt{BASE\_STEP} to prevent degeneration to close-page behavior; $T_\mathrm{MAX}$ prevents indefinitely open rows. The exponential backoff traverses the full range in as few as six escalation events.
 
-Algorithm~\ref{alg:craft} presents the complete pseudocode of the core feedback loop, and Fig.~\ref{fig:feedback} illustrates the overall structure.
+Algorithm~\ref{alg:craft} presents the complete pseudocode, including the three refinements described in Section~\ref{sec:refinements} (annotated [RS], [RW], [SD]). Fig.~\ref{fig:feedback} illustrates the overall structure.
 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=0.85\textwidth]{../figures/output/feedback_loop.pdf}
-\caption{CRAFT timeout-control logic. Timeout expiration triggers speculative precharge, after which the next access determines a wrong or right precharge outcome. A new request that arrives before timeout expiration is instead either a row hit or a conflict. Wrong precharges incur $t_\mathrm{RP} + t_\mathrm{RCD}$ in avoidable overhead and escalate the timeout with exponential backoff. Conflicts incur only $t_\mathrm{RP}$ in missed overlap opportunity and reduce the timeout with a cost-proportional decrement, while right precharges confirm the current value.}
+\caption{CRAFT timeout-control logic. Timeout expiration triggers speculative precharge, after which the next access determines a wrong or right precharge outcome. A new request that arrives before timeout expiration is instead either a row hit or a conflict. Wrong precharges incur $t_\mathrm{RP} + t_\mathrm{RCD}$ in avoidable overhead and escalate the timeout with exponential backoff. Conflicts incur only $t_\mathrm{RP}$ in missed overlap opportunity and reduce the timeout with a cost-proportional decrement. Correct speculative precharges decay the backoff counter and, after four or more consecutive occurrences, gradually reduce the timeout.}
 \label{fig:feedback}
 \end{figure}
 
 \begin{algorithm}[!htbp]
-\caption{CRAFT Core Feedback Loop}
+\caption{CRAFT Feedback Loop}
 \label{alg:craft}
 \small
 \begin{algorithmic}[1]
-\State \textbf{On each incoming bank request (while timeout active):}
+\State \textbf{On each incoming bank request (while row open):}
 \If{$\mathit{new\_row} \neq \mathit{open\_row}$} \Comment{Conflict}
   \State $\mathit{step} \leftarrow \texttt{BASE\_STEP} \times t_\mathrm{RP} / (t_\mathrm{RP} + t_\mathrm{RCD})$
+  \State \textbf{if} $\mathit{is\_read}$: $\mathit{step} \leftarrow 2 \times \mathit{step}$ \Comment{[RW]}
   \State $\mathit{timeout} \leftarrow \mathit{timeout} - \mathit{step}$ \Comment{Reduce timeout}
-  \State $\mathit{reopen\_streak} \leftarrow 0$
+  \State $\mathit{reopen\_streak} \leftarrow 0$;\; $\mathit{right\_streak} \leftarrow 0$
   \State $\mathit{timeout} \leftarrow \mathrm{clamp}(\mathit{timeout},\;T_\mathrm{MIN},\;T_\mathrm{MAX})$
 \EndIf
 \Statex
@@ -210,10 +211,16 @@ Algorithm~\ref{alg:craft} presents the complete pseudocode of the core feedback 
 \If{$\mathit{prev\_closed\_by\_timeout}$}
   \If{$\mathit{new\_row} = \mathit{prev\_row}$} \Comment{Incorrect speculative precharge}
     \State $\mathit{step} \leftarrow \texttt{BASE\_STEP} \ll \min(\mathit{reopen\_streak},\;\texttt{SHIFT\_CAP})$
+    \State \textbf{if} $\mathit{is\_write}$: $\mathit{step} \leftarrow \mathit{step} \gg 1$ \Comment{[RW]}
     \State $\mathit{timeout} \leftarrow \mathit{timeout} + \mathit{step}$ \Comment{Increase timeout}
     \State $\mathit{reopen\_streak} \leftarrow \min(\mathit{reopen\_streak} + 1,\;7)$
+    \State $\mathit{right\_streak} \leftarrow 0$
   \Else \Comment{Correct speculative precharge}
-    \State $\mathit{reopen\_streak} \leftarrow 0$
+    \State $\mathit{reopen\_streak} \leftarrow \max(\mathit{reopen\_streak} - 1,\;0)$ \Comment{[SD]}
+    \State $\mathit{right\_streak} \leftarrow \min(\mathit{right\_streak} + 1,\;7)$ \Comment{[RS]}
+    \If{$\mathit{right\_streak} \geq 4$} \Comment{[RS]}
+      \State $\mathit{timeout} \leftarrow \mathit{timeout} - \texttt{BASE\_STEP} \times t_\mathrm{RP} / (2\,(t_\mathrm{RP} + t_\mathrm{RCD}))$ \Comment{[RS]}
+    \EndIf
   \EndIf
   \State $\mathit{timeout} \leftarrow \mathrm{clamp}(\mathit{timeout},\;T_\mathrm{MIN},\;T_\mathrm{MAX})$
 \EndIf
@@ -344,7 +351,7 @@ Figure~\ref{fig:timeout_dist} presents the timeout value distribution for each w
 
 \textbf{Open-Page-Like.} The roadNet-CA workloads concentrate overwhelmingly in the High range. PageRank on roadNet-CA yields 90.9\% High versus 96.9\% Low on higgs, confirming that adaptation reflects the runtime access pattern rather than algorithm identity.
 
-Figure~\ref{fig:timeout_evo} shows how the timeout distribution evolves over execution progress for three representative workloads. CF/roadNet-CA converges to the High range early and remains stable, consistent with sustained spatial locality. CF/higgs begins in the Low range and gradually transitions toward higher timeout values, reflecting a shift from conflict-dominated phases to locality-rich phases. sphinx3 exhibits periodic oscillations between Low and High ranges, corresponding to alternating program phases with distinct memory access patterns. These temporal profiles confirm that CRAFT continuously adapts its timeout values in response to changing workload behavior, rather than settling on a single static policy.
+Figure~\ref{fig:timeout_evo} shows how the timeout distribution evolves over execution progress for three representative workloads. CF/roadNet-CA is dominated by the High range throughout execution, consistent with sustained spatial locality in the road-network graph. CF/higgs begins in the Low range and gradually transitions toward higher timeout values, reflecting a shift from conflict-dominated early phases to locality-rich later phases. sphinx3 remains predominantly in the High range, but exhibits periodic fluctuations where the Low and Mid ranges temporarily expand, indicating brief phases of reduced locality interspersed within an overall open-page-like pattern. These temporal profiles confirm that CRAFT continuously adapts its timeout values in response to changing workload behavior, rather than settling on a single static policy.
 
 \begin{figure}[!htbp]
 \centering

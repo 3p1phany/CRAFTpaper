@@ -62,7 +62,7 @@ def ortho_arrow(vertices, color, lw=1.3, ms=13, capstyle='round', joinstyle='rou
     ax.add_patch(patch)
 
 
-_BOX_PAD = 0.06
+_BOX_PAD = 0.04
 
 
 # Layout
@@ -73,8 +73,8 @@ top_w, top_h = 5.40, 0.68
 
 mid_y = 3.30
 mid_w, mid_h = 3.80, 0.82
-timeout_cx = center_x - 2.80
-request_cx = center_x + 2.80
+timeout_cx = center_x - 3.00
+request_cx = center_x + 3.00
 
 bw, bh = 2.65, 1.45
 bot_y = 1.30
@@ -203,6 +203,38 @@ ax.text(conflict_x, bot_y - 0.05, 'DE-ESCALATE',
         color=C_C, ha='center')
 ax.text(conflict_x, bot_y - 0.32, 'reduce timeout',
         fontsize=FONT_DETAIL, color='#333', ha='center')
+
+
+# ── Feedback: all four bottom boxes → Per-Bank Timeout Counter ──
+_bot_bottom = bot_y - bh / 2 - _BOX_PAD          # visual bottom of outcome boxes
+_collect_y = 0.15                                  # shared horizontal collection line
+_fb_left_x = wrong_x - bw / 2 - _BOX_PAD - 0.30  # left riser
+_fb_right_x = conflict_x + bw / 2 + _BOX_PAD + 0.30  # right riser
+_top_left = top_cx - top_w / 2 - _BOX_PAD
+_top_right = top_cx + top_w / 2 + _BOX_PAD
+
+# Vertical stubs: each box bottom → collection line
+for bx in [wrong_x, right_x, hit_x, conflict_x]:
+    ax.plot([bx, bx], [_bot_bottom, _collect_y],
+            color=C_G, lw=1.0, solid_capstyle='butt', zorder=3)
+
+# Horizontal collection line spanning both risers
+ax.plot([_fb_left_x, _fb_right_x], [_collect_y, _collect_y],
+        color=C_G, lw=1.0, solid_capstyle='butt', zorder=3)
+
+# Left riser → top box left side
+ax.plot([_fb_left_x, _fb_left_x], [_collect_y, top_cy],
+        color=C_G, lw=1.0, solid_capstyle='butt', zorder=3)
+ortho_arrow(
+    [(_fb_left_x, top_cy), (_top_left, top_cy)],
+    color=C_G, lw=1.0, ms=11)
+
+# Right riser → top box right side
+ax.plot([_fb_right_x, _fb_right_x], [_collect_y, top_cy],
+        color=C_G, lw=1.0, solid_capstyle='butt', zorder=3)
+ortho_arrow(
+    [(_fb_right_x, top_cy), (_top_right, top_cy)],
+    color=C_G, lw=1.0, ms=11)
 
 
 savefig(fig, 'feedback_loop')
