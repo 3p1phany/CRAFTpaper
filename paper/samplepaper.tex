@@ -297,7 +297,7 @@ We select 12 memory-intensive workloads from three benchmark suites. Graph workl
 \subsection{Baselines}
 \label{sec:baselines_meth}
 
-We compare CRAFT against ABP~\cite{Awasthi11}, DYMPL~\cite{Rafique22}, and INTAP~\cite{Intel06}. All baselines are implemented in the same infrastructure under the DDR5-4800 configuration in Table~\ref{tab:simconfig}. The controller scheduling policy, address mapping, queue capacities, and trace inputs remain fixed across schemes; only the row buffer management logic differs.
+We compare CRAFT against ABP~\cite{Awasthi11}, DYMPL~\cite{Rafique22}, and INTAP~\cite{Intel06}. All baselines are implemented in the same infrastructure under the DDR5-4800 configuration in Table~\ref{tab:simconfig}. The controller scheduling policy, address mapping, queue capacities, and trace inputs remain fixed across schemes; only the row buffer management logic differs. Unless otherwise noted, the CRAFT configuration evaluated in Sections~\ref{sec:ipc}--\ref{sec:timeout_dist} includes the core feedback loop and all three precharge-outcome-based refinements (RS, RW, SD) described in Section~\ref{sec:refinements}. Section~\ref{sec:ablation} isolates the contribution of each component.
 
 \subsection{Metrics}
 
