@@ -155,7 +155,7 @@ ortho_arrow(
 
 # ── WRONG ──
 rbox(wrong_x, bot_y, bw, bh, C_WB, C_W, lw=1.3, pad=0.04)
-ax.text(wrong_x, bot_y + 0.48, 'WRONG',
+ax.text(wrong_x, bot_y + 0.48, 'INCORRECT',
         fontsize=FONT_TICK, fontweight='bold', color=C_W, ha='center')
 ax.text(wrong_x, bot_y + 0.26, 'new_row = prev_row',
         fontsize=4.1, color=C_G, ha='center')
@@ -168,7 +168,7 @@ ax.text(wrong_x, bot_y - 0.32, 'increase timeout',
 
 # ── RIGHT ──
 rbox(right_x, bot_y, bw, bh, C_RB, C_R, lw=1.3, pad=0.04)
-ax.text(right_x, bot_y + 0.48, 'RIGHT',
+ax.text(right_x, bot_y + 0.48, 'CORRECT',
         fontsize=FONT_TICK, fontweight='bold', color=C_R, ha='center')
 ax.text(right_x, bot_y + 0.26, 'new_row != prev_row',
         fontsize=4.1, color=C_G, ha='center')

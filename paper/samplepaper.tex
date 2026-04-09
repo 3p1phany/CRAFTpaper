@@ -54,7 +54,7 @@
 \begin{abstract}
 DRAM row buffer management presents a fundamental tradeoff between exploiting row buffer locality and minimizing conflict penalties. The optimal policy varies across workloads, execution phases, and individual address ranges. Existing adaptive schemes, however, face a persistent tension between hardware complexity and management effectiveness.
 
-This paper presents CRAFT, a lightweight, cost-aware adaptive timeout scheme for DRAM row buffer management. CRAFT exploits the observation that the two failure modes of speculative precharge incur qualitatively different performance costs. It translates this cost asymmetry into differentiated per-bank timeout adjustments. Incorrect speculative precharges increase the timeout through exponential backoff, whereas conflicts reduce it with a smaller step proportional to the avoidable overhead. Beyond this core feedback loop, three precharge-outcome-based refinements further improve adaptation precision without additional hardware structures. The entire mechanism requires no prediction tables, feature extraction, or learned models.
+This paper presents CRAFT, a lightweight, cost-aware adaptive timeout-based scheme for DRAM row buffer management. CRAFT exploits the observation that the two failure modes of speculative precharge incur qualitatively different performance costs. It translates this cost asymmetry into differentiated per-bank timeout adjustments. Incorrect speculative precharges increase the timeout through exponential backoff, whereas conflicts reduce it with a smaller step proportional to the avoidable overhead. Beyond this core feedback loop, three precharge-outcome-based refinements further improve adaptation precision without additional hardware structures. The entire mechanism requires no prediction tables, feature extraction, or learned models.
 
 We evaluate CRAFT using a cycle-accurate simulator across 12 memory-intensive workloads from graph analytics and scientific computing. CRAFT improves IPC by 7.73\%, 3.10\%, and 2.84\% over ABP, DYMPL, and INTAP, respectively. The total storage overhead is 140~bytes per channel, representing a 24$\times$ reduction relative to DYMPL and more than a 140$\times$ reduction relative to ABP. These results indicate that the cost asymmetry inherent in precharge outcomes is an effective basis for lightweight row buffer management in our evaluated setting.
 
@@ -189,7 +189,7 @@ Algorithm~\ref{alg:craft} presents the complete pseudocode, including the three 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=0.85\textwidth]{../figures/output/feedback_loop.pdf}
-\caption{CRAFT timeout-control logic. Timeout expiration triggers speculative precharge, after which the next access determines a wrong or right precharge outcome. A new request that arrives before timeout expiration is instead either a row hit or a conflict. Wrong precharges incur $t_\mathrm{RP} + t_\mathrm{RCD}$ in avoidable overhead and escalate the timeout with exponential backoff. Conflicts incur only $t_\mathrm{RP}$ in missed overlap opportunity and reduce the timeout with a cost-proportional decrement. Correct speculative precharges decay the backoff counter and, after four or more consecutive occurrences, gradually reduce the timeout.}
+\caption{CRAFT timeout-control logic. Timeout expiration triggers speculative precharge, after which the next access determines whether the precharge was correct or incorrect. A new request that arrives before timeout expiration is instead either a row hit or a conflict. Incorrect speculative precharges incur $t_\mathrm{RP} + t_\mathrm{RCD}$ in avoidable overhead and escalate the timeout with exponential backoff. Conflicts incur only $t_\mathrm{RP}$ in missed overlap opportunity and reduce the timeout with a cost-proportional decrement. Correct speculative precharges decay the backoff counter and, after four or more consecutive occurrences, gradually reduce the timeout.}
 \label{fig:feedback}
 \end{figure}
 
@@ -284,7 +284,7 @@ We evaluate CRAFT using ChampSim~\cite{Gober22} integrated with DRAMSim3~\cite{L
  & Channels / Ranks / Banks per channel & 4 / 1 / 32 \\
  & Rows per bank & 65,536 \\
  & $t_\mathrm{CAS}$ / $t_\mathrm{RCD}$ / $t_\mathrm{RP}$ (DRAM cycles) & 40 / 40 / 40 \\
- & Address mapping & rorababgchco \\
+ & Address mapping & Ro-Ra-Ba-Bg-Ch-Co \\
  & Command queue (per bank) & 8 entries \\
 \hline
 \end{tabular}
@@ -324,7 +324,7 @@ The largest gains over ABP occur in graph traversal workloads such as CF and Pag
 \subsection{DRAM-Level Performance Analysis}
 \label{sec:dram_level}
 
-Figure~\ref{fig:dram} presents the per-workload read row buffer hit rate and average read latency for all four schemes. CRAFT achieves the highest read row buffer hit rate on all 12 workloads, surpassing the best-performing baseline by an average of 5.62\% (largest gains: CF/roadNet-CA +9.25\%, PageRank/roadNet-CA +9.12\%, sphinx3 +7.76\%). CRAFT also achieves the lowest average read latency, with a mean reduction of 2.74\%. The two metrics are correlated: workloads where CRAFT improves RBHR the most also exhibit the largest latency reductions, confirming that the IPC gains reported in Section~\ref{sec:ipc} originate from improved row buffer management at the DRAM level. Write row buffer hit rates remain nearly identical across all policies, indicating that the gain primarily comes from the read path.
+Figure~\ref{fig:dram} presents the per-workload read row buffer hit rate and average read latency for all four schemes. CRAFT achieves the highest read row buffer hit rate (RBHR) on all 12 workloads, surpassing the best-performing baseline by an average of 5.62\% (largest gains: CF/roadNet-CA +9.25\%, PageRank/roadNet-CA +9.12\%, sphinx3 +7.76\%). CRAFT also achieves the lowest average read latency, with a mean reduction of 2.74\%. The two metrics are correlated: workloads where CRAFT improves RBHR the most also exhibit the largest latency reductions, confirming that the IPC gains reported in Section~\ref{sec:ipc} originate from improved row buffer management at the DRAM level. Write row buffer hit rates remain nearly identical across all policies, indicating that the gain primarily comes from the read path.
 
 \begin{figure}[!htbp]
 \centering
@@ -340,7 +340,7 @@ Figure~\ref{fig:timeout_dist} presents the timeout value distribution for each w
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.7\textwidth]{../figures/output/timeout_distribution.pdf}
+\includegraphics[width=0.9\textwidth]{../figures/output/timeout_distribution.pdf}
 \caption{Timeout value distribution across 12 workloads, sorted from close-page-like (left) to open-page-like (right). CRAFT adapts to three distinct behavioral regimes without any explicit mode selection.}
 \label{fig:timeout_dist}
 \end{figure}

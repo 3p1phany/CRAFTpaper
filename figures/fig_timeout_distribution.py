@@ -7,8 +7,8 @@ from common import *
 from matplotlib.patches import Patch
 
 setup_style()
-# Figure is saved at LNCS_TEXT_WIDTH but included at 0.7×textwidth.
-_PRINT_SCALE = 0.7
+# Figure is saved at LNCS_TEXT_WIDTH but included at 0.9×textwidth.
+_PRINT_SCALE = 0.9
 
 # ── data (from craft_timeout_distribution.tsv) ───────────────────────────
 labels_raw = [

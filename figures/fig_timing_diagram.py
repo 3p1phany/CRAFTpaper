@@ -192,8 +192,8 @@ ax_b.text(0.0, 1.02, '(b)', transform=ax_b.transAxes,
          fontsize=FONT_TITLE, fontweight='bold', va='bottom')
 
 ys_b = [7.2, 5.3, 3.4, 1.5]
-labels_b = ['Right Precharge',
-            'Wrong Precharge',
+labels_b = ['Correct Precharge',
+            'Incorrect Precharge',
             'Conflict',
             'Row Buffer Hit']
 
